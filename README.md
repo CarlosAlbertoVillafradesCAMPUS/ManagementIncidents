@@ -1,5 +1,5 @@
 # MANAGEMENT INCIDENTS
-![img](./assets/img/Screenshot_from_2023-09-15_07-49-39 (1).png)
+![img](https://raw.githubusercontent.com/CarlosAlbertoVillafradesCAMPUS/ManagementIncidents/readme_principal/assets/img/Screenshot_from_2023-09-15_07-49-39%20(1).png?token=GHSAT0AAAAAACHZS4HUEAODUOYM44IXNOSUZIJ4DOQ)
 
 ## Objetivo Principal
 

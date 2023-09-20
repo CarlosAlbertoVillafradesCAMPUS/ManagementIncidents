@@ -1,0 +1,73 @@
+use("db_management_incidents");
+db.createCollection("Roles",{
+    validator:{
+        $jsonSchema:{
+            bsonType:"object",
+            additionalProperties: false,
+            required: ["Name", "Permission"],
+            properties:{
+                _id:{
+                    bsonType:"objectId"
+                },
+                Name:{
+                    bsonType:"string",
+                    maxLength: 40,
+                    description: "The data must be string"
+                },
+                Permission:{
+                    bsonType: "array",
+                            items:{
+                                bsonType:"string",
+                                description: "He field 'permissions' of the object 'roles' is mandatory"
+                            }
+                }
+            }
+        }
+    }
+})
+
+use("db_management_incidents");
+db.createCollection("Users",{
+    validator:{
+        $jsonSchema:{
+            bsonType:"object",
+            additionalProperties: false,
+            required: ["Nit", "Full_Name", "Nickname", "Data_Birth", "Email", "Password", "Role"],
+            properties:{
+                _id:{
+                    bsonType:"objectId"
+                },
+                Nit:{
+                    bsonType:"int",
+                    description: "The data 'NIT' must be int"
+                },
+                Full_Name:{
+                    bsonType:"string",
+                    maxLength: 60,
+                    description: "The data 'Full_Name' must be string"
+                },
+                Nickname:{
+                    bsonType:"string",
+                    maxLength: 60,
+                    description: "The data 'Nickname' must be string"
+                },
+                Data_Birth:{
+                    bsonType:"string",
+                    description: "The data 'Data_Birth' must be string"
+                },
+                Email:{
+                    bsonType:"string",
+                    description: "The data 'Email' must be string"
+                },
+                Password:{
+                    bsonType:"string",
+                    description: "The data 'Password' must be string"
+                },
+                Role:{
+                    bsonType:"string",
+                    description: "The data 'Role' must be string"
+                }
+            }
+        }
+    }
+})

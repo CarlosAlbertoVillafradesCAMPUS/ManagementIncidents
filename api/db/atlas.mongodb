@@ -164,3 +164,41 @@ db.createCollection("Inventory",{
         }
     }
 })
+
+use("db_management_incidents");
+db.createCollection("Report_Incidents",{
+    validator:{
+        $jsonSchema:{
+            bsonType:"object",
+            additionalProperties: false,
+            required: ["ID", "Incident_Type", "Zone_id", "Description", "Status"],
+            properties:{
+                _id:{
+                    bsonType:"objectId"
+                },
+                ID:{
+                    bsonType:"int",
+                    description: "The data 'ID' must be int"
+                },
+                Incident_Type:{
+                    bsonType:"string",
+                    enum:["Material", "Digital"],
+                    description: "The data 'Incident_Type' must be string"
+                },
+                Inventory_id:{
+                    bsonType:"int",
+                    description: "The data 'Inventory_id' must be int"
+                },
+                Description:{
+                    bsonType:"string",
+                    description: "The data 'Description' must be string"
+                },
+                Status:{
+                    bsonType:"string",
+                    enum:["Pending", "Assigned", "Solved"],
+                    description: "The data 'Status' must be string"
+                }
+            }
+        }
+    }
+})

@@ -1,0 +1,488 @@
+use("db_management_incidents");
+db.createCollection("Roles", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            additionalProperties: false,
+            required: ["Name", "Permission"],
+            properties: {
+                _id: {
+                    bsonType: "objectId"
+                },
+                Name: {
+                    bsonType: "string",
+                    maxLength: 40,
+                    description: "The data must be string"
+                },
+                Permission: {
+                    bsonType: "array",
+                    items: {
+                        bsonType: "string",
+                        description: "He field 'permissions' of the object 'roles' is mandatory"
+                    }
+                }
+            }
+        }
+    }
+})
+
+use("db_management_incidents");
+db.createCollection("Users", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            additionalProperties: false,
+            required: ["Nit", "Full_Name", "Nickname", "Data_Birth", "Email", "Password", "Role"],
+            properties: {
+                _id: {
+                    bsonType: "objectId"
+                },
+                Nit: {
+                    bsonType: "int",
+                    description: "The data 'NIT' must be int"
+                },
+                Full_Name: {
+                    bsonType: "string",
+                    maxLength: 60,
+                    description: "The data 'Full_Name' must be string"
+                },
+                Nickname: {
+                    bsonType: "string",
+                    maxLength: 60,
+                    description: "The data 'Nickname' must be string"
+                },
+                Data_Birth: {
+                    bsonType: "string",
+                    description: "The data 'Data_Birth' must be string"
+                },
+                Email: {
+                    bsonType: "string",
+                    description: "The data 'Email' must be string"
+                },
+                Password: {
+                    bsonType: "string",
+                    description: "The data 'Password' must be string"
+                },
+                Role: {
+                    bsonType: "string",
+                    description: "The data 'Role' must be string"
+                }
+            }
+        }
+    }
+})
+
+use("db_management_incidents");
+db.createCollection("Zones", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            additionalProperties: false,
+            required: ["ID", "Area"],
+            properties: {
+                _id: {
+                    bsonType: "objectId"
+                },
+                ID: {
+                    bsonType: "int",
+                    description: "The data 'ID' must be int"
+                },
+                Area: {
+                    bsonType: "string",
+                    enum: ["Training", "Review", "Hunters", "Cafeteria", "Auditorium"],
+                    description: "The data 'Area' must be string"
+                },
+                Classroom: {
+                    bsonType: "string",
+                    description: "The data 'Classroom' must be string"
+                }
+            }
+        }
+    }
+})
+
+use("db_management_incidents");
+db.createCollection("Inventory", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            additionalProperties: false,
+            required: ["ID", "Zone_id", "Object"],
+            properties: {
+                _id: {
+                    bsonType: "objectId"
+                },
+                ID: {
+                    bsonType: "int",
+                    description: "The data 'ID' must be int"
+                },
+                Zone_id: {
+                    bsonType: "int",
+                    description: "The data 'Zone_id' must be int"
+                },
+                Object: {
+                    bsonType: "object",
+                    additionalProperties: false,
+                    required: ["ID", "Name_Object"],
+                    properties: {
+                        ID: {
+                            bsonType: "int",
+                        },
+                        Name_Object: {
+                            bsonType: "string",
+                            description: "The data 'Name_Object' must be string"
+                        },
+                        Parts: {
+                            bsonType: "object",
+                            additionalProperties: false,
+                            required: ["Mouse", "Keyboard", "Monitor"],
+                            properties: {
+                                Mouse: {
+                                    bsonType: "int",
+                                    description: "The data 'Mouse' must be int"
+                                },
+                                Keyboard: {
+                                    bsonType: "int",
+                                    description: "The data 'Keyboard' must be int"
+                                },
+                                Monitor: {
+                                    bsonType: "int",
+                                    description: "The data 'Monitor' must be int"
+                                },
+                                diadem: {
+                                    bsonType: "int",
+                                    description: "The data 'diadem' must be int"
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+})
+
+use("db_management_incidents");
+db.createCollection("Report_Incidents", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            additionalProperties: false,
+            required: ["ID", "Incident_Type", "Zone_id", "Description", "Status", "Date_Report", "By_Camper"],
+            properties: {
+                _id: {
+                    bsonType: "objectId"
+                },
+                ID: {
+                    bsonType: "int",
+                    description: "The data 'ID' must be int"
+                },
+                Incident_Type: {
+                    bsonType: "string",
+                    enum: ["Material", "Digital"],
+                    description: "The data 'Incident_Type' must be string"
+                },
+                Zone_id: {
+                    bsonType: "int",
+                    description: "The data 'Zone_id' must be int"
+                },
+                Inventory_id: {
+                    bsonType: "int",
+                    description: "The data 'Inventory_id' must be int"
+                },
+                Description: {
+                    bsonType: "string",
+                    description: "The data 'Description' must be string"
+                },
+                Status: {
+                    bsonType: "string",
+                    enum: ["Pending", "Assigned", "Solved"],
+                    description: "The data 'Status' must be string"
+                },
+                Date_Report: {
+                    bsonType: "string",
+                    description: "The data 'Date_Report' must be string"
+                },
+                By_Camper: {
+                    bsonType: "object",
+                    additionalProperties: false,
+                    required: ["Nit", "Full_Name"],
+                    properties: {
+                        Nit: {
+                            bsonType: "int",
+                            description: "The data 'Nit' must be int"
+                        },
+                        Full_Name: {
+                            bsonType: "string",
+                            description: "The data 'Full_Name' must be string"
+                        }
+                    }
+                },
+                Severity: {
+                    bsonType: "string",
+                    enum: ["Minor", "Moderate", "Severe"],
+                    description: "The data 'Severity' must be string"
+                },
+                By_Trainer: {
+                    bsonType: "object",
+                    additionalProperties: false,
+                    required: ["Nit", "Full_Name"],
+                    properties: {
+                        Nit: {
+                            bsonType: "int",
+                            description: "The data 'Nit' must be int"
+                        },
+                        Full_Name: {
+                            bsonType: "string",
+                            description: "The data 'Full_Name' must be string"
+                        }
+                    }
+                },
+                Support_Person: {
+                    bsonType: "object",
+                    additionalProperties: false,
+                    required: ["Nit", "Full_Name"],
+                    properties: {
+                        Nit: {
+                            bsonType: "int",
+                            description: "The data 'Nit' must be int"
+                        },
+                        Full_Name: {
+                            bsonType: "string",
+                            description: "The data 'Full_Name' must be string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+})
+
+
+use("db_management_incidents");
+db.createCollection("Counters");
+db.Counters.insertMany([
+    { ID: `ZonesID`, Sequence_Value: 0 },
+    { ID: `InventoryID`, Sequence_Value: 0 },
+    { ID: `ObjectID`, Sequence_Value: 0 },
+    { ID: `ComputerID`, Sequence_Value: 0 },
+    { ID: `Report_IncidentsID`, Sequence_Value: 0 },
+])
+
+
+
+//INSERCION DE DATOS
+//Funcion IDAutoIncrementable
+
+use("db_management_incidents");
+function autoIncrementID(coleccion) {
+    const sequenceDocument = db.Counters.findOneAndUpdate(
+        { ID: `${coleccion}ID` },
+        { $inc: { Sequence_Value: 1 } },
+        { returnDocument: "after" }
+    );
+    return sequenceDocument.Sequence_Value;
+}
+
+use("db_management_incidents");
+db.Roles.insertMany([
+    {
+        Name: "Admin",
+        Permission: ["*"]
+    },
+    {
+        Name: "Trainer",
+        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents", "put_reportIncidents"]
+    },
+    {
+        Name: "Camper",
+        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents", "post_reportIncidents"]
+    },
+    {
+        Name: "Support",
+        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents"]
+    },
+]);
+
+use("db_management_incidents");
+db.Users.insertMany([
+    {
+        Nit: 1005999685,
+        Full_Name: "John Doe",
+        Nickname: "johndoe",
+        Data_Birth: "1980-01-01",
+        Email: "john.doe@example.com",
+        Password: "password123",
+        Role: "Admin"
+    },
+    {
+        Nit: 1006654874,
+        Full_Name: "Jane Doe",
+        Nickname: "janedoe",
+        Data_Birth: "1985-02-02",
+        Email: "jane.doe@example.com",
+        Password: "password456",
+        Role: "Camper"
+    },
+    {
+        Nit: 1004344958,
+        Full_Name: "Guest",
+        Nickname: "guest",
+        Data_Birth: "1990-03-03",
+        Email: "guest@example.com",
+        Password: "password789",
+        Role: "Trainer"
+    },
+    {
+        Nit: 1099458682,
+        Full_Name: "carlos",
+        Nickname: "villa",
+        Data_Birth: "1990-03-03",
+        Email: "villa@example.com",
+        Password: "villa123",
+        Role: "Support"
+    }
+]);
+
+use("db_management_incidents");
+db.Zones.insertMany([
+    {
+        ID: autoIncrementID("Zones"),
+        Area: "Training",
+        Classroom: "Sputnik"
+    },
+    {
+        ID: autoIncrementID("Zones"),
+        Area: "Training",
+        Classroom: "Artemis"
+    },
+    {
+        ID: autoIncrementID("Zones"),
+        Area: "Training",
+        Classroom: "Apolo"
+    },
+    {
+        ID: autoIncrementID("Zones"),
+        Area: "Review",
+        Classroom: "Corvus"
+    },
+    {
+        ID: autoIncrementID("Zones"),
+        Area: "Review",
+        Classroom: "Endor"
+    },
+    {
+        ID: autoIncrementID("Zones"),
+        Area: "Hunters",
+    },
+    {
+        ID: autoIncrementID("Zones"),
+        Area: "Cafeteria"
+    },
+    {
+        ID: autoIncrementID("Zones"),
+        Area: "Auditorium",
+    }
+]);
+
+
+use("db_management_incidents");
+db.Inventory.insertMany([
+    {
+        ID: autoIncrementID("Inventory"),
+        Zone_id: 3,
+        Object: {
+            ID: autoIncrementID("Computer"),
+            Name_Object: 'Computer',
+            Parts: {
+                Mouse: 6,
+                Keyboard: 7,
+                Monitor: 8,
+            },
+        },
+    },
+    {
+        ID: autoIncrementID("Inventory"),
+        Zone_id: 4,
+        Object: {
+            ID: autoIncrementID("Object"),
+            Name_Object: 'Mesa',
+        },
+    },
+    {
+        ID: autoIncrementID("Inventory"),
+        Zone_id: 5,
+        Object: {
+            ID: autoIncrementID("Computer"),
+            Name_Object: 'Computer',
+            Parts: {
+                Mouse: 12,
+                Keyboard: 13,
+                Monitor: 14,
+            },
+        },
+    },
+    {
+        ID: autoIncrementID("Inventory"),
+        Zone_id: 6,
+        Object: {
+            ID: autoIncrementID("Object"),
+            Name_Object: 'Silla'
+        },
+    },
+]);
+
+use("db_management_incidents");
+db.Report_Incidents.insertMany([
+    {
+      ID: autoIncrementID("Report_Incidents"),
+      Incident_Type: "Material",
+      Inventory_id: 1,
+      Zone_id: 3,
+      Description: "The mouse is not working",
+      Status: "Pending",
+      Date_Report: "2023-08-01",
+      By_Camper: {
+        Nit: 123456789,
+        Full_Name: "John Doe"
+      }
+    },
+    {
+        ID: autoIncrementID("Report_Incidents"),
+      Incident_Type: "Digital",
+      Inventory_id: 1,
+      Zone_id: 4,
+      Description: "The keyboard is not typing correctly",
+      Status: "Assigned",
+      Date_Report: "2023-08-01",
+      By_Camper: {
+        Nit: 987654321,
+        Full_Name: "Jane Doe"
+      }
+    },
+    {
+        ID: autoIncrementID("Report_Incidents"),
+      Incident_Type: "Material",
+      Zone_id: 5,
+      Description: "The monitor is not displaying any image",
+      Status: "Solved",
+      Date_Report: "2023-08-01",
+      By_Camper: {
+        Nit: 111111111,
+        Full_Name: "Peter Parker"
+      }
+    },
+    {
+        ID: autoIncrementID("Report_Incidents"),
+      Incident_Type: "Digital",
+      Zone_id: 1,
+      Description: "The diadem is not connecting to the computer",
+      Status: "Pending",
+      Date_Report: "2023-08-01",
+      By_Camper: {
+        Nit: 1111454,
+        Full_Name: "Mary Jane Watson"
+      }
+    }
+  ]);

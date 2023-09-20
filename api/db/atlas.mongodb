@@ -287,3 +287,98 @@ db.Counters.insertMany([
     {ID: `Report_IncidentsID`, Sequence_Value:0},
     {ID: `Classify_IncidentsID`, Sequence_Value:0},
 ])
+
+//INSERCION DE DATOS
+use("db_management_incidents");
+db.Roles.insertMany([
+    {
+        Name: "Admin",
+        Permission: ["*"]
+    },
+    {
+        Name: "Trainer",
+        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents", "post_classifyIncidents"]
+    },
+    {
+        Name: "Camper",
+        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents", "post_reportIncidents"]
+    },
+    {
+        Name: "Support",
+        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents"]
+    },
+]);
+
+use("db_management_incidents");
+db.Users.insertMany([
+    {
+        Nit: 1005999685,
+        Full_Name: "John Doe",
+        Nickname: "johndoe",
+        Data_Birth: "1980-01-01",
+        Email: "john.doe@example.com",
+        Password: "password123",
+        Role: "Admin"
+    },
+    {
+        Nit: 1006654874,
+        Full_Name: "Jane Doe",
+        Nickname: "janedoe",
+        Data_Birth: "1985-02-02",
+        Email: "jane.doe@example.com",
+        Password: "password456",
+        Role: "Camper"
+    },
+    {
+        Nit: 1004344958,
+        Full_Name: "Guest",
+        Nickname: "guest",
+        Data_Birth: "1990-03-03",
+        Email: "guest@example.com",
+        Password: "password789",
+        Role: "Trainer"
+    },
+    {
+        Nit: 1099458682,
+        Full_Name: "carlos",
+        Nickname: "villa",
+        Data_Birth: "1990-03-03",
+        Email: "villa@example.com",
+        Password: "villa123",
+        Role: "Support"
+    }
+]);
+
+/* use("db_management_incidents");
+db.Zones.insertMany([
+    {
+        ID: 1,
+        Area: "Training",
+        Classroom: "Sputnik"
+    },
+    {
+        ID: 2,
+        Area: "Training",
+        Classroom: "Artemis"
+    },
+    {
+        ID: 3,
+        Area: "Review",
+        Classroom: "Apolo"
+    },
+    {
+        ID: 4,
+        Area: "Hunters",
+        Classroom: "Classroom D"
+    },
+    {
+        ID: 5,
+        Area: "Cafeteria",
+        Classroom: "Cafeteria"
+    },
+    {
+        ID: 6,
+        Area: "Auditorium",
+        Classroom: "Auditorium"
+    }
+]); */

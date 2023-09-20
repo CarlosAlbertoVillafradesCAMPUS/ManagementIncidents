@@ -171,7 +171,7 @@ db.createCollection("Report_Incidents",{
         $jsonSchema:{
             bsonType:"object",
             additionalProperties: false,
-            required: ["ID", "Incident_Type", "Zone_id", "Description", "Status"],
+            required: ["ID", "Incident_Type", "Zone_id", "Description", "Status", "By_Camper"],
             properties:{
                 _id:{
                     bsonType:"objectId"
@@ -197,6 +197,80 @@ db.createCollection("Report_Incidents",{
                     bsonType:"string",
                     enum:["Pending", "Assigned", "Solved"],
                     description: "The data 'Status' must be string"
+                },
+                By_Camper:{
+                    bsonType:"object",
+                    additionalProperties: false,
+                    required:["Nit", "Full_Name"],
+                    properties:{
+                        Nit:{
+                            bsonType:"int",
+                            description: "The data 'Nit' must be int"
+                        },
+                        Full_Name:{
+                            bsonType:"string",
+                            description: "The data 'Full_Name' must be string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+})
+
+use("db_management_incidents");
+db.createCollection("Classify_Incidents",{
+    validator:{
+        $jsonSchema:{
+            bsonType:"object",
+            additionalProperties: false,
+            required: ["ID", "By_Trainer", "Incident_id", "Severity", "Support_Person"],
+            properties:{
+                _id:{
+                    bsonType:"objectId"
+                },
+                ID:{
+                    bsonType:"int",
+                    description: "The data 'ID' must be int"
+                },
+                By_Trainer:{
+                    bsonType:"object",
+                    additionalProperties: false,
+                    required:["Nit", "Full_Name"],
+                    properties:{
+                        Nit:{
+                            bsonType:"int",
+                            description: "The data 'Nit' must be int"
+                        },
+                        Full_Name:{
+                            bsonType:"string",
+                            description: "The data 'Full_Name' must be string"
+                        }
+                    }
+                },
+                Incident_id:{
+                    bsonType:"int",
+                    description: "The data 'Incident_id' must be int"
+                },
+                Severity:{
+                    bsonType:"string",
+                    enum:["Minor", "Moderate", "Severe"],
+                    description: "The data 'Severity' must be string"
+                },
+                Support_Person:{
+                    bsonType:"object",
+                    additionalProperties: false,
+                    required:["Nit", "Full_Name"],
+                    properties:{
+                        Nit:{
+                            bsonType:"int",
+                            description: "The data 'Nit' must be int"
+                        },
+                        Full_Name:{
+                            bsonType:"string",
+                            description: "The data 'Full_Name' must be string"
+                        }
+                    }
                 }
             }
         }

@@ -276,3 +276,14 @@ db.createCollection("Classify_Incidents",{
         }
     }
 })
+
+use("db_management_incidents");
+db.createCollection("Counters");
+db.Counters.insertMany([
+    {ID: `ZonesID`, Sequence_Value:0},
+    {ID: `InventoryID`, Sequence_Value:0},
+    {ID: `ObjectID`, Sequence_Value:0},
+    {ID: `ComputerID`, Sequence_Value:0},
+    {ID: `Report_IncidentsID`, Sequence_Value:0},
+    {ID: `Classify_IncidentsID`, Sequence_Value:0},
+])

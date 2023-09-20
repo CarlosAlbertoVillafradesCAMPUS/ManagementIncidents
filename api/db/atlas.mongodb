@@ -71,3 +71,78 @@ db.createCollection("Users",{
         }
     }
 })
+
+use("db_management_incidents");
+db.createCollection("Zones",{
+    validator:{
+        $jsonSchema:{
+            bsonType:"object",
+            additionalProperties: false,
+            required: ["ID", "Area"],
+            properties:{
+                _id:{
+                    bsonType:"objectId"
+                },
+                ID:{
+                    bsonType:"int",
+                    description: "The data 'ID' must be int"
+                },
+                Area:{
+                    bsonType:"string",
+                    enum:["Training", "Review", "Hunters", "Cafeteria", "Auditorium"],
+                    description: "The data 'Area' must be string"
+                },
+                Classroom:{
+                    bsonType:"string",
+                    description: "The data 'Classroom' must be string"
+                }
+            }
+        }
+    }
+})
+
+/* use("db_management_incidents");
+db.createCollection("Incidents",{
+    validator:{
+        $jsonSchema:{
+            bsonType:"object",
+            additionalProperties: false,
+            required: ["Nit", "Full_Name", "Nickname", "Data_Birth", "Email", "Password", "Role"],
+            properties:{
+                _id:{
+                    bsonType:"objectId"
+                },
+                Nit:{
+                    bsonType:"int",
+                    description: "The data 'NIT' must be int"
+                },
+                Full_Name:{
+                    bsonType:"string",
+                    maxLength: 60,
+                    description: "The data 'Full_Name' must be string"
+                },
+                Nickname:{
+                    bsonType:"string",
+                    maxLength: 60,
+                    description: "The data 'Nickname' must be string"
+                },
+                Data_Birth:{
+                    bsonType:"string",
+                    description: "The data 'Data_Birth' must be string"
+                },
+                Email:{
+                    bsonType:"string",
+                    description: "The data 'Email' must be string"
+                },
+                Password:{
+                    bsonType:"string",
+                    description: "The data 'Password' must be string"
+                },
+                Role:{
+                    bsonType:"string",
+                    description: "The data 'Role' must be string"
+                }
+            }
+        }
+    }
+}) */

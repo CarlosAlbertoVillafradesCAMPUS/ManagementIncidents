@@ -1,5 +1,5 @@
 # MANAGEMENT INCIDENTS
-![img](https://raw.githubusercontent.com/CarlosAlbertoVillafradesCAMPUS/ManagementIncidents/readme_principal/assets/img/Screenshot_from_2023-09-15_07-49-39%20(1).png?token=GHSAT0AAAAAACHZS4HUEAODUOYM44IXNOSUZIJ4DOQ)
+![img](./assets/img/bannerProyect.png)
 
 ## Objetivo Principal
 
@@ -15,3 +15,7 @@ El objetivo general de la aplicacion es desarrollar un sistema de gestión de in
 - Permitir a los Trainers asignar un personal de apoyo para resolver los incidentes
   - Desarrollar un sistema de asignación de incidentes que sea eficiente y eficaz.
   - Proporcionar a los Trainers la información que necesitan para asignar los incidentes al personal de apoyo adecuado.
+
+## Diagrama DB
+
+![img](./assets/img/DiagramaDB.png)

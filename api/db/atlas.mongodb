@@ -101,48 +101,66 @@ db.createCollection("Zones",{
     }
 })
 
-/* use("db_management_incidents");
-db.createCollection("Incidents",{
+use("db_management_incidents");
+db.createCollection("Inventory",{
     validator:{
         $jsonSchema:{
             bsonType:"object",
             additionalProperties: false,
-            required: ["Nit", "Full_Name", "Nickname", "Data_Birth", "Email", "Password", "Role"],
+            required: ["ID", "Zone_id"],
             properties:{
                 _id:{
                     bsonType:"objectId"
                 },
-                Nit:{
+                ID:{
                     bsonType:"int",
-                    description: "The data 'NIT' must be int"
+                    description: "The data 'ID' must be int"
                 },
-                Full_Name:{
-                    bsonType:"string",
-                    maxLength: 60,
-                    description: "The data 'Full_Name' must be string"
+                Zone_id:{
+                    bsonType:"int",
+                    description: "The data 'Zone_id' must be int"
                 },
-                Nickname:{
-                    bsonType:"string",
-                    maxLength: 60,
-                    description: "The data 'Nickname' must be string"
+                Object:{
+                    bsonType:"object",
+                    additionalProperties:false,
+                    required: ["ID", "Name_Object"],
+                    properties:{
+                        ID:{
+                            bsonType:"int",
+                        },
+                        Name_Object:{
+                            bsonType:"string",
+                            description: "The data 'Name_Object' must be string"
+                        }
+                    }
                 },
-                Data_Birth:{
-                    bsonType:"string",
-                    description: "The data 'Data_Birth' must be string"
+                Computer:{
+                    bsonType:"object",
+                    additionalProperties:false,
+                    required: ["ID", "Mouse", "Keyboard", "Monitor"],
+                    properties:{
+                        ID:{
+                            bsonType:"int",
+                        },
+                        Mouse:{
+                            bsonType:"int",
+                            description: "The data 'Mouse' must be int"
+                        },
+                        Keyboard:{
+                            bsonType:"int",
+                            description: "The data 'Keyboard' must be int"
+                        },
+                        Monitor:{
+                            bsonType:"int",
+                            description: "The data 'Monitor' must be int"
+                        },
+                        diadem:{
+                            bsonType:"int",
+                            description: "The data 'diadem' must be int"
+                        }
+                    }
                 },
-                Email:{
-                    bsonType:"string",
-                    description: "The data 'Email' must be string"
-                },
-                Password:{
-                    bsonType:"string",
-                    description: "The data 'Password' must be string"
-                },
-                Role:{
-                    bsonType:"string",
-                    description: "The data 'Role' must be string"
-                }
             }
         }
     }
-}) */
+})

@@ -444,7 +444,7 @@ db.Report_Incidents.insertMany([
       Status: "Pending",
       Date_Report: "2023-08-01",
       By_Camper: {
-        Nit: 123456789,
+        Nit: 1004344958,
         Full_Name: "John Doe"
       }
     },
@@ -457,7 +457,7 @@ db.Report_Incidents.insertMany([
       Status: "Assigned",
       Date_Report: "2023-08-01",
       By_Camper: {
-        Nit: 987654321,
+        Nit: 1006654874,
         Full_Name: "Jane Doe"
       }
     },
@@ -469,7 +469,7 @@ db.Report_Incidents.insertMany([
       Status: "Solved",
       Date_Report: "2023-08-01",
       By_Camper: {
-        Nit: 111111111,
+        Nit: 1005999685,
         Full_Name: "Peter Parker"
       }
     },
@@ -481,24 +481,35 @@ db.Report_Incidents.insertMany([
       Status: "Pending",
       Date_Report: "2023-08-01",
       By_Camper: {
-        Nit: 1111454,
+        Nit: 1006654874,
         Full_Name: "Mary Jane Watson"
       }
     }
   ]);
 
 //CONSULTAS
+//Listar todos los incidentes reportados por un campista específico
 use("db_management_incidents");
 db.Users.aggregate([
     {
-        $match:{
-            Role: "Trainer"
+        $lookup: {
+          from: "Report_Incidents",
+          localField: "Nit",
+          foreignField: "By_Camper.Nit",
+          as: "Incidents_Report"
         }
-        
+    },
+    {
+        $match:{
+            Nit:1006654874
+        }
     },
     {
         $project: {
-          _id:0
+            _id:0,
+            Password:0,
+            "Incidents_Report._id":0
         }
+       
     }
 ])

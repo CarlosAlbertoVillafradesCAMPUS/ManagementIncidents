@@ -501,7 +501,8 @@ db.Users.aggregate([
     },
     {
         $match:{
-            Nit:1006654874
+            Nit:1006654874,
+            "Incidents_Report.Incident_Type":"Digital"
         }
     },
     {

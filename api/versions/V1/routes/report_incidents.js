@@ -4,6 +4,33 @@ import { myConnect } from "../../../db/connect.js";
 const appReportIncidents = Router();
 const dataBase = await myConnect();
 
+
+//Listar todos los incidentes Ordenados del mas reciente al mas antiguo dependiendo el status
+//http:127.17.0.96:5099/incidents/ordenados?status=Pending
+appReportIncidents.get("/ordenados", async(req,res)=>{
+    try {
+        const {status} = req.query;
+        const collection = dataBase.collection("Report_Incidents")
+        const data = await collection.aggregate([
+            {
+                $match:{
+                    Status: status
+                }
+            },
+            {
+                $sort: {
+                  "Date_Report": -1
+                }
+              }
+        ]).toArray()
+        res.status(200).send({status:200, data:data})
+    } catch (error) {
+        res.status(400).send({status:200, message:"Data retrieval error"})
+    }
+})
+
+
+
 //Listar todos los incidentes reportados por un campista específico
 //http://127.17.0.96:5099/incidents?nit=111111111
 appReportIncidents.get("/", async(req,res)=>{

@@ -486,3 +486,19 @@ db.Report_Incidents.insertMany([
       }
     }
   ]);
+
+//CONSULTAS
+use("db_management_incidents");
+db.Users.aggregate([
+    {
+        $match:{
+            Role: "Trainer"
+        }
+        
+    },
+    {
+        $project: {
+          _id:0
+        }
+    }
+])

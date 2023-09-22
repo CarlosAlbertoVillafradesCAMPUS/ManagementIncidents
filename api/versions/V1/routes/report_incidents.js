@@ -6,26 +6,55 @@ const dataBase = await myConnect();
 
 
 //Listar todos los incidentes Ordenados del mas reciente al mas antiguo dependiendo el status
-//http:127.17.0.96:5099/incidents/ordenados?status=Pending
+//http://127.17.0.96:5099/incidents/ordenados?status=Pending
 appReportIncidents.get("/ordenados", async(req,res)=>{
     try {
         const {status} = req.query;
         const collection = dataBase.collection("Report_Incidents")
         const data = await collection.aggregate([
             {
-                $match:{
-                    Status: status
+                $match: {
+                  Status: status
                 }
             },
             {
                 $sort: {
                   "Date_Report": -1
                 }
-              }
+            },
+            {
+                $lookup: {
+                  from: "Inventory",
+                  localField: "Inventory_id",
+                  foreignField: "ID",
+                  as: "Inventory_Info"
+                }
+            },
+            {
+                $lookup: {
+                  from: "Zones",
+                  localField: "Zone_id",
+                  foreignField: "ID",
+                  as: "Zone_Info"
+                }
+            },
+            {
+                $unwind: "$Zone_Info"
+            },
+            {
+                $project: {
+                  _id:0,
+                  Inventory_id:0,
+                  Zone_id:0,
+                  "Inventory_Info._id":0,
+                  "Inventory_Info.Zone_id":0,
+                  "Zone_Info._id":0,
+                }
+            }
         ]).toArray()
         res.status(200).send({status:200, data:data})
     } catch (error) {
-        res.status(400).send({status:200, message:"Data retrieval error"})
+        res.status(400).send({status:400, message:"Data retrieval error"})
     }
 })
 
@@ -55,14 +84,15 @@ appReportIncidents.get("/", async(req,res)=>{
                 $project: {
                     _id:0,
                     Password:0,
-                    "Incidents_Report._id":0
+                    "Incidents_Report._id":0,
+                    "Incidents_Report.By_Camper": 0
                 }
                
             }
         ]).toArray()
         res.status(200).send({status:200, data:data})
     } catch (error) {
-        res.status(400).send({status:200, message:"Data retrieval error"})
+        res.status(400).send({status:400, message:"Data retrieval error"})
     }
 })
 
@@ -98,7 +128,7 @@ appReportIncidents.get("/Material", async(req,res)=>{
         ]).toArray()
         res.status(200).send({status:200, data:data})
     } catch (error) {
-        res.status(400).send({status:200, message:"Data retrieval error"})
+        res.status(400).send({status:400, message:"Data retrieval error"})
     }
 })
 
@@ -134,9 +164,103 @@ appReportIncidents.get("/Digital", async(req,res)=>{
         ]).toArray()
         res.status(200).send({status:200, data:data})
     } catch (error) {
-        res.status(400).send({status:200, message:"Data retrieval error"})
+        res.status(400).send({status:400, message:"Data retrieval error"})
     }
 })
+
+//Listar todos los incidentes reportados en el área de revisión
+//http://127.17.0.96:5099/incidents/Area?nameArea=Training
+appReportIncidents.get("/Area", async(req,res)=>{
+    try {
+        const {nameArea} = req.query; 
+        const collection = dataBase.collection("Report_Incidents")
+        const data = await collection.aggregate([
+            {
+                $sort: {
+                  "Date_Report": -1
+                }
+            },
+            {
+                $lookup: {
+                  from: "Inventory",
+                  localField: "Inventory_id",
+                  foreignField: "ID",
+                  as: "Inventory_Info"
+                }
+            },
+            {
+                $lookup: {
+                  from: "Zones",
+                  localField: "Zone_id",
+                  foreignField: "ID",
+                  as: "Zone_Info"
+                }
+            },
+            {
+                $unwind: "$Zone_Info"
+            },
+            {
+                $match: {
+                  "Zone_Info.Area": nameArea
+                }
+            },
+            {
+                $project: {
+                    _id:0,
+                    Inventory_id:0,
+                    Zone_id:0,
+                    "Inventory_Info._id":0,
+                    "Inventory_Info.Zone_id":0,
+                    "Zone_Info._id":0,
+                }
+            }
+        ]).toArray()
+        res.status(200).send({status:200, data:data})
+    } catch (error) {
+        res.status(400).send({status:400, message:"Data retrieval error"})
+    }
+})
+
+//Listar todos los incidentes reportados en el área de revisión
+//http://127.17.0.96:5099/incidents/Classroom?nameClassroom=Sputnik
+appReportIncidents.get("/Classroom", async(req,res)=>{
+    try {
+        const {nameClassroom} = req.query; 
+        const collection = dataBase.collection("Zones")
+        const data = await collection.aggregate([
+            {
+                $lookup: {
+                  from: "Report_Incidents",
+                  localField: "ID",
+                  foreignField: "Zone_id",
+                  as: "Incidents_Info"
+                }
+            },
+            {
+                $sort: {
+                  "Incidents_Info.Date_Report": -1
+                }
+            },
+            {
+                $match: {
+                  "Classroom": nameClassroom
+                }
+            },
+            {
+                $project: {
+                    _id:0,
+                    "Incidents_Info._id":0,
+                    "Incidents_Info.Zone_id":0,
+
+                }
+            }
+        ]).toArray()
+        res.status(200).send({status:200, data:data})
+    } catch (error) {
+        res.status(400).send({status:400, message:"Data retrieval error"})
+    }
+})
+
 
 
 export default appReportIncidents

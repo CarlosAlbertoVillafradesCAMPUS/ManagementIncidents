@@ -491,46 +491,5 @@ db.Report_Incidents.insertMany([
 //Listar todos los incidentes reportados por un campista específico
 use("db_management_incidents");
 db.Report_Incidents.aggregate([
-    {
-        $sort: {
-          "Date_Report": -1
-        }
-    },
-    {
-        $lookup: {
-          from: "Inventory",
-          localField: "Inventory_id",
-          foreignField: "ID",
-          as: "Inventory_Info"
-        }
-    },
-    // {
-    //     $unwind: "$Inventory_Info"
-    // },
-    {
-        $lookup: {
-          from: "Zones",
-          localField: "Zone_id",
-          foreignField: "ID",
-          as: "Zone_Info"
-        }
-    },
-    {
-        $unwind: "$Zone_Info"
-    },
-    {
-        $match: {
-          "Zone_Info.Area": "Training"
-        }
-    },
-    {
-        $project: {
-          _id:0,
-          Inventory_id:0,
-          Zone_id:0,
-          "Inventory_Info._id":0,
-          "Inventory_Info.Zone_id":0,
-          "Zone_Info._id":0,
-        }
-    }
+   
 ])

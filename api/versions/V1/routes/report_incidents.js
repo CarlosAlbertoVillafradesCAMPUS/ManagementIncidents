@@ -417,6 +417,50 @@ appReportIncidents.post("/", async(req,res)=>{
 })
 
 //PUT Modificar incidentes
+//http://127.17.0.96:5099/incidents:id
+appReportIncidents.put("/:id", async(req,res)=>{
+    /*
+{
+    "Incident_Type": "Material",
+    "Inventory_id": 1,
+    "Zone_id": 3,
+    "Description": "The mouse is not working",
+    "By_Camper": {
+      "Nit": 1004344958,
+      "Full_Name": "John Doe"
+    }
+}
+    */
+    try {
+        const {id} = req.params;
+        const collection = dataBase.collection("Report_Incidents")
+        let my_data = await collection.aggregate([
+            {
+                $match:{
+                    ID: parseInt(id)
+                }
+            }
+        ]).toArray()
+        if(my_data[0].Status !== "Pending"){
+            return res.status(400).send({status:400, message:`The incident cannot be modified because it is in the '${my_data[0].Status}' state.`})
+        }
+        await collection.updateOne({
+            _id: new ObjectId(my_data[0]._id),
+        },
+        {
+            $set:{
+                ...req.body,
+            }
+        })
+                
+            res.status(200).send({status:200, message:"Successfully Modified"}) 
+    } catch (error) {
+        res.status(400).send({status:400, message:"Failed to Modify"})
+    }
+})
+
+
+//PUT Modificar incidentes ASSIGNADOS
 //http://127.17.0.96:5099/incidents/Assigned/:id
 appReportIncidents.put("/assign/:id", async(req,res)=>{
     /*

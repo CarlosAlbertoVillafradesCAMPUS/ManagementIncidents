@@ -305,11 +305,11 @@ db.Roles.insertMany([
     },
     {
         Name: "Camper",
-        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents", "post_reportIncidents"]
+        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents", "post_reportIncidents", "put_reportIncidents"]
     },
     {
         Name: "Support",
-        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents"]
+        Permission: ["get_users", "get_zone", "get_reportIncidents"]
     },
 ]);
 
@@ -326,10 +326,10 @@ db.Users.insertMany([
     },
     {
         Nit: 1006654874,
-        Full_Name: "Jane Doe",
-        Nickname: "janedoe",
+        Full_Name: "Felipe",
+        Nickname: "felipesss",
         Data_Birth: "1985-02-02",
-        Email: "jane.doe@example.com",
+        Email: "felipe.doe@example.com",
         Password: "password456",
         Role: "Camper"
     },
@@ -462,11 +462,11 @@ db.Report_Incidents.insertMany([
       Inventory_id: 1,
       Zone_id: 4,
       Description: "The keyboard is not typing correctly",
-      Status: "Assigned",
+      Status: "Pending",
       Date_Report: "2023-08-12",
       By_Camper: {
         Nit: 1006654874,
-        Full_Name: "Jane Doe"
+        Full_Name: "Felipe"
       }
     },
     {
@@ -474,7 +474,7 @@ db.Report_Incidents.insertMany([
       Incident_Type: "Material",
       Zone_id: 5,
       Description: "The monitor is not displaying any image",
-      Status: "Solved",
+      Status: "Pending",
       Date_Report: "2023-09-01",
       By_Camper: {
         Nit: 1005999685,
@@ -498,6 +498,19 @@ db.Report_Incidents.insertMany([
 //CONSULTAS
 //Listar todos los incidentes reportados por un campista específico
 // use("db_management_incidents");
-// db.Report_Incidents.aggregate([
-   
+// db.Users.aggregate([
+//    {
+//     $lookup: {
+//       from: "Report_Incidents",
+//       localField: "Nit",
+//       foreignField: "Support_Person.Nit",
+//       as: "Incidents"
+//     }
+//    },
+//    {
+//     $match: {
+//         Nit: nit,
+//       "Incidents.Status":"Assigned"
+//     }
+//    }
 // ])

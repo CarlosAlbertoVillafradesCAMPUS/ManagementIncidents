@@ -592,6 +592,41 @@ appReportIncidents.delete("/:id", async(req,res)=>{
     }
 })
 
+//Listar las incidentes asignados a un personal de apoyo especifico
+//http://127.17.0.96:5099/incidents/Assigned?supportNit="Pending"
+appReportIncidents.get("/Assigned", async(req,res)=>{
+    try {
+        const {supportNit} = req.params;
+        const collection = dataBase.collection("Users")
+        let my_data = await collection.aggregate([
+            {
+             $lookup: {
+               from: "Report_Incidents",
+               localField: "Nit",
+               foreignField: "Support_Person.Nit",
+               as: "Incidents"
+             }
+            },
+            {
+             $match: {
+                 Nit: supportNit,
+               "Incidents.Status":"Assigned"
+             }
+            },{
+                _id:0,
+                "Incidents._id":0,
+                "Incidents.Support_Person":0
+            }
+         ]).toArray();
+                
+            res.status(200).send({status:200, message:my_data})
+        
+    } catch (error) {
+        res.status(400).send({status:400, message:"Error fetching data"})
+    }
+})
+
+
 
 
 export default appReportIncidents

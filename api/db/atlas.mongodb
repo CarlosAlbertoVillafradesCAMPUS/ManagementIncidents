@@ -257,6 +257,10 @@ db.createCollection("Report_Incidents", {
                 Date_Assigned: {
                     bsonType: "string",
                     description: "The data 'Date_Assigned' must be string"
+                },
+                Date_Solved: {
+                    bsonType: "string",
+                    description: "The data 'Date_Solved' must be string"
                 }
             }
         }

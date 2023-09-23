@@ -461,8 +461,8 @@ appReportIncidents.put("/:id", async(req,res)=>{
 
 
 //PUT Modificar incidentes ASSIGNADOS
-//http://127.17.0.96:5099/incidents/Assigned/:id
-appReportIncidents.put("/assign/:id", async(req,res)=>{
+//http://127.17.0.96:5099/incidents/Assign/:id
+appReportIncidents.put("/Assign/:id", async(req,res)=>{
     /*
 {
     "Incident_Type": "Material",
@@ -498,8 +498,8 @@ appReportIncidents.put("/assign/:id", async(req,res)=>{
                     ...my_data[0],
                 }
             })
-            res.status(200).send({status:200, message:"Successfully Modified"})
-        } else{
+            return res.status(200).send({status:200, message:"Successfully Modified"})
+        }
             const today = new Date();
             const date_assigned = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + 'T' + today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
             my_data[0].Status = "Assigned"
@@ -515,7 +515,53 @@ appReportIncidents.put("/assign/:id", async(req,res)=>{
             })
                 
             res.status(200).send({status:200, message:"Successfully Modified"})
-        } 
+         
+    } catch (error) {
+        res.status(400).send({status:400, message:"Failed to Modify"})
+    }
+})
+
+//PUT Modificar incidentes SOLVED
+//http://127.17.0.96:5099/incidents/Solved/:id
+appReportIncidents.put("/Solved/:id", async(req,res)=>{
+
+    try {
+        const {id} = req.params;
+        const collection = dataBase.collection("Report_Incidents")
+        let my_data = await collection.aggregate([
+            {
+                $match:{
+                    ID: parseInt(id)
+                }
+            }
+        ]).toArray()
+        const {Status} = req.body
+        if (my_data[0].Status == "Assigned") {
+            const today = new Date();
+            const date_solved = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + 'T' + today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+                await collection.updateOne({
+                    _id: new ObjectId(my_data[0]._id),
+                },
+                {
+                    $set:{
+                        Status: Status,
+                        Date_Solved: date_solved
+                    }
+                })
+                    
+               return res.status(200).send({status:200, message:"Successfully Modified"})
+        }
+            await collection.updateOne({
+                _id: new ObjectId(my_data[0]._id),
+            },
+            {
+                $set:{
+                    Status: Status,
+                }
+            })
+                
+            res.status(200).send({status:200, message:"Successfully Modified"})
+         
     } catch (error) {
         res.status(400).send({status:400, message:"Failed to Modify"})
     }

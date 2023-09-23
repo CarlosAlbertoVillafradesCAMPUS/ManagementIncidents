@@ -4,7 +4,7 @@ import { myConnect } from "../../../db/connect.js";
 const appUser = Router();
 const dataBase = await myConnect();
 
-//Listar todos los Trainers
+//Listar todos los Trainers, campers o support
 //http://127.17.0.96:5099/users?rol=Admin
 appUser.get("/", async(req,res)=>{
     try {

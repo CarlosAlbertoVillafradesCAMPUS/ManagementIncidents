@@ -334,6 +334,15 @@ db.Users.insertMany([
         Role: "Camper"
     },
     {
+        Nit: 1005688571,
+        Full_Name: "Pedro",
+        Nickname: "pedrosss",
+        Data_Birth: "1985-02-02",
+        Email: "pedro.doe@example.com",
+        Password: "pedro123",
+        Role: "Camper"
+    },
+    {
         Nit: 1004344958,
         Full_Name: "Guest",
         Nickname: "guest",
@@ -449,12 +458,22 @@ db.Report_Incidents.insertMany([
       Inventory_id: 1,
       Zone_id: 3,
       Description: "The mouse is not working",
-      Status: "Pending",
+      Status: "Assigned",
       Date_Report: "2023-08-01",
       By_Camper: {
-        Nit: 1004344958,
-        Full_Name: "John Doe"
-      }
+        Nit: 1006654874,
+        Full_Name: "Felipe"
+      },
+      Severity:"Moderate",
+      By_Trainer:{
+        Nit:1004344958,
+        Full_Name:"Guest"
+      },
+      Support_Person:{
+        Nit:1099458682,
+        Full_Name:"carlos"
+      },
+      Date_Assigned: "2023-08-18"
     },
     {
         ID: autoIncrementID("Report_Incidents"),
@@ -474,12 +493,23 @@ db.Report_Incidents.insertMany([
       Incident_Type: "Material",
       Zone_id: 5,
       Description: "The monitor is not displaying any image",
-      Status: "Pending",
+      Status: "Solved",
       Date_Report: "2023-09-01",
       By_Camper: {
-        Nit: 1005999685,
-        Full_Name: "Peter Parker"
-      }
+        Nit: 1005688571,
+        Full_Name: "Pedro"
+      },
+      Severity:"Severe",
+      By_Trainer:{
+        Nit:1004344958,
+        Full_Name:"Guest"
+      },
+      Support_Person:{
+        Nit:1099458682,
+        Full_Name:"carlos"
+      },
+      Date_Assigned: "2023-09-28",
+      Date_Solved:"2023-09-30"
     },
     {
         ID: autoIncrementID("Report_Incidents"),
@@ -489,28 +519,45 @@ db.Report_Incidents.insertMany([
       Status: "Pending",
       Date_Report: "2023-06-11",
       By_Camper: {
-        Nit: 1006654874,
-        Full_Name: "Mary Jane Watson"
+        Nit: 1005688571,
+        Full_Name: "Pedro"
       }
     }
   ]);
 
 //CONSULTAS
 //Listar todos los incidentes reportados por un campista específico
-// use("db_management_incidents");
-// db.Users.aggregate([
-//    {
-//     $lookup: {
-//       from: "Report_Incidents",
-//       localField: "Nit",
-//       foreignField: "Support_Person.Nit",
-//       as: "Incidents"
-//     }
-//    },
-//    {
-//     $match: {
-//         Nit: nit,
-//       "Incidents.Status":"Assigned"
-//     }
-//    }
-// ])
+let rol = "Camper"
+let my_status = "Pending"
+let nit = 1005688571
+use("db_management_incidents");
+db.Users.aggregate([
+    {
+        $match:{
+            Nit: parseInt(nit),
+        }
+    },
+    {
+        $lookup: {
+          from: "Report_Incidents",
+          localField: "Nit",
+          foreignField: `By_${rol}.Nit`,
+          as: "Incidents_Report"
+        }
+    },
+    {
+        $unwind: "$Incidents_Report"
+      },
+      {
+        $match: {
+          "Incidents_Report.Status": "Solved"
+        }
+      },
+      {
+        $group: {
+          _id: "$_id", // Agrupar nuevamente por el identificador principal si es necesario
+          User: { $first: "$$ROOT" },
+          "User.Incidents_Report": { $push: "$Incidents_Report" } // Volver a agrupar los incidentes en un array
+        }
+      }
+])

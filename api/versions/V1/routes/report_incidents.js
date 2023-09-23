@@ -7,39 +7,89 @@ const dataBase = await myConnect();
 
 
 //Listar todos los incidentes Ordenados del mas reciente al mas antiguo dependiendo el status
-//http://127.17.0.96:5099/incidents/ordenados?status=Pending
+//http://127.17.0.96:5099/incidents/ordenados?status=Pending&rol=Camper&nit=123434
 appReportIncidents.get("/Ordenados", async(req,res)=>{
     try {
-        if ( req.query.nit) {
-            const {status, nit} = req.query;
+        if ( req.query.rol) {
+            const {status, nit, rol} = req.query;
             const collection = dataBase.collection("Users")
+            if (rol == "Support") {
+                const data = await collection.aggregate([
+                    {
+                        $lookup: {
+                          from: "Report_Incidents",
+                          localField: "Nit",
+                          foreignField: `Support_Person.Nit`,
+                          as: "Incidents_Report"
+                        }
+                    },
+                    {
+                        $unwind: "$Incidents_Report"
+                      },
+                      {
+                        $match: {
+                            Nit: parseInt(nit),
+                          "Incidents_Report.Status": status
+                        }
+                      },
+                      {
+                        $group: {
+                          _id: "$_id",
+                          User: { $first: "$$ROOT" },
+                          "Incidents_Report": { $push: "$Incidents_Report" }
+                        }
+                      },
+                      {
+                        $project:{
+                            _id:0,
+                            "User._id":0,
+                            "User.Password":0,
+                            "User.Incidents_Report":0,
+                            "Incidents_Report._id":0,
+                            [`Incidents_Report.Support_Person`]:0
+                        }
+                      }
+                ]).toArray()
+               return res.status(200).send({status:200, data:data})
+            }
             const data = await collection.aggregate([
                 {
                     $lookup: {
                       from: "Report_Incidents",
                       localField: "Nit",
-                      foreignField: "By_Camper.Nit",
+                      foreignField: `By_${rol}.Nit`,
                       as: "Incidents_Report"
                     }
                 },
                 {
-                    $match:{
+                    $unwind: "$Incidents_Report"
+                  },
+                  {
+                    $match: {
                         Nit: parseInt(nit),
-                        "Incidents_Report.Status": status
+                      "Incidents_Report.Status": status
                     }
-                },
-                {
-                    $project: {
+                  },
+                  {
+                    $group: {
+                      _id: "$_id",
+                      User: { $first: "$$ROOT" },
+                      "Incidents_Report": { $push: "$Incidents_Report" }
+                    }
+                  },
+                  {
+                    $project:{
                         _id:0,
-                        Password:0,
+                        "User._id":0,
+                        "User.Password":0,
+                        "User.Incidents_Report":0,
                         "Incidents_Report._id":0,
-                        "Incidents_Report.By_Camper": 0
+                        [`Incidents_Report.By_${rol}`]:0
                     }
-                   
-                }
+                  }
             ]).toArray()
-            res.status(200).send({status:200, data:data})
-        }else{
+           return res.status(200).send({status:200, data:data})
+        }
             const collection = dataBase.collection("Report_Incidents")
             const {status} = req.query
             const data = await collection.aggregate([
@@ -84,12 +134,12 @@ appReportIncidents.get("/Ordenados", async(req,res)=>{
                 }
             ]).toArray()
             res.status(200).send({status:200, data:data})
-        }
        
     } catch (error) {
         res.status(400).send({status:400, message:"Data retrieval error"})
     }
 })
+
 
 
 
@@ -112,6 +162,11 @@ appReportIncidents.get("/", async(req,res)=>{
                 {
                     $match:{
                         Nit: parseInt(nit)
+                    }
+                },
+                {
+                    $sort: {
+                      "Incidents_Report.Date_Report": -1
                     }
                 },
                 {
@@ -293,7 +348,7 @@ appReportIncidents.get("/Digital", async(req,res)=>{
 })
 
 //Listar todos los incidentes reportados en el área de revisión
-//http://127.17.0.96:5099/incidents/Area?nameArea=Training
+//http://127.17.0.96:5099/incidents/Area?nameArea=Training&nit=12131
 appReportIncidents.get("/Area", async(req,res)=>{
     try {
         const {nameArea} = req.query; 
@@ -612,8 +667,15 @@ appReportIncidents.get("/Assigned", async(req,res)=>{
                  Nit: supportNit,
                "Incidents.Status":"Assigned"
              }
-            },{
+            },
+            {
+                $sort:{
+                    "Incidents.Date_Assigned": -1
+                }
+            },
+            {
                 _id:0,
+                Password:0,
                 "Incidents._id":0,
                 "Incidents.Support_Person":0
             }
@@ -646,8 +708,15 @@ appReportIncidents.get("/Solved", async(req,res)=>{
                  Nit: supportNit,
                "Incidents.Status":"Solved"
              }
-            },{
+            },
+            {
+                $sort:{
+                    "Incidents.Date_Solved": -1
+                }
+            },
+            {
                 _id:0,
+                Password:0,
                 "Incidents._id":0,
                 "Incidents.Support_Person":0
             }
@@ -660,6 +729,46 @@ appReportIncidents.get("/Solved", async(req,res)=>{
     }
 })
 
+//Listar las incidentes solucionados por un personal de apoyo especifico
+//http://127.17.0.96:5099/incidents/Solved?supportNit="Pending"
+appReportIncidents.get("/Solved", async(req,res)=>{
+    try {
+        const {supportNit} = req.params;
+        const collection = dataBase.collection("Users")
+        let my_data = await collection.aggregate([
+            {
+             $lookup: {
+               from: "Report_Incidents",
+               localField: "Nit",
+               foreignField: "Support_Person.Nit",
+               as: "Incidents"
+             }
+            },
+            {
+             $match: {
+                 Nit: supportNit,
+               "Incidents.Status":"Solved"
+             }
+            },
+            {
+                $sort:{
+                    "Incidents.Date_Solved": -1
+                }
+            },
+            {
+                _id:0,
+                Password:0,
+                "Incidents._id":0,
+                "Incidents.Support_Person":0
+            }
+         ]).toArray();
+                
+            res.status(200).send({status:200, message:my_data})
+        
+    } catch (error) {
+        res.status(400).send({status:400, message:"Error fetching data"})
+    }
+})
 
 
 

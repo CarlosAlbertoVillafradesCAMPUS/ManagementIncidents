@@ -477,5 +477,31 @@ appReportIncidents.put("/assign/:id", async(req,res)=>{
     }
 })
 
+//PUT Eliminar un insidente
+//http://127.17.0.96:5099/incidents/:id
+appReportIncidents.delete("/:id", async(req,res)=>{
+    try {
+        const {id} = req.params;
+        const collection = dataBase.collection("Report_Incidents")
+        let my_data = await collection.aggregate([
+            {
+                $match:{
+                    ID: parseInt(id)
+                }
+            }
+        ]).toArray();
+        if (my_data.length == 0) {
+            return res.status(400).send({status:400, message:"Incident not found"})
+        }
+        await collection.deleteOne({_id: new ObjectId(my_data[0]._id),})
+                
+            res.status(200).send({status:200, message:"Deleted Successfully"})
+        
+    } catch (error) {
+        res.status(400).send({status:400, message:"Failed to Deleted"})
+    }
+})
+
+
 
 export default appReportIncidents

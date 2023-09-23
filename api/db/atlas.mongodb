@@ -253,6 +253,10 @@ db.createCollection("Report_Incidents", {
                             description: "The data 'Full_Name' must be string"
                         }
                     }
+                },
+                Date_Assigned: {
+                    bsonType: "string",
+                    description: "The data 'Date_Assigned' must be string"
                 }
             }
         }
@@ -489,7 +493,7 @@ db.Report_Incidents.insertMany([
 
 //CONSULTAS
 //Listar todos los incidentes reportados por un campista específico
-use("db_management_incidents");
-db.Report_Incidents.aggregate([
+// use("db_management_incidents");
+// db.Report_Incidents.aggregate([
    
-])
+// ])

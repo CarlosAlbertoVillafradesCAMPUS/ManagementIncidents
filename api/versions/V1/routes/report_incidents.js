@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { myConnect } from "../../../db/connect.js";
+import {ObjectId} from "mongodb"
 
 const appReportIncidents = Router();
 const dataBase = await myConnect();
@@ -96,33 +97,40 @@ appReportIncidents.get("/Ordenados", async(req,res)=>{
 //http://127.17.0.96:5099/incidents?nit=111111111
 appReportIncidents.get("/", async(req,res)=>{
     try {
-        const {nit} = req.query; 
-        const collection = dataBase.collection("Users")
-        const data = await collection.aggregate([
-            {
-                $lookup: {
-                  from: "Report_Incidents",
-                  localField: "Nit",
-                  foreignField: "By_Camper.Nit",
-                  as: "Incidents_Report"
+        if (req.query.nit) {
+            const {nit} = req.query; 
+            const collection = dataBase.collection("Users")
+            const data = await collection.aggregate([
+                {
+                    $lookup: {
+                      from: "Report_Incidents",
+                      localField: "Nit",
+                      foreignField: "By_Camper.Nit",
+                      as: "Incidents_Report"
+                    }
+                },
+                {
+                    $match:{
+                        Nit: parseInt(nit)
+                    }
+                },
+                {
+                    $project: {
+                        _id:0,
+                        Password:0,
+                        "Incidents_Report._id":0,
+                        "Incidents_Report.By_Camper": 0
+                    }
+                   
                 }
-            },
-            {
-                $match:{
-                    Nit: parseInt(nit)
-                }
-            },
-            {
-                $project: {
-                    _id:0,
-                    Password:0,
-                    "Incidents_Report._id":0,
-                    "Incidents_Report.By_Camper": 0
-                }
-               
-            }
-        ]).toArray()
-        res.status(200).send({status:200, data:data})
+            ]).toArray()
+            res.status(200).send({status:200, data:data})
+        }else{
+            const collection = dataBase.collection("Report_Incidents")
+            const data = await collection.find({}).toArray()
+            res.status(200).send({status:200, data:data})
+        }
+      
     } catch (error) {
         res.status(400).send({status:400, message:"Data retrieval error"})
     }
@@ -408,6 +416,66 @@ appReportIncidents.post("/", async(req,res)=>{
     }
 })
 
+//PUT Modificar incidentes
+//http://127.17.0.96:5099/incidents/Assigned/:id
+appReportIncidents.put("/assign/:id", async(req,res)=>{
+    /*
+{
+    "Incident_Type": "Material",
+    "Inventory_id": 1,
+    "Zone_id": 3,
+    "Description": "The mouse is not working",
+    "By_Camper": {
+      "Nit": 1004344958,
+      "Full_Name": "John Doe"
+    }
+}
+    */
+    try {
+        const {id} = req.params;
+        const collection = dataBase.collection("Report_Incidents")
+        let my_data = await collection.aggregate([
+            {
+                $match:{
+                    ID: parseInt(id)
+                }
+            }
+        ]).toArray()
+        const {Severity, By_Trainer, Support_Person} = req.body
+        if(my_data[0].Status == "Assigned"){
+            my_data[0].Severity = Severity,
+            my_data[0].By_Trainer = By_Trainer,
+            my_data[0].Support_Person = Support_Person,
+            await collection.updateOne({
+                _id: new ObjectId(my_data[0]._id),
+            },
+            {
+                $set:{
+                    ...my_data[0],
+                }
+            })
+            res.status(200).send({status:200, message:"Successfully Modified"})
+        } else{
+            const today = new Date();
+            const date_assigned = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + 'T' + today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+            my_data[0].Status = "Assigned"
+            await collection.updateOne({
+                _id: new ObjectId(my_data[0]._id),
+            },
+            {
+                $set:{
+                    ...my_data[0],
+                    ...req.body,
+                    Date_Assigned: date_assigned
+                }
+            })
+                
+            res.status(200).send({status:200, message:"Successfully Modified"})
+        } 
+    } catch (error) {
+        res.status(400).send({status:400, message:"Failed to Modify"})
+    }
+})
 
 
 export default appReportIncidents

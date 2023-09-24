@@ -33,6 +33,11 @@ appReportIncidents.get("/Ordenados", async(req,res)=>{
                         }
                       },
                       {
+                        $sort: {
+                          "Incidents_Report.Date_Report": -1
+                        }
+                        },
+                      {
                         $group: {
                           _id: "$_id",
                           User: { $first: "$$ROOT" },
@@ -70,6 +75,11 @@ appReportIncidents.get("/Ordenados", async(req,res)=>{
                       "Incidents_Report.Status": status
                     }
                   },
+                  {
+                    $sort: {
+                      "Incidents_Report.Date_Report": -1
+                    }
+                    },
                   {
                     $group: {
                       _id: "$_id",
@@ -144,47 +154,57 @@ appReportIncidents.get("/Ordenados", async(req,res)=>{
 
 
 //Listar todos los incidentes reportados por un campista específico
-//http://127.17.0.96:5099/incidents?nit=111111111
+//http://127.17.0.96:5099/incidents?rol=Trainer&nit=111111111
 appReportIncidents.get("/", async(req,res)=>{
     try {
-        if (req.query.nit) {
-            const {nit} = req.query; 
+        if (req.query.rol) {
+            const {rol, nit} = req.query; 
             const collection = dataBase.collection("Users")
             const data = await collection.aggregate([
                 {
                     $lookup: {
                       from: "Report_Incidents",
                       localField: "Nit",
-                      foreignField: "By_Camper.Nit",
+                      foreignField: `By_${rol}.Nit`,
                       as: "Incidents_Report"
                     }
                 },
                 {
-                    $match:{
-                        Nit: parseInt(nit)
+                    $unwind: "$Incidents_Report"
+                  },
+                  {
+                    $match: {
+                        Nit: parseInt(nit),
                     }
-                },
-                {
+                  },
+                  {
                     $sort: {
                       "Incidents_Report.Date_Report": -1
                     }
-                },
-                {
-                    $project: {
-                        _id:0,
-                        Password:0,
-                        "Incidents_Report._id":0,
-                        "Incidents_Report.By_Camper": 0
+                    },
+                  {
+                    $group: {
+                      _id: "$_id",
+                      User: { $first: "$$ROOT" },
+                      "Incidents_Report": { $push: "$Incidents_Report" }
                     }
-                   
-                }
+                  },
+                  {
+                    $project:{
+                        _id:0,
+                        "User._id":0,
+                        "User.Password":0,
+                        "User.Incidents_Report":0,
+                        "Incidents_Report._id":0,
+                        [`Incidents_Report.By_${rol}`]:0
+                    }
+                  }
             ]).toArray()
-            res.status(200).send({status:200, data:data})
-        }else{
+           return res.status(200).send({status:200, data:data})
+        }
             const collection = dataBase.collection("Report_Incidents")
             const data = await collection.find({}).toArray()
             res.status(200).send({status:200, data:data})
-        }
       
     } catch (error) {
         res.status(400).send({status:400, message:"Data retrieval error"})
@@ -192,38 +212,55 @@ appReportIncidents.get("/", async(req,res)=>{
 })
 
 //Listar todos los incidentes materiales reportados por un campista
-//http://127.17.0.96:5099/incidents/Material?nit=1006654874
+//http://127.17.0.96:5099/incidents/Material?rol=camper&nit=1005688571
 appReportIncidents.get("/Material", async(req,res)=>{
     try {
-        if (req.query.nit) {
-            const {nit} = req.query; 
+        if (req.query.rol) {
+            const {rol, nit} = req.query; 
         const collection = dataBase.collection("Users")
         const data = await collection.aggregate([
             {
                 $lookup: {
                   from: "Report_Incidents",
                   localField: "Nit",
-                  foreignField: "By_Camper.Nit",
+                  foreignField: `By_${rol}.Nit`,
                   as: "Incidents_Report"
                 }
             },
             {
-                $match:{
-                    Nit:parseInt(nit),
-                    "Incidents_Report.Incident_Type": "Material"
+                $unwind: "$Incidents_Report"
+              },
+              {
+                $match: {
+                    Nit: parseInt(nit),
+                  "Incidents_Report.Incident_Type": "Material"
                 }
-            },
-            {
-                $project: {
+              },
+              {
+                $sort: {
+                  "Incidents_Report.Date_Report": -1
+                }
+                },
+              {
+                $group: {
+                  _id: "$_id",
+                  User: { $first: "$$ROOT" },
+                  "Incidents_Report": { $push: "$Incidents_Report" }
+                }
+              },
+              {
+                $project:{
                     _id:0,
-                    Password:0,
-                    "Incidents_Report._id":0
+                    "User._id":0,
+                    "User.Password":0,
+                    "User.Incidents_Report":0,
+                    "Incidents_Report._id":0,
+                    [`Incidents_Report.By_${rol}`]:0
                 }
-               
-            }
+              }
         ]).toArray()
-        res.status(200).send({status:200, data:data})
-        }else{
+        return res.status(200).send({status:200, data:data})
+        }
             const collection = dataBase.collection("Report_Incidents")
             const data = await collection.aggregate([
                 {
@@ -232,6 +269,11 @@ appReportIncidents.get("/Material", async(req,res)=>{
                     }
                 },
                 {
+                    $sort: {
+                      "Date_Report": -1
+                    }
+                },
+                {
                     $lookup: {
                       from: "Inventory",
                       localField: "Inventory_id",
@@ -262,7 +304,6 @@ appReportIncidents.get("/Material", async(req,res)=>{
                 }
             ]).toArray()
             res.status(200).send({status:200, data:data})
-        }
         
     } catch (error) {
         res.status(400).send({status:400, message:"Data retrieval error"})
@@ -270,38 +311,55 @@ appReportIncidents.get("/Material", async(req,res)=>{
 })
 
 //Listar todos los incidentes Digitales reportados por un campista
-//http://127.17.0.96:5099/incidents/Digital?nit=1006654874
+//http://127.17.0.96:5099/incidents/Digital?rol=camper&nit=1006654874
 appReportIncidents.get("/Digital", async(req,res)=>{
     try {
-        if (req.query.nit) {
-            const {nit} = req.query; 
+        if (req.query.rol) {
+            const {rol, nit} = req.query; 
         const collection = dataBase.collection("Users")
         const data = await collection.aggregate([
             {
                 $lookup: {
                   from: "Report_Incidents",
                   localField: "Nit",
-                  foreignField: "By_Camper.Nit",
+                  foreignField: `By_${rol}.Nit`,
                   as: "Incidents_Report"
                 }
             },
             {
-                $match:{
-                    Nit:parseInt(nit),
-                    "Incidents_Report.Incident_Type": "Digital"
+                $unwind: "$Incidents_Report"
+              },
+              {
+                $match: {
+                    Nit: parseInt(nit),
+                  "Incidents_Report.Incident_Type": "Digital"
                 }
-            },
-            {
-                $project: {
+              },
+              {
+                $sort: {
+                  "Incidents_Report.Date_Report": -1
+                }
+                },
+              {
+                $group: {
+                  _id: "$_id",
+                  User: { $first: "$$ROOT" },
+                  "Incidents_Report": { $push: "$Incidents_Report" }
+                }
+              },
+              {
+                $project:{
                     _id:0,
-                    Password:0,
-                    "Incidents_Report._id":0
+                    "User._id":0,
+                    "User.Password":0,
+                    "User.Incidents_Report":0,
+                    "Incidents_Report._id":0,
+                    [`Incidents_Report.By_${rol}`]:0
                 }
-               
-            }
+              }
         ]).toArray()
-        res.status(200).send({status:200, data:data})
-        }else{
+        return res.status(200).send({status:200, data:data})
+        }
             const collection = dataBase.collection("Report_Incidents")
             const data = await collection.aggregate([
                 {
@@ -310,6 +368,11 @@ appReportIncidents.get("/Digital", async(req,res)=>{
                     }
                 },
                 {
+                    $sort: {
+                      "Date_Report": -1
+                    }
+                },
+                {
                     $lookup: {
                       from: "Inventory",
                       localField: "Inventory_id",
@@ -340,7 +403,6 @@ appReportIncidents.get("/Digital", async(req,res)=>{
                 }
             ]).toArray()
             res.status(200).send({status:200, data:data})
-        }
         
     } catch (error) {
         res.status(400).send({status:400, message:"Data retrieval error"})

@@ -79,4 +79,37 @@ appUser.get("/SearchGeneral", async(req,res)=>{
     }
 })
 
+//Crear un buscador para los usuarios
+//http://127.17.0.96:5099/users/Search?rol=Camper&text=
+appUser.get("/Search", async(req,res)=>{
+    try {
+        const {rol, text} = req.query;
+        if (rol == "Admin") {
+            return  res.status(400).send({status:400, message:"Data retrieval error"})
+        }
+        const collection = dataBase.collection("Users")
+        const data = await collection.aggregate([
+            {
+                $match: {
+                    Role: rol,
+                Nickname: {
+                    $regex: new RegExp('^' +text, 'i'),
+                  },
+                },
+            },
+            {
+                $project: {
+                  _id:0,
+                  Password:0
+                }
+            }
+        ]).toArray()
+        res.status(200).send({status:200, data:data})
+       
+    } catch (error) {
+        res.status(400).send({status:400, message:"Data retrieval error"})
+    }
+})
+
+
 export default appUser

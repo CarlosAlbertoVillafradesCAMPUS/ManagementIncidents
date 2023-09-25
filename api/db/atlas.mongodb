@@ -527,37 +527,14 @@ db.Report_Incidents.insertMany([
 
 //CONSULTAS
 //Listar todos los incidentes reportados por un campista específico
-let rol = "Camper"
-let my_status = "Pending"
-let nit = 1005688571
 use("db_management_incidents");
-db.Users.aggregate([
-    {
-        $match:{
-            Nit: parseInt(nit),
-        }
-    },
-    {
-        $lookup: {
-          from: "Report_Incidents",
-          localField: "Nit",
-          foreignField: `By_${rol}.Nit`,
-          as: "Incidents_Report"
-        }
-    },
-    {
-        $unwind: "$Incidents_Report"
-      },
-      {
-        $match: {
-          "Incidents_Report.Status": "Solved"
-        }
-      },
-      {
-        $group: {
-          _id: "$_id", // Agrupar nuevamente por el identificador principal si es necesario
-          User: { $first: "$$ROOT" },
-          "User.Incidents_Report": { $push: "$Incidents_Report" } // Volver a agrupar los incidentes en un array
-        }
-      }
-])
+db.Users.insertOne({
+    Nit: 1004988651,
+    Full_Name: 'Diana Perez',
+    Nickname: 'Dianita',
+    Data_Birth: '1980-01-01',
+    Email: 'diana@example.com',
+    Role: 'Camper'
+  }
+  
+  )

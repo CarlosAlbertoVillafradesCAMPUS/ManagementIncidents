@@ -111,30 +111,5 @@ appUser.get("/Search", async(req,res)=>{
     }
 })
 
-//Crear un nuevo usuario
-//http://127.17.0.96:5099/users
-appUser.post("/", async(req,res)=>{
-    /*
-    {
-      "Nit": 1005999685,
-      "Full_Name": "John Doe",
-      "Nickname": "johndoe",
-      "Data_Birth": "1980-01-01",
-      "Email": "john.doe@example.com",
-      "Password": "anita123"
-    } */
-    try {
-        const collection = dataBase.collection("Users")
-        await collection.insertOne({
-            ...req.body,
-            Role: "Camper"
-        })
-        res.status(200).send({status:200, message:"Successfully Added"})
-    } catch (error) {
-        res.status(400).send({status:400, message:"Data retrieval error"})
-    }
-})
-
-
 
 export default appUser

@@ -76,6 +76,69 @@ appZones.post("/", async(req,res)=>{
     }
 })
 
+//Modificar un salon salon
+//http://127.17.0.96:5099/zones?id=1
+appZones.put("/", async(req,res)=>{
+    /*
+    {
+      "Area": "Training",
+      "Classroom": "Ingles"
+  
+} */
+    try {
+        const {id} = req.query
+        const collection = dataBase.collection("Zones")
+        let my_data = await collection.aggregate([
+            {
+                $match:{
+                    ID: parseInt(id)
+                }
+            }
+        ]).toArray()
+
+        await collection.updateOne({
+            _id: new ObjectId(my_data[0]._id),
+        },
+        {
+            $set:{
+                ...req.body,
+            }
+        })
+        res.status(200).send({status:200, message:"Successfully Modified"}) 
+    } catch (error) {
+        res.status(400).send({status:400, message:"Data retrieval error"})
+    }
+})
+
+//Eliminar un salon
+//http://127.17.0.96:5099/zones?id=1
+appZones.delete("/", async(req,res)=>{
+    /*
+    {
+      "Area": "Training",
+      "Classroom": "Ingles"
+  
+} */
+    try {
+        const {id} = req.query
+        const collection = dataBase.collection("Zones")
+        let my_data = await collection.aggregate([
+            {
+                $match:{
+                    ID: parseInt(id)
+                }
+            }
+        ]).toArray()
+
+        await collection.deleteOne({
+            _id: new ObjectId(my_data[0]._id),
+        },)
+        res.status(200).send({status:200, message:"Successfully Deleted"}) 
+    } catch (error) {
+        res.status(400).send({status:400, message:"Data retrieval error"})
+    }
+})
+
 
 
 

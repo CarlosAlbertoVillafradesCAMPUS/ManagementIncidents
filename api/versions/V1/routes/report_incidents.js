@@ -700,7 +700,7 @@ appReportIncidents.delete("/:id", async(req,res)=>{
         if (my_data.length == 0) {
             return res.status(400).send({status:400, message:"Incident not found"})
         }
-        await collection.deleteOne({_id: new ObjectId(my_data[0]._id),})
+        await collection.deleteOne({_id: new ObjectId(my_data[0]._id)})
                 
             res.status(200).send({status:200, message:"Deleted Successfully"})
         

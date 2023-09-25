@@ -5,7 +5,7 @@ const appZones = Router();
 const dataBase = await myConnect();
 
 //Listar todos las zonas
-//http://127.17.0.96:5099/zones?Area
+//http://127.17.0.96:5099/zones/Area
 appZones.get("/Area", async(req,res)=>{
     try {
         const collection = dataBase.collection("Zones")
@@ -19,6 +19,31 @@ appZones.get("/Area", async(req,res)=>{
                 $project: {
                   _id: 0,
                   Area: '$_id',
+                },
+              },
+        ]).toArray()
+        res.status(200).send({status:200, data:data})
+       
+    } catch (error) {
+        res.status(400).send({status:400, message:"Data retrieval error"})
+    }
+})
+
+//Listar todos los salones
+//http://127.17.0.96:5099/zones/Classroom?nameArea=Training
+appZones.get("/Classroom", async(req,res)=>{
+    try {
+        const {nameArea} =  req.query;
+        const collection = dataBase.collection("Zones")
+        const data = await collection.aggregate([
+            {
+                $match:{
+                    Area: nameArea
+                }
+            },
+            {
+                $project: {
+                  _id: 0,
                 },
               },
         ]).toArray()

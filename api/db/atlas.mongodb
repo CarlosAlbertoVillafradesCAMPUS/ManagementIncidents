@@ -253,6 +253,14 @@ db.createCollection("Report_Incidents", {
                             description: "The data 'Full_Name' must be string"
                         }
                     }
+                },
+                Date_Assigned: {
+                    bsonType: "string",
+                    description: "The data 'Date_Assigned' must be string"
+                },
+                Date_Solved: {
+                    bsonType: "string",
+                    description: "The data 'Date_Solved' must be string"
                 }
             }
         }
@@ -297,11 +305,11 @@ db.Roles.insertMany([
     },
     {
         Name: "Camper",
-        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents", "post_reportIncidents"]
+        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents", "post_reportIncidents", "put_reportIncidents"]
     },
     {
         Name: "Support",
-        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents"]
+        Permission: ["get_users", "get_zone", "get_reportIncidents"]
     },
 ]);
 
@@ -318,11 +326,20 @@ db.Users.insertMany([
     },
     {
         Nit: 1006654874,
-        Full_Name: "Jane Doe",
-        Nickname: "janedoe",
+        Full_Name: "Felipe",
+        Nickname: "felipesss",
         Data_Birth: "1985-02-02",
-        Email: "jane.doe@example.com",
+        Email: "felipe.doe@example.com",
         Password: "password456",
+        Role: "Camper"
+    },
+    {
+        Nit: 1005688571,
+        Full_Name: "Pedro",
+        Nickname: "pedrosss",
+        Data_Birth: "1985-02-02",
+        Email: "pedro.doe@example.com",
+        Password: "pedro123",
         Role: "Camper"
     },
     {
@@ -441,12 +458,22 @@ db.Report_Incidents.insertMany([
       Inventory_id: 1,
       Zone_id: 3,
       Description: "The mouse is not working",
-      Status: "Pending",
+      Status: "Assigned",
       Date_Report: "2023-08-01",
       By_Camper: {
-        Nit: 123456789,
-        Full_Name: "John Doe"
-      }
+        Nit: 1006654874,
+        Full_Name: "Felipe"
+      },
+      Severity:"Moderate",
+      By_Trainer:{
+        Nit:1004344958,
+        Full_Name:"Guest"
+      },
+      Support_Person:{
+        Nit:1099458682,
+        Full_Name:"carlos"
+      },
+      Date_Assigned: "2023-08-18"
     },
     {
         ID: autoIncrementID("Report_Incidents"),
@@ -454,11 +481,11 @@ db.Report_Incidents.insertMany([
       Inventory_id: 1,
       Zone_id: 4,
       Description: "The keyboard is not typing correctly",
-      Status: "Assigned",
-      Date_Report: "2023-08-01",
+      Status: "Pending",
+      Date_Report: "2023-08-12",
       By_Camper: {
-        Nit: 987654321,
-        Full_Name: "Jane Doe"
+        Nit: 1006654874,
+        Full_Name: "Felipe"
       }
     },
     {
@@ -467,11 +494,22 @@ db.Report_Incidents.insertMany([
       Zone_id: 5,
       Description: "The monitor is not displaying any image",
       Status: "Solved",
-      Date_Report: "2023-08-01",
+      Date_Report: "2023-09-01",
       By_Camper: {
-        Nit: 111111111,
-        Full_Name: "Peter Parker"
-      }
+        Nit: 1005688571,
+        Full_Name: "Pedro"
+      },
+      Severity:"Severe",
+      By_Trainer:{
+        Nit:1004344958,
+        Full_Name:"Guest"
+      },
+      Support_Person:{
+        Nit:1099458682,
+        Full_Name:"carlos"
+      },
+      Date_Assigned: "2023-09-28",
+      Date_Solved:"2023-09-30"
     },
     {
         ID: autoIncrementID("Report_Incidents"),
@@ -479,10 +517,36 @@ db.Report_Incidents.insertMany([
       Zone_id: 1,
       Description: "The diadem is not connecting to the computer",
       Status: "Pending",
-      Date_Report: "2023-08-01",
+      Date_Report: "2023-06-11",
       By_Camper: {
-        Nit: 1111454,
-        Full_Name: "Mary Jane Watson"
+        Nit: 1005688571,
+        Full_Name: "Pedro"
       }
     }
   ]);
+
+//CONSULTAS
+//Listar todos los incidentes reportados por un campista específico
+use("db_management_incidents");
+db.Zones.aggregate([
+    {
+        $match:{
+            ID: 3
+        }
+        
+    },
+    {
+        $lookup: {
+          from: "Inventory",
+          localField: "ID",
+          foreignField: "Zone_id",
+          as: "Inventory_Info"
+        }
+    },
+    {
+        $project: {
+          _id: 0,
+          "Inventory_Info._id":0
+        },
+      },
+])

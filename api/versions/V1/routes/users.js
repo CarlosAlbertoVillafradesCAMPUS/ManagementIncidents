@@ -2,6 +2,8 @@ import { Router } from "express";
 import { myConnect } from "../../../db/connect.js";
 import {ObjectId} from "mongodb"
 import { verifyToken } from "../../../config/jwt.js";
+import { validateUsersBody } from "../../../DTO/dtoUsers.js";
+import { validationResult } from "express-validator";
 
 const appUser = Router();
 const dataBase = await myConnect();
@@ -141,7 +143,7 @@ appUser.get("/Search", verifyToken(), async(req,res)=>{
 
 //Crear un nuevo usuario
 //http://127.17.0.96:5099/users
-appUser.post("/", async(req,res)=>{
+appUser.post("/", validateUsersBody, async(req,res)=>{
     /*
     {
       "Nit": 1005999685,
@@ -151,6 +153,8 @@ appUser.post("/", async(req,res)=>{
       "Email": "john.doe@example.com",
       "Password": "anita123"
     } */
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         const collection = dataBase.collection("Users")
         await collection.insertOne({

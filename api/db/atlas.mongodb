@@ -32,7 +32,7 @@ db.createCollection("Users", {
         $jsonSchema: {
             bsonType: "object",
             additionalProperties: false,
-            required: ["Nit", "Full_Name", "Nickname", "Data_Birth", "Email", "Password", "Role"],
+            required: ["Nit", "Full_Name", "Nickname", "Date_Birth", "Email", "Password", "Role"],
             properties: {
                 _id: {
                     bsonType: "objectId"
@@ -51,9 +51,9 @@ db.createCollection("Users", {
                     maxLength: 60,
                     description: "The data 'Nickname' must be string"
                 },
-                Data_Birth: {
+                Date_Birth: {
                     bsonType: "string",
-                    description: "The data 'Data_Birth' must be string"
+                    description: "The data 'Date_Birth' must be string"
                 },
                 Email: {
                     bsonType: "string",
@@ -323,7 +323,7 @@ db.Users.insertMany([
         Nit: 1005999685,
         Full_Name: "John Doe",
         Nickname: "johndoe",
-        Data_Birth: "1980-01-01",
+        Date_Birth: "1980-01-01",
         Email: "john.doe@example.com",
         Password: "password123",
         Role: "Admin"
@@ -332,7 +332,7 @@ db.Users.insertMany([
         Nit: 1006654874,
         Full_Name: "Felipe",
         Nickname: "felipesss",
-        Data_Birth: "1985-02-02",
+        Date_Birth: "1985-02-02",
         Email: "felipe.doe@example.com",
         Password: "password456",
         Role: "Camper"
@@ -341,7 +341,7 @@ db.Users.insertMany([
         Nit: 1005688571,
         Full_Name: "Pedro",
         Nickname: "pedrosss",
-        Data_Birth: "1985-02-02",
+        Date_Birth: "1985-02-02",
         Email: "pedro.doe@example.com",
         Password: "pedro123",
         Role: "Camper"
@@ -350,7 +350,7 @@ db.Users.insertMany([
         Nit: 1004344958,
         Full_Name: "Guest",
         Nickname: "guest",
-        Data_Birth: "1990-03-03",
+        Date_Birth: "1990-03-03",
         Email: "guest@example.com",
         Password: "password789",
         Role: "Trainer"
@@ -359,7 +359,7 @@ db.Users.insertMany([
         Nit: 1099458682,
         Full_Name: "carlos",
         Nickname: "villa",
-        Data_Birth: "1990-03-03",
+        Date_Birth: "1990-03-03",
         Email: "villa@example.com",
         Password: "villa123",
         Role: "Support"

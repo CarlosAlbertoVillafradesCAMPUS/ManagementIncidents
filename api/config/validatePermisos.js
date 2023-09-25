@@ -10,3 +10,5 @@ export const validatePermisos = (requiredPermission) => async (req, res, next) =
       }
       next();
     };
+
+    //falta colocar la validacion de permisos en las rutas

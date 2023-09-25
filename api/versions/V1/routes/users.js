@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { myConnect } from "../../../db/connect.js";
+import {ObjectId} from "mongodb"
 
 const appUser = Router();
 const dataBase = await myConnect();
@@ -130,6 +131,46 @@ appUser.post("/", async(req,res)=>{
             Role: "Camper"
         })
         res.status(200).send({status:200, message:"Successfully Added"})
+    } catch (error) {
+        res.status(400).send({status:400, message:"Data retrieval error"})
+    }
+})
+
+//Modificar un usuario
+//http://127.17.0.96:5099/users?nit=1005999685
+appUser.put("/", async(req,res)=>{
+    /*
+    {
+      "Nit": 1005999685,
+      "Full_Name": "John Doe",
+      "Nickname": "johndoe",
+      "Data_Birth": "1980-01-01",
+      "Email": "john.doe@example.com",
+      "Password": "anita123"
+    } */
+    try {
+        const {nit} = req.query;
+        if (req.body.Role) {
+            return   res.status(400).send({status:400, message:"Error, the Role cannot be modified."})
+        }
+        const collection = dataBase.collection("Users")
+        let my_data = await collection.aggregate([
+            {
+                $match:{
+                    Nit: parseInt(nit)
+                }
+            }
+        ]).toArray()
+
+        await collection.updateOne({
+            _id: new ObjectId(my_data[0]._id),
+        },
+        {
+            $set:{
+                ...req.body,
+            }
+        })
+        res.status(200).send({status:200, message:"Successfully Modified"}) 
     } catch (error) {
         res.status(400).send({status:400, message:"Data retrieval error"})
     }

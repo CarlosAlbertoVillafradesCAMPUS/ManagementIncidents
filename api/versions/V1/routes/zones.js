@@ -1,9 +1,12 @@
 import { Router } from "express";
 import { myConnect } from "../../../db/connect.js";
 import {ObjectId} from "mongodb"
+import { verifyToken } from "../../../config/jwt.js";
 
 const appZones = Router();
 const dataBase = await myConnect();
+
+appZones.use(verifyToken())
 
 //Listar todos las zonas
 //http://127.17.0.96:5099/zones/Area

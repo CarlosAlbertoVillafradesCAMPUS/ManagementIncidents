@@ -1,13 +1,14 @@
 import { Router } from "express";
 import { myConnect } from "../../../db/connect.js";
 import {ObjectId} from "mongodb"
+import { verifyToken } from "../../../config/jwt.js";
 
 const appUser = Router();
 const dataBase = await myConnect();
 
 //Listar todos los Trainers, campers o support
 //http://127.17.0.96:5099/users?rol=Admin
-appUser.get("/", async(req,res)=>{
+appUser.get("/", verifyToken(), async(req,res)=>{
     try {
         if (req.query.rol) {
             const {rol} = req.query; 
@@ -49,7 +50,7 @@ appUser.get("/", async(req,res)=>{
 
 //Listar un usuarios especifico
 //http://127.17.0.96:5099/users/unico?nit=12121
-appUser.get("/unico", async(req,res)=>{
+appUser.get("/unico", verifyToken(), async(req,res)=>{
     try {
         const {nit} = req.query;
         const collection = dataBase.collection("Users")
@@ -75,7 +76,7 @@ appUser.get("/unico", async(req,res)=>{
 
 //Crear un buscador para los usuarios
 //http://127.17.0.96:5099/users/SearchGeneral?text=""
-appUser.get("/SearchGeneral", async(req,res)=>{
+appUser.get("/SearchGeneral", verifyToken(), async(req,res)=>{
     try {
         const {text} = req.query;
         const collection = dataBase.collection("Users")
@@ -108,7 +109,7 @@ appUser.get("/SearchGeneral", async(req,res)=>{
 
 //Crear un buscador para los usuarios
 //http://127.17.0.96:5099/users/Search?rol=Camper&text=
-appUser.get("/Search", async(req,res)=>{
+appUser.get("/Search", verifyToken(), async(req,res)=>{
     try {
         const {rol, text} = req.query;
         if (rol == "Admin") {
@@ -164,7 +165,7 @@ appUser.post("/", async(req,res)=>{
 
 //Modificar un usuario
 //http://127.17.0.96:5099/users?nit=1005999685
-appUser.put("/", async(req,res)=>{
+appUser.put("/", verifyToken(), async(req,res)=>{
     /*
     {
       "Nit": 1005999685,
@@ -205,7 +206,7 @@ appUser.put("/", async(req,res)=>{
 
 //Modificar Rol del usuario
 //http://127.17.0.96:5099/users/Role?nit=1005999685
-appUser.put("/Role", async(req,res)=>{
+appUser.put("/Role", verifyToken(), async(req,res)=>{
     /*
     {
       "Nit": 1005999685,

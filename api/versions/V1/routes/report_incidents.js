@@ -1,11 +1,12 @@
 import { Router } from "express";
 import { myConnect } from "../../../db/connect.js";
 import {ObjectId} from "mongodb"
+import { verifyToken } from "../../../config/jwt.js";
 
 const appReportIncidents = Router();
 const dataBase = await myConnect();
 
-
+appReportIncidents.use(verifyToken())
 //Listar todos los incidentes Ordenados del mas reciente al mas antiguo dependiendo el status
 //http://127.17.0.96:5099/incidents/ordenados?status=Pending&rol=Camper&nit=123434
 appReportIncidents.get("/Ordenados", async(req,res)=>{

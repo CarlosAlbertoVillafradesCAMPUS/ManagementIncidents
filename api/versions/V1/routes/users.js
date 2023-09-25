@@ -177,5 +177,43 @@ appUser.put("/", async(req,res)=>{
 })
 
 
+//Modificar Rol del usuario
+//http://127.17.0.96:5099/users/Role?nit=1005999685
+appUser.put("/Role", async(req,res)=>{
+    /*
+    {
+      "Nit": 1005999685,
+      "Full_Name": "John Doe",
+      "Nickname": "johndoe",
+      "Data_Birth": "1980-01-01",
+      "Email": "john.doe@example.com",
+      "Password": "anita123"
+    } */
+    try {
+        const {nit} = req.query;
+        const collection = dataBase.collection("Users")
+        let my_data = await collection.aggregate([
+            {
+                $match:{
+                    Nit: parseInt(nit)
+                }
+            }
+        ]).toArray()
+
+        await collection.updateOne({
+            _id: new ObjectId(my_data[0]._id),
+        },
+        {
+            $set:{
+                ...req.body
+            }
+        })
+        res.status(200).send({status:200, message:"Successfully Modified"}) 
+    } catch (error) {
+        res.status(400).send({status:400, message:"Data retrieval error"})
+    }
+})
+
+
 
 export default appUser

@@ -47,6 +47,32 @@ appUser.get("/", async(req,res)=>{
     }
 })
 
+//Listar un usuarios especifico
+//http://127.17.0.96:5099/users/unico?nit=12121
+appUser.get("/unico", async(req,res)=>{
+    try {
+        const {nit} = req.query;
+        const collection = dataBase.collection("Users")
+        const data = await collection.aggregate([
+            {
+                $match:{
+                    Nit: parseInt(nit)
+                }
+            },
+            {
+                $project: {
+                  _id:0,
+                  Password:0
+                }
+            }
+        ]).toArray()
+        res.status(200).send({status:200, data:data})
+       
+    } catch (error) {
+        res.status(400).send({status:400, message:"Data retrieval error"})
+    }
+})
+
 //Crear un buscador para los usuarios
 //http://127.17.0.96:5099/users/SearchGeneral?text=""
 appUser.get("/SearchGeneral", async(req,res)=>{

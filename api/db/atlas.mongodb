@@ -66,6 +66,10 @@ db.createCollection("Users", {
                 Role: {
                     bsonType: "string",
                     description: "The data 'Role' must be string"
+                },
+                Image: {
+                    bsonType: "string",
+                    description: "The data 'Image' must be string"
                 }
             }
         }
@@ -207,15 +211,15 @@ db.createCollection("Report_Incidents", {
                 By_Camper: {
                     bsonType: "object",
                     additionalProperties: false,
-                    required: ["Nit", "Full_Name"],
+                    required: ["Nit", "Nickname"],
                     properties: {
                         Nit: {
                             bsonType: "int",
                             description: "The data 'Nit' must be int"
                         },
-                        Full_Name: {
+                        Nickname: {
                             bsonType: "string",
-                            description: "The data 'Full_Name' must be string"
+                            description: "The data 'Nickname' must be string"
                         }
                     }
                 },
@@ -227,30 +231,30 @@ db.createCollection("Report_Incidents", {
                 By_Trainer: {
                     bsonType: "object",
                     additionalProperties: false,
-                    required: ["Nit", "Full_Name"],
+                    required: ["Nit", "Nickname"],
                     properties: {
                         Nit: {
                             bsonType: "int",
                             description: "The data 'Nit' must be int"
                         },
-                        Full_Name: {
+                        Nickname: {
                             bsonType: "string",
-                            description: "The data 'Full_Name' must be string"
+                            description: "The data 'Nickname' must be string"
                         }
                     }
                 },
                 Support_Person: {
                     bsonType: "object",
                     additionalProperties: false,
-                    required: ["Nit", "Full_Name"],
+                    required: ["Nit", "Nickname"],
                     properties: {
                         Nit: {
                             bsonType: "int",
                             description: "The data 'Nit' must be int"
                         },
-                        Full_Name: {
+                        Nickname: {
                             bsonType: "string",
-                            description: "The data 'Full_Name' must be string"
+                            description: "The data 'Nickname' must be string"
                         }
                     }
                 },
@@ -301,15 +305,15 @@ db.Roles.insertMany([
     },
     {
         Name: "Trainer",
-        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents", "put_reportIncidents"]
+        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents", "put_assigReportIncidents", "put_user"]
     },
     {
         Name: "Camper",
-        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents", "post_reportIncidents", "put_reportIncidents"]
+        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents", "post_reportIncidents", "put_reportIncidents", "put_user"]
     },
     {
         Name: "Support",
-        Permission: ["get_users", "get_zone", "get_reportIncidents"]
+        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents","put_solvedReportIncidents", "put_user"]
     },
 ]);
 
@@ -462,16 +466,16 @@ db.Report_Incidents.insertMany([
       Date_Report: "2023-08-01",
       By_Camper: {
         Nit: 1006654874,
-        Full_Name: "Felipe"
+        Nickname: "felipesss"
       },
       Severity:"Moderate",
       By_Trainer:{
         Nit:1004344958,
-        Full_Name:"Guest"
+        Nickname:"guest"
       },
       Support_Person:{
         Nit:1099458682,
-        Full_Name:"carlos"
+        Nickname:"villa"
       },
       Date_Assigned: "2023-08-18"
     },
@@ -485,7 +489,7 @@ db.Report_Incidents.insertMany([
       Date_Report: "2023-08-12",
       By_Camper: {
         Nit: 1006654874,
-        Full_Name: "Felipe"
+        Nickname: "felipesss"
       }
     },
     {
@@ -497,16 +501,16 @@ db.Report_Incidents.insertMany([
       Date_Report: "2023-09-01",
       By_Camper: {
         Nit: 1005688571,
-        Full_Name: "Pedro"
+        Nickname: "pedrosss"
       },
       Severity:"Severe",
       By_Trainer:{
         Nit:1004344958,
-        Full_Name:"Guest"
+        Nickname:"guest"
       },
       Support_Person:{
         Nit:1099458682,
-        Full_Name:"carlos"
+        Nickname:"villa"
       },
       Date_Assigned: "2023-09-28",
       Date_Solved:"2023-09-30"
@@ -520,14 +524,14 @@ db.Report_Incidents.insertMany([
       Date_Report: "2023-06-11",
       By_Camper: {
         Nit: 1005688571,
-        Full_Name: "Pedro"
+        Nickname: "pedrosss"
       }
     }
   ]);
 
 //CONSULTAS
 //Listar todos los incidentes reportados por un campista específico
-use("db_management_incidents");
+/*  use("db_management_incidents");
 db.Zones.aggregate([
     {
         $match:{
@@ -549,4 +553,4 @@ db.Zones.aggregate([
           "Inventory_Info._id":0
         },
       },
-])
+])*/

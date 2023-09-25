@@ -1,43 +1,26 @@
 import { Router } from "express";
 import { myConnect } from "../../../db/connect.js";
 
-const appUser = Router();
+const appZones = Router();
 const dataBase = await myConnect();
 
-//Listar todos los Trainers, campers o support
-//http://127.17.0.96:5099/users?rol=Admin
-appUser.get("/", async(req,res)=>{
+//Listar todos las zonas
+//http://127.17.0.96:5099/zones?Area
+appZones.get("/Area", async(req,res)=>{
     try {
-        if (req.query.rol) {
-            const {rol} = req.query; 
-            if(rol === "Admin"){
-               return res.status(400).send({status:200, message:"Data retrieval error"})
-            }
-            const collection = dataBase.collection("Users")
-            const data = await collection.aggregate([
-                {
-                    $match:{
-                        Role: rol
-                    }
-                    
-                },
-                {
-                    $project: {
-                      _id:0,
-                      Password:0
-                    }
-                }
-            ]).toArray()
-            return res.status(200).send({status:200, data:data})
-        }
-        const collection = dataBase.collection("Users")
+        const collection = dataBase.collection("Zones")
         const data = await collection.aggregate([
             {
+                $group: {
+                    _id: '$Area',
+                },
+            },
+            {
                 $project: {
-                  _id:0,
-                  Password:0
-                }
-            }
+                  _id: 0,
+                  Area: '$_id',
+                },
+              },
         ]).toArray()
         res.status(200).send({status:200, data:data})
        
@@ -48,7 +31,7 @@ appUser.get("/", async(req,res)=>{
 
 //Crear un buscador para los usuarios
 //http://127.17.0.96:5099/users/SearchGeneral?text=""
-appUser.get("/SearchGeneral", async(req,res)=>{
+appZones.get("/SearchGeneral", async(req,res)=>{
     try {
         const {text} = req.query;
         const collection = dataBase.collection("Users")
@@ -81,7 +64,7 @@ appUser.get("/SearchGeneral", async(req,res)=>{
 
 //Crear un buscador para los usuarios
 //http://127.17.0.96:5099/users/Search?rol=Camper&text=
-appUser.get("/Search", async(req,res)=>{
+appZones.get("/Search", async(req,res)=>{
     try {
         const {rol, text} = req.query;
         if (rol == "Admin") {
@@ -112,4 +95,4 @@ appUser.get("/Search", async(req,res)=>{
 })
 
 
-export default appUser
+export default appZones

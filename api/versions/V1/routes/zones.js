@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { myConnect } from "../../../db/connect.js";
+import {ObjectId} from "mongodb"
 
 const appZones = Router();
 const dataBase = await myConnect();
@@ -19,6 +20,31 @@ appZones.get("/Area", async(req,res)=>{
                 $project: {
                   _id: 0,
                   Area: '$_id',
+                },
+              },
+        ]).toArray()
+        res.status(200).send({status:200, data:data})
+       
+    } catch (error) {
+        res.status(400).send({status:400, message:"Data retrieval error"})
+    }
+})
+
+//Listar una zona especifica
+//http://127.17.0.96:5099/zones?id=1
+appZones.get("/", async(req,res)=>{
+    try {
+        const {id} = req.query
+        const collection = dataBase.collection("Zones")
+        const data = await collection.aggregate([
+            {
+               $match:{
+                ID : parseInt(id)
+               }
+            },
+            {
+                $project: {
+                  _id: 0,
                 },
               },
         ]).toArray()

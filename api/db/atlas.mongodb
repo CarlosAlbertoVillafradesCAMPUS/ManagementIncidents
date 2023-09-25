@@ -528,13 +528,25 @@ db.Report_Incidents.insertMany([
 //CONSULTAS
 //Listar todos los incidentes reportados por un campista específico
 use("db_management_incidents");
-db.Users.insertOne({
-    Nit: 1004988651,
-    Full_Name: 'Diana Perez',
-    Nickname: 'Dianita',
-    Data_Birth: '1980-01-01',
-    Email: 'diana@example.com',
-    Role: 'Camper'
-  }
-  
-  )
+db.Zones.aggregate([
+    {
+        $match:{
+            ID: 3
+        }
+        
+    },
+    {
+        $lookup: {
+          from: "Inventory",
+          localField: "ID",
+          foreignField: "Zone_id",
+          as: "Inventory_Info"
+        }
+    },
+    {
+        $project: {
+          _id: 0,
+          "Inventory_Info._id":0
+        },
+      },
+])

@@ -54,70 +54,30 @@ appZones.get("/Classroom", async(req,res)=>{
     }
 })
 
-//Crear un buscador para los usuarios
-//http://127.17.0.96:5099/users/SearchGeneral?text=""
-appZones.get("/SearchGeneral", async(req,res)=>{
+//Agregar un nuevo salon
+//http://127.17.0.96:5099/zones
+appZones.post("/", async(req,res)=>{
+    /*
+    {
+      "Area": "Training",
+      "Classroom": "Ingles"
+  
+} */
     try {
-        const {text} = req.query;
-        const collection = dataBase.collection("Users")
-        const data = await collection.aggregate([
-            {
-                $match: {
-                    Role: {
-                        $not: {
-                            $eq: "Admin",
-                          },
-                      },
-                Nickname: {
-                    $regex: new RegExp('^' +text, 'i'),
-                  },
-                },
-            },
-            {
-                $project: {
-                  _id:0,
-                  Password:0
-                }
-            }
-        ]).toArray()
-        res.status(200).send({status:200, data:data})
+        const collection = dataBase.collection("Zones")
+        await collection.insertOne({
+            ID:6,
+            ...req.body
+        })
+        res.status(200).send({status:200, message:"Successfully Added"})
        
     } catch (error) {
         res.status(400).send({status:400, message:"Data retrieval error"})
     }
 })
 
-//Crear un buscador para los usuarios
-//http://127.17.0.96:5099/users/Search?rol=Camper&text=
-appZones.get("/Search", async(req,res)=>{
-    try {
-        const {rol, text} = req.query;
-        if (rol == "Admin") {
-            return  res.status(400).send({status:400, message:"Data retrieval error"})
-        }
-        const collection = dataBase.collection("Users")
-        const data = await collection.aggregate([
-            {
-                $match: {
-                    Role: rol,
-                Nickname: {
-                    $regex: new RegExp('^' +text, 'i'),
-                  },
-                },
-            },
-            {
-                $project: {
-                  _id:0,
-                  Password:0
-                }
-            }
-        ]).toArray()
-        res.status(200).send({status:200, data:data})
-       
-    } catch (error) {
-        res.status(400).send({status:400, message:"Data retrieval error"})
-    }
-})
+
+
 
 
 export default appZones

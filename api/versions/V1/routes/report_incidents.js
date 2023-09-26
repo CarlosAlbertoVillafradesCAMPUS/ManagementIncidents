@@ -4,6 +4,7 @@ import {ObjectId} from "mongodb"
 import { verifyToken } from "../../../config/jwt.js";
 import { validateIncidentsBody, validateIncidentsParams } from "../../../DTO/dtoIncidents.js";
 import { validationResult } from "express-validator";
+import { autoIncrement } from "../../../helpers/autoincrement.js";
 
 const appReportIncidents = Router();
 const dataBase = await myConnect();
@@ -538,8 +539,9 @@ if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.e
         const collection = dataBase.collection("Report_Incidents")
         const today = new Date();
         const date_report = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + 'T' + today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+        let newId = await autoIncrement("Report_Incidents")
         await collection.insertOne({
-            ID:93,
+            ID:newId,
             ...req.body,
             Status: "Pending",
             Date_Report: date_report,

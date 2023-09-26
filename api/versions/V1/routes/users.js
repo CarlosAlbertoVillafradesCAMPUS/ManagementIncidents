@@ -4,6 +4,7 @@ import {ObjectId} from "mongodb"
 import { verifyToken } from "../../../config/jwt.js";
 import { validateUsersBody, validateUsersParams } from "../../../DTO/dtoUsers.js";
 import { validationResult } from "express-validator";
+import { autoIncrement } from "../../../helpers/autoincrement.js";
 
 const appUser = Router();
 const dataBase = await myConnect();

@@ -4,6 +4,7 @@ import {ObjectId} from "mongodb"
 import { verifyToken } from "../../../config/jwt.js";
 import { validateZonesBody, validateZonesParams } from "../../../DTO/dtoZones.js";
 import { validationResult } from "express-validator";
+import { autoIncrement } from "../../../helpers/autoincrement.js";
 
 const appZones = Router();
 const dataBase = await myConnect();
@@ -101,15 +102,16 @@ appZones.post("/", validateZonesBody, async(req,res)=>{
 const errors = validationResult(req);
 if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
+        let newId = await autoIncrement("Zones")
         const collection = dataBase.collection("Zones")
         await collection.insertOne({
-            ID:6,
+            ID: newId,
             ...req.body
         })
         res.status(200).send({status:200, message:"Successfully Added"})
        
     } catch (error) {
-        res.status(400).send({status:400, message:"Data retrieval error"})
+        res.status(400).send({status:400, message:error.message})
     }
 })
 

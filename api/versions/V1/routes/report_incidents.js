@@ -2,6 +2,8 @@ import { Router } from "express";
 import { myConnect } from "../../../db/connect.js";
 import {ObjectId} from "mongodb"
 import { verifyToken } from "../../../config/jwt.js";
+import { validateIncidentsBody, validateIncidentsParams } from "../../../DTO/dtoIncidents.js";
+import { validationResult } from "express-validator";
 
 const appReportIncidents = Router();
 const dataBase = await myConnect();
@@ -9,7 +11,9 @@ const dataBase = await myConnect();
 appReportIncidents.use(verifyToken())
 //Listar todos los incidentes Ordenados del mas reciente al mas antiguo dependiendo el status
 //http://127.17.0.96:5099/incidents/ordenados?status=Pending&rol=Camper&nit=123434
-appReportIncidents.get("/Ordenados", async(req,res)=>{
+appReportIncidents.get("/Ordenados", validateIncidentsParams, async(req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         if ( req.query.rol) {
             const {status, nit, rol} = req.query;
@@ -156,7 +160,9 @@ appReportIncidents.get("/Ordenados", async(req,res)=>{
 
 //Listar todos los incidentes reportados por un campista específico
 //http://127.17.0.96:5099/incidents?rol=Trainer&nit=111111111
-appReportIncidents.get("/", async(req,res)=>{
+appReportIncidents.get("/", validateIncidentsParams, async(req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         if (req.query.rol) {
             const {rol, nit} = req.query; 
@@ -214,7 +220,9 @@ appReportIncidents.get("/", async(req,res)=>{
 
 //Listar todos los incidentes materiales reportados por un campista
 //http://127.17.0.96:5099/incidents/Material?rol=camper&nit=1005688571
-appReportIncidents.get("/Material", async(req,res)=>{
+appReportIncidents.get("/Material", validateIncidentsParams, async(req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         if (req.query.rol) {
             const {rol, nit} = req.query; 
@@ -313,7 +321,9 @@ appReportIncidents.get("/Material", async(req,res)=>{
 
 //Listar todos los incidentes Digitales reportados por un campista
 //http://127.17.0.96:5099/incidents/Digital?rol=camper&nit=1006654874
-appReportIncidents.get("/Digital", async(req,res)=>{
+appReportIncidents.get("/Digital", validateIncidentsParams, async(req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         if (req.query.rol) {
             const {rol, nit} = req.query; 
@@ -412,7 +422,9 @@ appReportIncidents.get("/Digital", async(req,res)=>{
 
 //Listar todos los incidentes reportados en el área de revisión
 //http://127.17.0.96:5099/incidents/Area?nameArea=Training&nit=12131
-appReportIncidents.get("/Area", async(req,res)=>{
+appReportIncidents.get("/Area", validateIncidentsParams, async(req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         const {nameArea} = req.query; 
         const collection = dataBase.collection("Report_Incidents")
@@ -465,7 +477,9 @@ appReportIncidents.get("/Area", async(req,res)=>{
 
 //Listar todos los incidentes reportados en el área de revisión
 //http://127.17.0.96:5099/incidents/Classroom?nameClassroom=Sputnik
-appReportIncidents.get("/Classroom", async(req,res)=>{
+appReportIncidents.get("/Classroom", validateIncidentsParams, async(req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         const {nameClassroom} = req.query; 
         const collection = dataBase.collection("Zones")
@@ -505,7 +519,7 @@ appReportIncidents.get("/Classroom", async(req,res)=>{
 
 //post Reportar incidentes
 //http://127.17.0.96:5099/incidents/
-appReportIncidents.post("/", async(req,res)=>{
+appReportIncidents.post("/", validateIncidentsBody, async(req,res)=>{
     /*
 {
     "Incident_Type": "Material",
@@ -518,12 +532,14 @@ appReportIncidents.post("/", async(req,res)=>{
     }
 }
     */
+const errors = validationResult(req);
+if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         const collection = dataBase.collection("Report_Incidents")
         const today = new Date();
         const date_report = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + 'T' + today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
         await collection.insertOne({
-            ID:44,
+            ID:93,
             ...req.body,
             Status: "Pending",
             Date_Report: date_report,
@@ -536,7 +552,7 @@ appReportIncidents.post("/", async(req,res)=>{
 
 //PUT Modificar incidentes
 //http://127.17.0.96:5099/incidents:id
-appReportIncidents.put("/:id", async(req,res)=>{
+appReportIncidents.put("/:id", validateIncidentsBody, async(req,res)=>{
     /*
 {
     "Incident_Type": "Material",
@@ -549,7 +565,9 @@ appReportIncidents.put("/:id", async(req,res)=>{
     }
 }
     */
-    try {
+const errors = validationResult(req);
+if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});    
+try {
         const {id} = req.params;
         const collection = dataBase.collection("Report_Incidents")
         let my_data = await collection.aggregate([
@@ -712,7 +730,9 @@ appReportIncidents.delete("/:id", async(req,res)=>{
 
 //Listar las incidentes asignados a un personal de apoyo especifico
 //http://127.17.0.96:5099/incidents/Assigned?supportNit="Pending"
-appReportIncidents.get("/Assigned", async(req,res)=>{
+appReportIncidents.get("/Assigned", validateIncidentsParams, async(req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         const {supportNit} = req.params;
         const collection = dataBase.collection("Users")
@@ -727,7 +747,7 @@ appReportIncidents.get("/Assigned", async(req,res)=>{
             },
             {
              $match: {
-                 Nit: supportNit,
+                 Nit: parseInt(supportNit),
                "Incidents.Status":"Assigned"
              }
             },
@@ -753,7 +773,9 @@ appReportIncidents.get("/Assigned", async(req,res)=>{
 
 //Listar las incidentes solucionados por un personal de apoyo especifico
 //http://127.17.0.96:5099/incidents/Solved?supportNit="Pending"
-appReportIncidents.get("/Solved", async(req,res)=>{
+appReportIncidents.get("/Solved", validateIncidentsParams, async(req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         const {supportNit} = req.params;
         const collection = dataBase.collection("Users")
@@ -768,48 +790,7 @@ appReportIncidents.get("/Solved", async(req,res)=>{
             },
             {
              $match: {
-                 Nit: supportNit,
-               "Incidents.Status":"Solved"
-             }
-            },
-            {
-                $sort:{
-                    "Incidents.Date_Solved": -1
-                }
-            },
-            {
-                _id:0,
-                Password:0,
-                "Incidents._id":0,
-                "Incidents.Support_Person":0
-            }
-         ]).toArray();
-                
-            res.status(200).send({status:200, message:my_data})
-        
-    } catch (error) {
-        res.status(400).send({status:400, message:"Error fetching data"})
-    }
-})
-
-//Listar las incidentes solucionados por un personal de apoyo especifico
-//http://127.17.0.96:5099/incidents/Solved?supportNit="Pending"
-appReportIncidents.get("/Solved", async(req,res)=>{
-    try {
-        const {supportNit} = req.params;
-        const collection = dataBase.collection("Users")
-        let my_data = await collection.aggregate([
-            {
-             $lookup: {
-               from: "Report_Incidents",
-               localField: "Nit",
-               foreignField: "Support_Person.Nit",
-               as: "Incidents"
-             }
-            },
-            {
-             $match: {
-                 Nit: supportNit,
+                 Nit: parseInt(supportNit),
                "Incidents.Status":"Solved"
              }
             },

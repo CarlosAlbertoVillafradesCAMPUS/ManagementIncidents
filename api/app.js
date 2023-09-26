@@ -1,4 +1,4 @@
-import express, { json } from "express";
+import express from "express";
 import routesVersioning from "express-routes-versioning";
 import RoutesV1 from "./versions/V1/index.js";
 import { loadEnv } from "vite";

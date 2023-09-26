@@ -5,6 +5,7 @@ import { verifyToken } from "../../../config/jwt.js";
 import { validateZonesBody, validateZonesParams } from "../../../DTO/dtoZones.js";
 import { validationResult } from "express-validator";
 import { autoIncrement } from "../../../helpers/autoincrement.js";
+import { validatePermisos } from "../../../config/validatePermisos.js";
 
 const appZones = Router();
 const dataBase = await myConnect();
@@ -13,7 +14,7 @@ appZones.use(verifyToken())
 
 //Listar todos las zonas
 //http://127.17.0.96:5099/zones/Area
-appZones.get("/Area", async(req,res)=>{
+appZones.get("/Area", validatePermisos("get_zone"), async(req,res)=>{
     try {
         const collection = dataBase.collection("Zones")
         const data = await collection.aggregate([
@@ -38,7 +39,7 @@ appZones.get("/Area", async(req,res)=>{
 
 //Listar una zona especifica
 //http://127.17.0.96:5099/zones?id=1
-appZones.get("/", validateZonesParams, async(req,res)=>{
+appZones.get("/", validatePermisos("get_zone"), validateZonesParams, async(req,res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
@@ -65,7 +66,7 @@ appZones.get("/", validateZonesParams, async(req,res)=>{
 
 //Listar todos los salones
 //http://127.17.0.96:5099/zones/Classroom?nameArea=Training
-appZones.get("/Classroom", validateZonesParams, async(req,res)=>{
+appZones.get("/Classroom", validatePermisos("get_zone"), validateZonesParams, async(req,res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
@@ -92,7 +93,7 @@ appZones.get("/Classroom", validateZonesParams, async(req,res)=>{
 
 //Agregar un nuevo salon
 //http://127.17.0.96:5099/zones
-appZones.post("/", validateZonesBody, async(req,res)=>{
+appZones.post("/", validatePermisos("*"), validateZonesBody, async(req,res)=>{
     /*
     {
       "Area": "Training",
@@ -117,7 +118,7 @@ if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.e
 
 //Modificar un salon salon
 //http://127.17.0.96:5099/zones?id=1
-appZones.put("/",validateZonesParams, validateZonesBody, async(req,res)=>{
+appZones.put("/", validatePermisos("*"), validateZonesParams, validateZonesBody, async(req,res)=>{
     /*
     {
       "Area": "Training",
@@ -153,7 +154,7 @@ if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.e
 
 //Eliminar un salon
 //http://127.17.0.96:5099/zones?id=1
-appZones.delete("/", validateZonesParams, async(req,res)=>{
+appZones.delete("/", validatePermisos("*"), validateZonesParams, async(req,res)=>{
     /*
     {
       "Area": "Training",

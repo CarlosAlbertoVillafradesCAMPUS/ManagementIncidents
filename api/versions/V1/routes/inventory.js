@@ -5,6 +5,7 @@ import { autoIncrement } from "../../../helpers/autoincrement.js";
 import { verifyToken } from "../../../config/jwt.js";
 import { validationResult } from "express-validator";
 import { validateInventoryBody, validateInventoryParams } from "../../../DTO/dtoInventory.js";
+import { validatePermisos } from "../../../config/validatePermisos.js";
 
 const appInventory = Router();
 const dataBase = await myConnect();
@@ -12,7 +13,7 @@ const dataBase = await myConnect();
 appInventory.use(verifyToken())
 //Obtener el inventario de una zona especifica
 //http://127.17.0.96:5099/inventory?zoneId=1
-appInventory.get("/", validateInventoryParams, async(req,res)=>{
+appInventory.get("/", validatePermisos("get_inventory"), validateInventoryParams, async(req,res)=>{
     const errors = validationResult(req);
 if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
@@ -49,7 +50,7 @@ if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.e
 
 //Listar una zona especifica
 //http://127.17.0.96:5099/inventory
-appInventory.post("/", validateInventoryBody, async(req,res)=>{
+appInventory.post("/", validatePermisos("*"), validateInventoryBody, async(req,res)=>{
     /*
      {
           "Zone_id": 3,
@@ -90,7 +91,7 @@ if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.e
 
 //Modificar un inventario
 //http://127.17.0.96:5099/inventory?id=1
-appInventory.put("/", validateInventoryParams, validateInventoryBody, async(req,res)=>{
+appInventory.put("/", validatePermisos("*"), validateInventoryParams, validateInventoryBody, async(req,res)=>{
     /*
     {
       "Area": "Training",
@@ -126,7 +127,7 @@ if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.e
 
 //Eliminar un inventario
 //http://127.17.0.96:5099/inventory?id=1
-appInventory.delete("/", validateInventoryParams, async(req,res)=>{
+appInventory.delete("/", validatePermisos("*"), validateInventoryParams, async(req,res)=>{
     /*
     {
       "Area": "Training",

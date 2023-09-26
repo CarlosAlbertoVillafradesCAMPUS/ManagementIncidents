@@ -5,6 +5,7 @@ import { verifyToken } from "../../../config/jwt.js";
 import { validateIncidentsBody, validateIncidentsParams } from "../../../DTO/dtoIncidents.js";
 import { validationResult } from "express-validator";
 import { autoIncrement } from "../../../helpers/autoincrement.js";
+import { validatePermisos } from "../../../config/validatePermisos.js";
 
 const appReportIncidents = Router();
 const dataBase = await myConnect();
@@ -12,7 +13,7 @@ const dataBase = await myConnect();
 appReportIncidents.use(verifyToken())
 //Listar todos los incidentes Ordenados del mas reciente al mas antiguo dependiendo el status
 //http://127.17.0.96:5099/incidents/ordenados?status=Pending&rol=Camper&nit=123434
-appReportIncidents.get("/Ordenados", validateIncidentsParams, async(req,res)=>{
+appReportIncidents.get("/Ordenados", validatePermisos("get_reportIncidents"), validateIncidentsParams, async(req,res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
@@ -161,7 +162,7 @@ appReportIncidents.get("/Ordenados", validateIncidentsParams, async(req,res)=>{
 
 //Listar todos los incidentes reportados por un campista específico
 //http://127.17.0.96:5099/incidents?rol=Trainer&nit=111111111
-appReportIncidents.get("/", validateIncidentsParams, async(req,res)=>{
+appReportIncidents.get("/", validatePermisos("get_reportIncidents"), validateIncidentsParams, async(req,res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
@@ -221,7 +222,7 @@ appReportIncidents.get("/", validateIncidentsParams, async(req,res)=>{
 
 //Listar todos los incidentes materiales reportados por un campista
 //http://127.17.0.96:5099/incidents/Material?rol=camper&nit=1005688571
-appReportIncidents.get("/Material", validateIncidentsParams, async(req,res)=>{
+appReportIncidents.get("/Material",validatePermisos("get_reportIncidents"), validateIncidentsParams, async(req,res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
@@ -322,7 +323,7 @@ appReportIncidents.get("/Material", validateIncidentsParams, async(req,res)=>{
 
 //Listar todos los incidentes Digitales reportados por un campista
 //http://127.17.0.96:5099/incidents/Digital?rol=camper&nit=1006654874
-appReportIncidents.get("/Digital", validateIncidentsParams, async(req,res)=>{
+appReportIncidents.get("/Digital", validatePermisos("get_reportIncidents"), validateIncidentsParams, async(req,res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
@@ -423,7 +424,7 @@ appReportIncidents.get("/Digital", validateIncidentsParams, async(req,res)=>{
 
 //Listar todos los incidentes reportados en el área de revisión
 //http://127.17.0.96:5099/incidents/Area?nameArea=Training&nit=12131
-appReportIncidents.get("/Area", validateIncidentsParams, async(req,res)=>{
+appReportIncidents.get("/Area", validatePermisos("get_reportIncidents"), validateIncidentsParams, async(req,res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
@@ -478,7 +479,7 @@ appReportIncidents.get("/Area", validateIncidentsParams, async(req,res)=>{
 
 //Listar todos los incidentes reportados en el área de revisión
 //http://127.17.0.96:5099/incidents/Classroom?nameClassroom=Sputnik
-appReportIncidents.get("/Classroom", validateIncidentsParams, async(req,res)=>{
+appReportIncidents.get("/Classroom", validatePermisos("get_reportIncidents"), validateIncidentsParams, async(req,res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
@@ -520,7 +521,7 @@ appReportIncidents.get("/Classroom", validateIncidentsParams, async(req,res)=>{
 
 //post Reportar incidentes
 //http://127.17.0.96:5099/incidents/
-appReportIncidents.post("/", validateIncidentsBody, async(req,res)=>{
+appReportIncidents.post("/", validatePermisos("post_reportIncidents"), validateIncidentsBody, async(req,res)=>{
     /*
 {
     "Incident_Type": "Material",
@@ -554,7 +555,7 @@ if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.e
 
 //PUT Modificar incidentes
 //http://127.17.0.96:5099/incidents:id
-appReportIncidents.put("/:id", validateIncidentsBody, async(req,res)=>{
+appReportIncidents.put("/:id", validatePermisos("put_reportIncidents"), validateIncidentsBody, async(req,res)=>{
     /*
 {
     "Incident_Type": "Material",
@@ -600,7 +601,7 @@ try {
 
 //PUT Modificar incidentes ASSIGNADOS
 //http://127.17.0.96:5099/incidents/Assign/:id
-appReportIncidents.put("/Assign/:id", async(req,res)=>{
+appReportIncidents.put("/Assign/:id", validatePermisos("put_assigReportIncidents"), async(req,res)=>{
     /*
 {
     "Incident_Type": "Material",
@@ -661,7 +662,7 @@ appReportIncidents.put("/Assign/:id", async(req,res)=>{
 
 //PUT Modificar incidentes SOLVED
 //http://127.17.0.96:5099/incidents/Solved/:id
-appReportIncidents.put("/Solved/:id", async(req,res)=>{
+appReportIncidents.put("/Solved/:id", validatePermisos("put_solvedReportIncidents"), async(req,res)=>{
 
     try {
         const {id} = req.params;
@@ -707,7 +708,7 @@ appReportIncidents.put("/Solved/:id", async(req,res)=>{
 
 //PUT Eliminar un insidente
 //http://127.17.0.96:5099/incidents/:id
-appReportIncidents.delete("/:id", async(req,res)=>{
+appReportIncidents.delete("/:id", validatePermisos("delete_reportIncidents"), async(req,res)=>{
     try {
         const {id} = req.params;
         const collection = dataBase.collection("Report_Incidents")
@@ -732,7 +733,7 @@ appReportIncidents.delete("/:id", async(req,res)=>{
 
 //Listar las incidentes asignados a un personal de apoyo especifico
 //http://127.17.0.96:5099/incidents/Assigned?supportNit="Pending"
-appReportIncidents.get("/Assigned", validateIncidentsParams, async(req,res)=>{
+appReportIncidents.get("/Assigned", validatePermisos("get_reportIncidents"), validateIncidentsParams, async(req,res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
@@ -775,7 +776,7 @@ appReportIncidents.get("/Assigned", validateIncidentsParams, async(req,res)=>{
 
 //Listar las incidentes solucionados por un personal de apoyo especifico
 //http://127.17.0.96:5099/incidents/Solved?supportNit="Pending"
-appReportIncidents.get("/Solved", validateIncidentsParams, async(req,res)=>{
+appReportIncidents.get("/Solved", validatePermisos("get_reportIncidents"), validateIncidentsParams, async(req,res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {

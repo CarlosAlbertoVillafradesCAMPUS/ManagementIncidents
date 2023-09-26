@@ -309,7 +309,7 @@ db.Roles.insertMany([
     },
     {
         Name: "Camper",
-        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents", "post_reportIncidents", "put_reportIncidents", "put_user"]
+        Permission: ["get_users", "get_zone", "get_inventory", "get_reportIncidents", "post_reportIncidents", "put_reportIncidents", "delete_reportIncidents", "put_user"]
     },
     {
         Name: "Support",

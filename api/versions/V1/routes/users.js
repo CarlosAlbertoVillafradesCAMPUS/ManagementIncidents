@@ -4,14 +4,14 @@ import {ObjectId} from "mongodb"
 import { verifyToken } from "../../../config/jwt.js";
 import { validateUsersBody, validateUsersParams } from "../../../DTO/dtoUsers.js";
 import { validationResult } from "express-validator";
-import { autoIncrement } from "../../../helpers/autoincrement.js";
+import { validatePermisos } from "../../../config/validatePermisos.js";
 
 const appUser = Router();
 const dataBase = await myConnect();
 
 //Listar todos los Trainers, campers o support
 //http://127.17.0.96:5099/users?rol=Admin
-appUser.get("/", verifyToken(), validateUsersParams, async(req,res)=>{
+appUser.get("/", verifyToken(), validatePermisos("get_users"), validateUsersParams, async(req,res)=>{
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
@@ -53,7 +53,7 @@ appUser.get("/", verifyToken(), validateUsersParams, async(req,res)=>{
 
 //Listar un usuarios especifico
 //http://127.17.0.96:5099/users/unico?nit=12121
-appUser.get("/unico", verifyToken(), validateUsersParams, async(req,res)=>{
+appUser.get("/unico", verifyToken(), validatePermisos("get_users"), validateUsersParams, async(req,res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
@@ -81,7 +81,7 @@ appUser.get("/unico", verifyToken(), validateUsersParams, async(req,res)=>{
 
 //Crear un buscador para los usuarios
 //http://127.17.0.96:5099/users/SearchGeneral?text=""
-appUser.get("/SearchGeneral", verifyToken(), async(req,res)=>{
+appUser.get("/SearchGeneral", validatePermisos("get_users"), verifyToken(), async(req,res)=>{
     try {
         const {text} = req.query;
         const collection = dataBase.collection("Users")
@@ -114,7 +114,7 @@ appUser.get("/SearchGeneral", verifyToken(), async(req,res)=>{
 
 //Crear un buscador para los usuarios
 //http://127.17.0.96:5099/users/Search?rol=Camper&text=
-appUser.get("/Search", verifyToken(), async(req,res)=>{
+appUser.get("/Search", verifyToken(), validatePermisos("get_users"), async(req,res)=>{
     try {
         const {rol, text} = req.query;
         if (rol == "Admin") {
@@ -146,7 +146,7 @@ appUser.get("/Search", verifyToken(), async(req,res)=>{
 
 //Crear un nuevo usuario
 //http://127.17.0.96:5099/users
-appUser.post("/", validateUsersBody,  async(req,res)=>{
+appUser.post("/", validateUsersBody, async(req,res)=>{
     /*
     {
       "Nit": 1005999685,
@@ -172,7 +172,7 @@ appUser.post("/", validateUsersBody,  async(req,res)=>{
 
 //Modificar un usuario
 //http://127.17.0.96:5099/users?nit=1005999685
-appUser.put("/", verifyToken(), validateUsersBody, async(req,res)=>{
+appUser.put("/", verifyToken(), validatePermisos("put_user"), validateUsersBody, async(req,res)=>{
     /*
     {
       "Nit": 1005999685,
@@ -215,7 +215,7 @@ appUser.put("/", verifyToken(), validateUsersBody, async(req,res)=>{
 
 //Modificar Rol del usuario
 //http://127.17.0.96:5099/users/Role?nit=1005999685
-appUser.put("/Role", verifyToken(),validateUsersParams, async(req,res)=>{
+appUser.put("/Role", verifyToken(), validatePermisos("*"), validateUsersParams, async(req,res)=>{
     /*
     {
       "Nit": 1005999685,

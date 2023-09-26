@@ -9,6 +9,6 @@ export const autoIncrement = async (colleccionName) =>{
         { returnDocument: "after" }
     );
 
-    return resultado.value.Sequence_Value;
+    return resultado.Sequence_Value;
 
 }

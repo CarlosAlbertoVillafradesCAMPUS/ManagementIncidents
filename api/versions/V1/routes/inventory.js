@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { myConnect } from "../../../db/connect.js";
-import {ObjectId} from "mongodb"
+import {ObjectId} from "mongodb";
+import { autoIncrement } from "../../../helpers/autoincrement.js";
 import { verifyToken } from "../../../config/jwt.js";
 import { validationResult } from "express-validator";
 import { validateInventoryBody, validateInventoryParams } from "../../../DTO/dtoInventory.js";
@@ -66,11 +67,17 @@ if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.e
     try {
         const collection = dataBase.collection("Inventory")
         const {Zone_id, Object} = req.body
+        let incrementCollection = "Object"
+        if (Object.Name_Object == "Computer") {
+           incrementCollection = "Computer" 
+        }
+        let newId = await autoIncrement("Inventory")
+        let newIdObject = await autoIncrement(incrementCollection)
         await collection.insertOne({
-            ID:9,
+            ID:newId,
             Zone_id: Zone_id,
             Object:{
-                ID:8,
+                ID:newIdObject,
                 ...Object
             }
         })

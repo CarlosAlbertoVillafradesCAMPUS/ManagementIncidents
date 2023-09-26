@@ -38,6 +38,26 @@ export const validateUsersBody = [
     .optional()
     .isString().withMessage("The 'Image' parameter must be an 'String'")
     .isLength(8, 300).withMessage("The 'Image' parameter must be at least [8 characters] long and cannot be longer than [300 characters].")
+];
+
+export const validateUsersParams = [
+    check("rol")
+    .optional()
+    .custom((value) => {
+        if (!value) {
+          return true;
+        }
+      
+        if (!['Admin', 'Trainer', 'Camper', 'Support'].includes(value)) {
+          throw new Error("The 'rol' parameter must be one of the following values:[Admin,Trainer,Camper,Support]");
+        }
+      
+        return true;
+      }),
+
+    check("nit")
+    .optional()
+    .isInt().withMessage("The URL parameter 'nit' must be an Int"),
 ]
 /* 
 "Nit": 1005999685,

@@ -2,7 +2,7 @@ import { Router } from "express";
 import { myConnect } from "../../../db/connect.js";
 import {ObjectId} from "mongodb"
 import { verifyToken } from "../../../config/jwt.js";
-import { validateUsersBody } from "../../../DTO/dtoUsers.js";
+import { validateUsersBody, validateUsersParams } from "../../../DTO/dtoUsers.js";
 import { validationResult } from "express-validator";
 
 const appUser = Router();
@@ -10,13 +10,13 @@ const dataBase = await myConnect();
 
 //Listar todos los Trainers, campers o support
 //http://127.17.0.96:5099/users?rol=Admin
-appUser.get("/", verifyToken(), async(req,res)=>{
+appUser.get("/", verifyToken(), validateUsersParams, async(req,res)=>{
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         if (req.query.rol) {
             const {rol} = req.query; 
-            if(rol === "Admin"){
-               return res.status(400).send({status:200, message:"Data retrieval error"})
-            }
             const collection = dataBase.collection("Users")
             const data = await collection.aggregate([
                 {
@@ -52,7 +52,9 @@ appUser.get("/", verifyToken(), async(req,res)=>{
 
 //Listar un usuarios especifico
 //http://127.17.0.96:5099/users/unico?nit=12121
-appUser.get("/unico", verifyToken(), async(req,res)=>{
+appUser.get("/unico", verifyToken(), validateUsersParams, async(req,res)=>{
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         const {nit} = req.query;
         const collection = dataBase.collection("Users")
@@ -143,7 +145,7 @@ appUser.get("/Search", verifyToken(), async(req,res)=>{
 
 //Crear un nuevo usuario
 //http://127.17.0.96:5099/users
-appUser.post("/", validateUsersBody, async(req,res)=>{
+appUser.post("/", validateUsersBody,  async(req,res)=>{
     /*
     {
       "Nit": 1005999685,
@@ -169,7 +171,7 @@ appUser.post("/", validateUsersBody, async(req,res)=>{
 
 //Modificar un usuario
 //http://127.17.0.96:5099/users?nit=1005999685
-appUser.put("/", verifyToken(), async(req,res)=>{
+appUser.put("/", verifyToken(), validateUsersBody, async(req,res)=>{
     /*
     {
       "Nit": 1005999685,
@@ -179,6 +181,8 @@ appUser.put("/", verifyToken(), async(req,res)=>{
       "Email": "john.doe@example.com",
       "Password": "anita123"
     } */
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         const {nit} = req.query;
         if (req.body.Role) {
@@ -210,7 +214,7 @@ appUser.put("/", verifyToken(), async(req,res)=>{
 
 //Modificar Rol del usuario
 //http://127.17.0.96:5099/users/Role?nit=1005999685
-appUser.put("/Role", verifyToken(), async(req,res)=>{
+appUser.put("/Role", verifyToken(),validateUsersParams, async(req,res)=>{
     /*
     {
       "Nit": 1005999685,
@@ -220,6 +224,8 @@ appUser.put("/Role", verifyToken(), async(req,res)=>{
       "Email": "john.doe@example.com",
       "Password": "anita123"
     } */
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         const {nit} = req.query;
         const collection = dataBase.collection("Users")

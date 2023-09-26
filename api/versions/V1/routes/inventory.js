@@ -2,6 +2,8 @@ import { Router } from "express";
 import { myConnect } from "../../../db/connect.js";
 import {ObjectId} from "mongodb"
 import { verifyToken } from "../../../config/jwt.js";
+import { validationResult } from "express-validator";
+import { validateInventoryBody, validateInventoryParams } from "../../../DTO/dtoInventory.js";
 
 const appInventory = Router();
 const dataBase = await myConnect();
@@ -9,7 +11,9 @@ const dataBase = await myConnect();
 appInventory.use(verifyToken())
 //Obtener el inventario de una zona especifica
 //http://127.17.0.96:5099/inventory?zoneId=1
-appInventory.get("/", async(req,res)=>{
+appInventory.get("/", validateInventoryParams, async(req,res)=>{
+    const errors = validationResult(req);
+if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         const {zoneId} = req.query
         const collection = dataBase.collection("Zones")
@@ -44,7 +48,7 @@ appInventory.get("/", async(req,res)=>{
 
 //Listar una zona especifica
 //http://127.17.0.96:5099/inventory
-appInventory.post("/", async(req,res)=>{
+appInventory.post("/", validateInventoryBody, async(req,res)=>{
     /*
      {
           "Zone_id": 3,
@@ -57,6 +61,8 @@ appInventory.post("/", async(req,res)=>{
             }
           }
         } */
+        const errors = validationResult(req);
+if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         const collection = dataBase.collection("Inventory")
         const {Zone_id, Object} = req.body
@@ -77,13 +83,15 @@ appInventory.post("/", async(req,res)=>{
 
 //Modificar un inventario
 //http://127.17.0.96:5099/inventory?id=1
-appInventory.put("/", async(req,res)=>{
+appInventory.put("/", validateInventoryParams, validateInventoryBody, async(req,res)=>{
     /*
     {
       "Area": "Training",
       "Classroom": "Ingles"
   
 } */
+const errors = validationResult(req);
+if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         const {id} = req.query
         const collection = dataBase.collection("Inventory")
@@ -111,13 +119,15 @@ appInventory.put("/", async(req,res)=>{
 
 //Eliminar un inventario
 //http://127.17.0.96:5099/inventory?id=1
-appInventory.delete("/", async(req,res)=>{
+appInventory.delete("/", validateInventoryParams, async(req,res)=>{
     /*
     {
       "Area": "Training",
       "Classroom": "Ingles"
   
 } */
+const errors = validationResult(req);
+if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         const {id} = req.query
         const collection = dataBase.collection("Inventory")

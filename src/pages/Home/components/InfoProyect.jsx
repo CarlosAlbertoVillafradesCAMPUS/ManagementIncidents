@@ -35,7 +35,7 @@ export default function InfoProyect() {
         <div className='descriptionProyect'>
         <div className='w-100 d-flex justify-content-center mb-3'>
         <LogoIncidents image={logoIncidents} styles="logoIncidents logoInfoProyecto" />
-        <p className='m-0 fs-1'>¿Quienes Somos?</p>
+        <p className='m-0 quienesSomos'>¿Ques Management Incidents?</p>
         </div>
           <p className='m-0 text-center'>MANAGEMENT INCIDENTS es un proyecto diseñado en colaboracion con Campus.sa con el fin de llevar un gestionamiento efectivo y controlado de la insidencias presentadas</p>
           <div className='w-100 d-flex justify-content-center mt-3'>

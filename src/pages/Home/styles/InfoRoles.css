@@ -2,6 +2,7 @@
     background-image: url(../assets/images/camper.jpg);
     background-position: center;
     background-size: cover;
+    border: 2px solid rgb(63, 171, 218);
     width: 13rem;
     height: 13rem;
     border-radius: 50%;
@@ -11,6 +12,26 @@
     background-image: url(../assets/images/trainer.jpg);
     background-position: center;
     background-size: cover;
+    border: 2px solid rgb(63, 171, 218);
+    width: 13rem;
+    height: 13rem;
+    border-radius: 50%;
+}
+.imageSupport{
+    background-image: url(../assets/images/support.jpg);
+    background-position: center;
+    background-size: cover;
+    border: 2px solid rgb(63, 171, 218);
+    width: 13rem;
+    height: 13rem;
+    border-radius: 50%;
+}
+
+.imageAdmin{
+    background-image: url(../assets/images/admin.jpg);
+    background-position: center;
+    background-size: cover;
+    border: 2px solid rgb(63, 171, 218);
     width: 13rem;
     height: 13rem;
     border-radius: 50%;

@@ -1,12 +1,28 @@
 .containerDescription{
     width: 100%;
-    display: flex;
-    justify-content: center;
+    height: 100vh;
     background-color: rgb(0, 0, 0);;
 }
+
+.containerDescriptionProyect{
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.containerCardInfo{
+    height: 50% ;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .descriptionProyect{
-    width: 50rem;
+    width: 70rem;
     font-size: 1.15rem;
     display: flex;
-    color:  rgb(255, 255, 255);
-}
+    flex-direction: column;
+    color:  rgb(255, 252, 252);
+}   

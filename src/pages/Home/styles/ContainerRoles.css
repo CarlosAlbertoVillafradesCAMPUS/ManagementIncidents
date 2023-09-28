@@ -1,8 +1,19 @@
 .fondoInfoRoles{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: rgb(15, 15, 15);
     background: radial-gradient(circle, rgb(15, 15, 15) 15%, rgb(15, 15, 15) 42%, rgba(15, 15, 15, 0.849) 150%);
 }
 .contenedorInfoRoles{
-    background-color: rgb(15, 15, 15);
-    color: rgb(222, 245, 255);
+    width: 90%;
+    background: rgb(15, 15, 15);
+    background: radial-gradient(circle, rgb(15, 15, 15) 15%, rgb(15, 15, 15) 42%, rgba(15, 15, 15, 0.849) 150%);
+    color: rgb(255, 255, 255);
+}
+
+.tit_usu{
+    font-family: "Good_Times";
+    color: rgb(92, 184, 223);
+    font-size: 3.5rem;
 }

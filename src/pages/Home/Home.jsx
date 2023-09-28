@@ -28,13 +28,13 @@ export default function Home() {
         {
             id:2,
             titulo:"Support",
-            image:"imageCamper",
+            image:"imageSupport",
             description:"El usuario con Rol de Support podra revisar las insidencias que le han asignado, empezando por las de gravedad mas alta, ademas podra marcar las insidecnias una vez las haya solucionado"
         },
         {
             id:3,
             titulo:"Admin",
-            image:"imageTrainer",
+            image:"imageAdmin",
             description:"El usuario con Rol de Admin estara en la capacidad de tener control de la pagina, podra asignar roles acada uno de los usuarios, ya que todo usuarios registrado, se registrara con el rol de camper. tambien podra revisar todas las insidencias que se han reportado, cuales estan asignadas y cuales solcionadas, ademas de poder agregar nuevos salones o zonas de campues y agregar inventario a cada uno de estos salones"
         }
     ]

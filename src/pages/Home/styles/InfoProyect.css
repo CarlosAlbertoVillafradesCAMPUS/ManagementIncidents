@@ -1,0 +1,12 @@
+.containerDescription{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(0, 0, 0);;
+}
+.descriptionProyect{
+    width: 50rem;
+    font-size: 1.15rem;
+    display: flex;
+    color:  rgb(255, 255, 255);
+}

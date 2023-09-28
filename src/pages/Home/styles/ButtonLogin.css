@@ -1,0 +1,13 @@
+.buttonLogin{
+    color: white;
+    cursor: pointer;
+}
+.buttonLogin:hover{
+    color:  rgb(63, 171, 218);
+}
+.buttonSignup{
+    background: rgb(63, 171, 218);
+    /* background: linear-gradient(90deg, rgba(16,155,213,1) 0%, rgba(112,195,231,1) 40%, rgba(136,191,215,1) 100%); */
+    cursor: pointer;
+    border: none;
+}

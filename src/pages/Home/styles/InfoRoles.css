@@ -1,0 +1,23 @@
+.imageCamper{
+    background-image: url(../assets/images/camper.jpg);
+    background-position: center;
+    background-size: cover;
+    width: 13rem;
+    height: 13rem;
+    border-radius: 50%;
+}
+
+.imageTrainer{
+    background-image: url(../assets/images/trainer.jpg);
+    background-position: center;
+    background-size: cover;
+    width: 13rem;
+    height: 13rem;
+    border-radius: 50%;
+}
+
+.textInfoRol{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

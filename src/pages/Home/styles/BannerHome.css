@@ -1,0 +1,10 @@
+.BannerHome{
+    background: rgb(15, 15, 15);
+    background: radial-gradient(circle, rgb(15, 15, 15) 15%, rgb(15, 15, 15) 42%, rgba(15, 15, 15, 0.849) 150%);
+    height: 100vh;
+    display: grid;
+    place-content: center;
+}
+.tituloBanner{
+    width: 40rem;
+}

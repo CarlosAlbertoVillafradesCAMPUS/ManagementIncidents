@@ -22,9 +22,6 @@ export default function FormularioLogin() {
                     </div>
                 </form>
             </div>
-            <div className='mt-3 text-center'>
-            <p className='text-white'>¿No tienes una cuenta? REGISTRARME</p>
-            </div>
         </div>
 
     )

@@ -9,8 +9,8 @@ export default function Login() {
             <BannerLogin />
             <div className='containerFormulario col-4'>
                 <FormularioLogin />
-                <div>
-                    <p>Pie de pagina</p>
+                <div className='mt-3 text-center pb-5'>
+                    <p className='text-white fs-5'>¿No tienes una cuenta? REGISTRATE</p>
                 </div>
             </div>
         </div>

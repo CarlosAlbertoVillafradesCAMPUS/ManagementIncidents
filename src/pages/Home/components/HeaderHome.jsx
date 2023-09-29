@@ -15,7 +15,7 @@ export default function HeaderHome() {
     </div>
     <div className='containerLoginHeader'>
     <ButtonLogin name="Iniciar sesion" styles="btn ms-2 fs-5 h-50 buttonLogin" />
-    <ButtonLogin name="Registrarse"    />
+    <ButtonLogin name="Registrarse"   styles="btn btn-primary ms-2 fs-6 h-50 buttonSignup"   />
     </div>
     </header>
   )

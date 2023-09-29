@@ -1,0 +1,10 @@
+.containerPrincipalLogin{
+    width: 100vw;
+    height: 100vh;
+}
+.containerFormulario{
+    background: rgba(6, 6, 6, 0.866);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

@@ -9,7 +9,7 @@ export default function Titulos(props) {
     <div className='d-flex justify-content-center contentTitle'>
     <LogoIncidents image={logoIncidentes} styles="logoIncidents logoTitulos" />
 
-    <h2 className='text-center mt-md-3 mb-md-3 mt-5 mb-5 tit_usu'>{props.name}</h2>
+    <h2 className='text-center mt-md-3 mb-md-3 mt-4 mb-4 tit_usu'>{props.name}</h2>
     </div>
     </>
   )

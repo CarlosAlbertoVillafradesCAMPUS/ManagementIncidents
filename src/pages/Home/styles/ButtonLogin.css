@@ -11,3 +11,8 @@
     cursor: pointer;
     border: none;
 }
+
+.disabled{
+    display: disabled;
+    filter: grayscale();
+}

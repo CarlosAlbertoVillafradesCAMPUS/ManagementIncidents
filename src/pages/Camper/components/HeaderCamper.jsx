@@ -28,9 +28,6 @@ export default function HeaderCamper() {
                         </li>
                         <li class="nav-item d-block d-md-none mt-5 mb-3">
                             <div className='d-flex justify-content-center' >
-                                <div className='me-5'>
-                                <ButtonLogin name="Mi Perfil" styles="btn text-black fs-6 border-black buttonLogin" />
-                                </div>
                                 <div>
                                 <ButtonLogin name="Salir" styles="btn btn-primary ms-2 fs-6 buttonSignup" />
                                 </div>
@@ -39,7 +36,6 @@ export default function HeaderCamper() {
                     </ul>
                 </div>
                 <div className='containerButtonPerfil me-3 d-none d-md-flex'>
-                    <ButtonLogin name="Mi Perfil" styles="btn text-black border-black fs-5 buttonLogin" />
                     <ButtonLogin name="Salir" styles="btn btn-primary ms-3 fs-5 buttonSignup" />
                 </div>
 

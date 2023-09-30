@@ -27,3 +27,7 @@
 .nav-link{
     color: white;
 }
+
+.nav-link:hover{
+    color:rgb(63, 171, 228);
+}

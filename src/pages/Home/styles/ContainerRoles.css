@@ -2,13 +2,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgb(15, 15, 15);
-    background: radial-gradient(circle, rgb(15, 15, 15) 15%, rgb(15, 15, 15) 42%, rgba(15, 15, 15, 0.849) 150%);
+    background-image: url(../../Login/assets/images/bannerLogin.jpg);
+    background-position: center;
+    background-size: cover;
 }
 .contenedorInfoRoles{
     width: 90%;
-    background: rgb(15, 15, 15);
-    background: radial-gradient(circle, rgb(15, 15, 15) 15%, rgb(15, 15, 15) 42%, rgba(15, 15, 15, 0.849) 150%);
+    background: rgba(15, 15, 15, 0.753);
     display: flex;
     justify-content: center;
     align-items: center;

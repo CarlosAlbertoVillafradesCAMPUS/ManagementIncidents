@@ -6,3 +6,10 @@
 .contentTitle{
     align-items: center;
 }
+
+@media (max-width:768px){
+    .tit_usu{
+       font-size: 1.2rem;
+    }
+    
+}

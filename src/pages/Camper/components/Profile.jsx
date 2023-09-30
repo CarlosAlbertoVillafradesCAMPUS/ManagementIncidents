@@ -5,7 +5,7 @@ export default function Profile() {
   return (
       <div className='profile d-flex'>
           <div className='imageProfile'></div>
-          <div className='ms-2'>
+          <div className='ms-2 text-white'>
           <p className='nicknameProfile'>VILLAFRADES</p>
           <p className='rolProfile'>Camper</p>
           </div>

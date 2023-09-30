@@ -1,0 +1,11 @@
+.profile{
+    justify-content: center;
+    align-items: center;
+}
+.nicknameProfile{
+    margin: 0;
+}
+.rolProfile{
+    font-size: .8rem;
+    margin: 0;
+}

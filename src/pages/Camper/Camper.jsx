@@ -1,7 +1,17 @@
 import React from 'react'
+import HeaderCamper from './components/HeaderCamper'
+import ContainerInsidencias from './containers/ContainerInsidencias'
+import "./styles/Camper.css"
 
 export default function Camper() {
   return (
-    <div>Camper</div>
+    <div>
+      <HeaderCamper />
+      <div>
+        <ContainerInsidencias>
+
+        </ContainerInsidencias>
+      </div>
+    </div>
   )
 }

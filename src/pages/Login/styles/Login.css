@@ -1,6 +1,7 @@
 .containerPrincipalLogin{
     width: 100vw;
     height: 100vh;
+    margin: 0;
 }
 .containerFormulario{
     background: rgba(6, 6, 6, 0.929);

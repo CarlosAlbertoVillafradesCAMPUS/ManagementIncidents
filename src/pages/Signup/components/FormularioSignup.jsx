@@ -6,19 +6,19 @@ export default function FormularioSignup() {
         <div className='w-100 d-flex justify-content-center'>
             <form className='text-white mt-3 w-75 fs-5'>
                 <div className='row'>
-                    <div className="col-6 mb-3">
+                    <div className=" col-12 col-md-6 mb-3">
                         <label className="form-label">Nit:</label>
                         <input type="number" className="form-control" placeholder='012345678' />
                     </div>
-                    <div className=" col-6 mb-3">
+                    <div className=" col-12 col-md-6 mb-3">
                         <label className="form-label">Nombre Completo:</label>
                         <input type="text" className="form-control" placeholder='Nombre' />
                     </div>
-                    <div className=" col-6 mb-3">
+                    <div className=" col-12 col-md-6 mb-3">
                         <label className="form-label">Apodo:</label>
                         <input type="text" className="form-control" placeholder='Apodo' />
                     </div>
-                    <div className=" col-6 mb-3">
+                    <div className=" col-12 col-md-6 mb-3">
                         <label className="form-label">Fechas de Nacimiento:</label>
                         <input type="date" className="form-control" />
                     </div>

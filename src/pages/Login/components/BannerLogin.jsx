@@ -5,7 +5,7 @@ import ButtonLogin from '../../Home/components/ButtonLogin';
 
 export default function BannerLogin() {
   return (
-    <div className='col-8 BannerLogin'>
+    <div className='col-md-8 d-none d-md-flex justify-content-center BannerLogin'>
       <div>
         <div className='d-flex justify-content-center'>
           <img className='w-75' src={imageTitulo} />

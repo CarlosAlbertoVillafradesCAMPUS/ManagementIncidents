@@ -1,0 +1,14 @@
+.contenedorFooter{
+    background-color: black;
+}
+.contenteMyImage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter:opacity(100);
+}
+
+.MyImage{
+    height: 25rem;
+    border-radius: 15px;
+}

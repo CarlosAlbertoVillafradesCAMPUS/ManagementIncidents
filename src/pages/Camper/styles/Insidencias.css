@@ -1,0 +1,59 @@
+.card{
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 100%;
+}
+.imageCard{
+    background-color: black;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+}
+.nicknameCard{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-body{
+    background-color: rgba(0, 0, 0, 0.208);
+}
+
+.titleInfo{
+    font-weight: 500;
+    color: rgb(20, 68, 94);
+}
+p{
+    margin-bottom: 0;
+}
+.acom{
+    display: flex;
+    align-items: center;
+}
+.alinn{
+    height: 100%;
+}
+.comodo{
+    align-items: flex-end;
+}
+.Pending{
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: rgb(63, 171, 228);
+}
+
+.Solved{
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: rgb(88, 228, 63);
+}
+
+.Assigned{
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: rgb(228, 195, 63);
+}

@@ -1,0 +1,33 @@
+.imageProfile{
+    width: 4rem;
+    height: 4rem;
+    background-color: black;
+    border-radius: 50%;
+}
+
+.containerButtonPerfil{
+    justify-content: center;
+    align-items: center;
+}
+
+.fondoNavbar{
+    background-color: rgba(0, 0, 0, 0.539);
+}
+
+.nav-item{
+    border-bottom: 3px solid transparent;
+    font-weight: 400;
+    margin-right: 5px;
+}
+
+.nav-item:hover{
+    border-bottom: 3px solid rgb(63, 171, 228);
+}
+
+.nav-link{
+    color: white;
+}
+
+.nav-link:hover{
+    color:rgb(63, 171, 228);
+}

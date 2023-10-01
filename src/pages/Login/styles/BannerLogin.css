@@ -1,0 +1,6 @@
+.BannerLogin{
+    background-image: url(../assets/images/bannerLogin.jpg);
+    background-position: center;
+    background-size: cover;
+    align-items: center;
+}

@@ -1,0 +1,15 @@
+.fondoSignup{
+    width: 100vw;
+    height: 100vh;
+    background-image: url(../../Login/assets/images/bannerLogin.jpg);
+    background-position: center;
+    background-size: cover;
+}
+
+.containerFormularioSignup{
+    height: 100vh;
+    background: rgba(6, 6, 6, 0.929);
+    display: flex;
+    justify-content: center;
+
+}

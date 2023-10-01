@@ -1,0 +1,13 @@
+.containerBienvenida{
+    justify-content: center;
+    align-items: center;
+}
+.row{
+    margin: 0;
+}
+
+.jajaja{
+    height: 82vh;
+    overflow-y:auto;
+    margin-bottom: 2rem;
+}

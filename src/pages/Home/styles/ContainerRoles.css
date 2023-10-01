@@ -1,0 +1,20 @@
+.fondoInfoRoles{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(../../Login/assets/images/bannerLogin.jpg);
+    background-position: center;
+    background-size: cover;
+}
+.contenedorInfoRoles{
+    width: 90%;
+    background: rgba(15, 15, 15, 0.753);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(255, 255, 255);
+}
+
+.prueba{
+    width: 90%;
+}

@@ -90,7 +90,7 @@ export default function Camper() {
         <HeaderCamper />
         <div>
           <ContainerInsidencias>
-          {array.map(item => <Insidencias key={item.ID} info={item} />)}
+          {array.map(item => <Insidencias key={item.ID} info={item} whidCard="col-12 col-md-6 col-lg-4" />)}
           </ContainerInsidencias>
         </div>
         <ButtonAgregate show={show} setShow={setShow} />

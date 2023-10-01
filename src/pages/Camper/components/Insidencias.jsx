@@ -60,7 +60,7 @@ export default function Insidencias(props) {
   
   useEffect(()=>validaSeconInfo(),[])
   return (
-    <div className='col-12 col-md-6 col-lg-4'>
+    <div className={props.whidCard}>
       <div className="card">
         <div className={props.info.Status} >
           <div className='d-flex'>

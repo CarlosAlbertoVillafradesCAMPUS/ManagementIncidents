@@ -10,8 +10,8 @@ export default function ContainerInsidencias({ children }) {
           <Titulos name="Bienvenido" />
           <p className='m-0 ms-2 fs-1 text-white'>VILLAFRADES</p>
         </div>
-        <div className='container'>
-        <div className='row gy-3 justify-content-center'>
+        <div className='container jajaja'>
+        <div className='row gy-3 justify-content-center containerlistCardsIncidents'>
           {children}
         </div>
         </div>

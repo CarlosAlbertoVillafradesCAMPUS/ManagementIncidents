@@ -5,6 +5,7 @@ import Login from '../pages/Login/Login'
 import Signup from '../pages/Signup/Signup'
 import Camper from '../pages/Camper/Camper'
 import Trainer from '../pages/Trainer/Trainer'
+import Support from '../pages/Support/Support'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Route path='/signUp' element={<Signup />} />
         <Route path='/camper' element={<Camper />} />
         <Route path='/trainer' element={<Trainer />} />
+        <Route path='/support' element={<Support />} />
       </Routes>
     </BrowserRouter>
   )

@@ -3,6 +3,7 @@
     height: 3rem;
     border-radius: 50%;
     background-color: white;
+    border: 3px solid rgb(63, 171, 228);
 }
 .centerNameCamper{
     display: flex;

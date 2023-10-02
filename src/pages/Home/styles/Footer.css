@@ -1,14 +1,56 @@
 .contenedorFooter{
     background-color: black;
 }
+
+.containerTituloFooter{
+    display: flex;
+    justify-content: center;
+}
+
 .contenteMyImage{
     display: flex;
     justify-content: center;
     align-items: center;
-    filter:opacity(100);
+    flex-direction: column;
+}
+.fondoMyImage{
+    border-radius: 50%;
+    background-image: url(../../Login/assets/images/bannerLogin.jpg);
+    background-position: center;
+    background-size: cover;
+    width: 8rem;
+    height: 8rem;
+}
+.myImage{
+    background-image:url(../assets/images/myImage-removebg-preview.png);
+    background-size: cover;
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    border: 3px solid rgb(63, 171, 228);
+    filter: grayscale(60%);
 }
 
-.MyImage{
-    height: 25rem;
-    border-radius: 15px;
+.iconRedes{
+    width: 2.5rem;
+    height: 2.5rem;
+    color: rgb(122, 122, 122);
+    transition: all .5s ease;
+    cursor: pointer;
+}
+
+.iconRedes:hover{
+    color: rgb(63, 171, 228);
+    transition: all .5s ease;
+}
+
+@media (max-width:768px){
+    .iconRedes{
+        width: 2rem;
+        height: 2rem;
+    }
+    .titt{
+        font-size: .8rem !important;
+        text-align: left;
+    }
 }

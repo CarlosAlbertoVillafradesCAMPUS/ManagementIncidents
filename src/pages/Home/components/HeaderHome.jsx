@@ -14,8 +14,8 @@ export default function HeaderHome() {
         <LogoIncidents image={logoCampus} styles="logoIncidents" />
     </div>
     <div className='containerLoginHeader'>
-    <ButtonLogin name="Iniciar sesion" styles="btn ms-2 fs-5 h-50 buttonLogin" />
-    <ButtonLogin name="Registrarse"   styles="btn btn-primary ms-2 fs-6 h-50 buttonSignup"   />
+    <ButtonLogin name="Iniciar sesion" styles="btn ms-2 mb-2 h-50 mt-2 mb-md-0 mt-md-0 buttonLogin"/>
+    <ButtonLogin name="Registrarse"   styles="btn btn-primary ms-2 h-50 buttonSignup"/>
     </div>
     </header>
   )

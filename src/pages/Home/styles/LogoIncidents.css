@@ -12,8 +12,14 @@
 
 @media (max-width:768px){
     .logoTitulos{
-        width: 2rem;
-        height: 2rem;
+        width: 3rem;
+        height: 3rem;
+    }
+    .logoIncidents{
+        width: 3.2rem;
+    }
+    .logoInfoProyecto{
+        width: 2.8rem;
     }
     
 }

@@ -18,3 +18,9 @@
 .prueba{
     width: 90%;
 }
+
+@media (max-width:768px){
+    .contenedorInfoRoles{
+        width: 100%;
+    }
+}

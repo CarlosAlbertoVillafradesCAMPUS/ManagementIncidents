@@ -8,7 +8,7 @@ export default function ContainerRoles({children}) {
         <div className='contenedorInfoRoles pt-3'>
         <div className='prueba'>
         <Titulos name="Tipos de Usuarios" />
-        <div className='row mt-5 pe-5 mb-5'>
+        <div className='row mt-3 mt-md-5 pe-md-5 mb-5'>
         {children}
         </div>
         </div>

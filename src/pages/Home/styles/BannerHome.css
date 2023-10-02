@@ -1,10 +1,48 @@
+.fondoBannerHome{
+    background-image: url(../../Login/assets/images/bannerLogin.jpg);
+    background-position: center;
+    background-size: cover;
+}
 .BannerHome{
-    background: rgb(15, 15, 15);
-    background: radial-gradient(circle, rgb(15, 15, 15) 15%, rgb(15, 15, 15) 42%, rgba(15, 15, 15, 0.849) 150%);
+    background: rgba(15, 15, 15, 0.59);
+    background: radial-gradient(circle, rgba(15, 15, 15, 0.994) 15%, rgba(15, 15, 15, 0.966) 42%, rgba(15, 15, 15, 0.857) 150%);
     height: 100vh;
     display: grid;
     place-content: center;
 }
+.containerTituloBannerHome{
+    display: grid;
+    place-content: center;
+}
+.containerTituloBanner{
+    display: grid;
+    place-content: center;
+}
 .tituloBanner{
-    width: 60rem;
+    width: 40rem;
+}
+
+.planeta{
+    width: 40rem;
+}
+.row{
+    margin: 0px ;
+    padding: 0px ;
+}
+
+@media (max-width:768px){
+    .tituloBanner{
+        width: 20rem;
+        margin-top: 6rem;
+    }
+    .planeta{
+        width: 25rem;
+    }
+    .containerTituloBanner{
+        width: 100%;
+        overflow: hidden;
+    }
+    .containerPlanet{
+        width: 100vw;
+    }
 }

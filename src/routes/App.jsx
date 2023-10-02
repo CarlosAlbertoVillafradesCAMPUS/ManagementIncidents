@@ -13,18 +13,21 @@ import { useLocation } from 'react-use'
 
 function App() {
 
-   const [activateLogin, setActivateLogin] = useState(true)
-  const [activatePages, setActivatePages] = useState(false)
+  const [activateLogin, setActivateLogin] = useState(true)
+  const [activateCamper, setActivateCamper] = useState(false)
+  const [activateTrainer, setActivateTrainer] = useState(false)
+  const [activateSupport, setActivateSupport] = useState(false)
   const locationRoute = useLocation()
 
-  const activate = () =>{
+  const activate = () => {
     const infoLocalStorage = localStorage.getItem("token")
     if (infoLocalStorage) {
       setActivateLogin(false)
-      setActivatePages(true)
-    }else{
+    } else {
       setActivateLogin(true)
-      setActivatePages(false)
+      setActivateCamper(false)
+      setActivateTrainer(false)
+      setActivateSupport(false)
     }
   }
 
@@ -35,19 +38,23 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-      <Route element={<ProtectedRoute canActivate={activateLogin} redirectPath="/camper" />}>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/signUp' element={<Signup />} />
-      </Route>
-      <Route element={<ProtectedRoute canActivate={activatePages} redirectPath="/" />}>
-        <Route path='/camper' element={<Camper />} />
-        <Route path='/trainer' element={<Trainer />} />
-        <Route path='/support' element={<Support />} />
-      </Route>
-      <Route element={<ProtectedRoute canActivate={false} redirectPath="/" />}>
-        <Route path="*" element={<Home />} />
-      </Route>
+        <Route element={<ProtectedRoute canActivate={activateLogin} redirectPath={window.location.hostname} />}>
+          <Route path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signUp' element={<Signup />} />
+        </Route>
+        <Route element={<ProtectedRoute canActivate={activateCamper} redirectPath={"/"} />}>
+          <Route path='/camper' element={<Camper />} />
+        </Route>
+        <Route element={<ProtectedRoute canActivate={activateTrainer} redirectPath={"/"} />}>
+          <Route path='/trainer' element={<Trainer />} />
+        </Route>
+        <Route element={<ProtectedRoute canActivate={activateSupport} redirectPath={"/"} />}>
+          <Route path='/support' element={<Support />} />
+        </Route>
+        <Route element={<ProtectedRoute canActivate={false} redirectPath={"/"} />}>
+          <Route path="*" element={<Home />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   )

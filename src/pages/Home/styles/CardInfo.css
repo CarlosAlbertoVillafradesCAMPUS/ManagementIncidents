@@ -11,3 +11,10 @@
 .subtit_usu{
     color: rgb(63, 171, 218);
 }
+
+@media (max-width:768px){
+    .imageSvg{
+        width: 5rem;
+        height: 5rem;
+    }
+}

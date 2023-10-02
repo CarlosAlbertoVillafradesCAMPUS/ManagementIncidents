@@ -31,3 +31,19 @@
 .quienesSomos{
     font-size: 3rem;
 }
+
+@media (max-width:768px){
+    .quienesSomos{
+        font-size: 1.35rem;
+    }
+    .containerDescriptionProyect{
+        padding-top: 2rem;
+        padding-bottom: 3rem;
+    }
+    .containerDescription{
+        height: auto;
+    }
+    .containerCardInfo{
+        height:auto ;
+    }
+}

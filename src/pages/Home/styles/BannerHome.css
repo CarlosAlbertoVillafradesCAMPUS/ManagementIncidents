@@ -17,6 +17,8 @@
 .containerTituloBanner{
     display: grid;
     place-content: center;
+    width: 100%;
+    overflow: hidden;
 }
 .tituloBanner{
     width: 40rem;
@@ -37,10 +39,6 @@
     }
     .planeta{
         width: 25rem;
-    }
-    .containerTituloBanner{
-        width: 100%;
-        overflow: hidden;
     }
     .containerPlanet{
         width: 100vw;

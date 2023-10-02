@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useApp from "../../../routes/hook/useApp";
 
+
 const useLogin = () =>{
-    const {stateRoutes,
-    setStateRoutes} = useApp();
 
     const [stateLogin, setStateLogin] = React.useState({
       Email: '',
@@ -27,7 +26,6 @@ const useLogin = () =>{
         if(response.status === 200){
           localStorage.setItem("VITE_AUTH_TOKEN", response.token);
           const myToken = localStorage.getItem("VITE_AUTH_TOKEN");
-
           const responseToken = await (await fetch(`http://${sever.host}:${sever.port}/login/token`, {
             method: "GET",
             headers: new Headers({
@@ -36,39 +34,17 @@ const useLogin = () =>{
           })).json();
 
           if (responseToken.status == 200) {
-            console.log(responseToken.data.payload.Role);
+            localStorage.setItem("Rol", responseToken.data.payload.Role)
+
             switch (responseToken.data.payload.Role) {
               case "Camper":
-                console.log("modificando");
-                const a = () =>{
-                  setStateRoutes({
-                  ...stateRoutes,
-                  Camper:true,
-                  Trainer: false,
-                  Support: false
-                })
-              }
-              a()
-                console.log(stateRoutes)
                 redirect("/camper")
                 break;
               case "Trainer":
-                setStateRoutes({
-                  Login:false,
-                  Camper:false,
-                  Trainer: true,
-                  Support: false
-                })
                 redirect("/trainer")
                 break;
-                case "Support":
-              setStateRoutes({
-                Login:false,
-                Camper:false,
-                Trainer: false,
-                Support: true
-              })
-              redirect("/support")
+              case "Support":
+                redirect("/support")
                 break;
             
               default:
@@ -87,7 +63,7 @@ const useLogin = () =>{
   return{
     stateLogin, 
     setStateLogin,
-    submitLogin
+    submitLogin,
   }
 }
 

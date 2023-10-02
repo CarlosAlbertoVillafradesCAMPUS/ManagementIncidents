@@ -5,12 +5,12 @@ const useApp = () => {
         Login:true,
         Camper:false,
         Trainer: false,
-        Support: false
+        Support: false,
       })
 
     return{
         stateRoutes,
-        setStateRoutes
+        setStateRoutes,
     }
 }
 

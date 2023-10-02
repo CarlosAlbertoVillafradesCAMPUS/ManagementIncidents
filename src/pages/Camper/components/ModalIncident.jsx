@@ -5,7 +5,7 @@ import Titulos from '../../Home/components/Titulos'
 
 export default function ModalIncident({show, setShow}) {
     return (
-        <div class="ModalBackground">
+        <div className="ModalBackground">
             <form className='agregateIncidents p-5'>
             <Titulos name="Reportar Incidencia" />
                 <div className='row fs-5'>

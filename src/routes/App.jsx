@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Home from '../pages/Home/Home'
 import Login from '../pages/Login/Login'
 import Signup from '../pages/Signup/Signup'
@@ -9,41 +9,76 @@ import Support from '../pages/Support/Support'
 import ProtectedRoute from '../utils/ProtectedRoute'
 import { useLocation } from 'react-use'
 import useApp from './hook/useApp'
+import useLogin from '../pages/Login/hook/useLogin'
 
 
 
 function App() {
 
-  const {stateRoutes,
-    setStateRoutes} = useApp();
+  const { stateRoutes,
+    setStateRoutes } = useApp();
+  const locationRoute = useLocation()
 
-  /*  const locationRoute = useLocation()
+  const activate = async () => {
+    const infoLocalStorage = localStorage.getItem("VITE_AUTH_TOKEN")
+    const Rol = localStorage.getItem("Rol")
+    if (infoLocalStorage) {
+      switch (Rol) {
+        case "Camper":
+          setStateRoutes({
+            Login: false,
+            Camper: true,
+            Trainer: false,
+            Support: false
+          })
+          break;
+        case "Trainer":
+          setStateRoutes({
+            Login: false,
+            Camper: false,
+            Trainer: true,
+            Support: false
+          })
+          break;
+        case "Support":
+          setStateRoutes({
+            Login: false,
+            Camper: false,
+            Trainer: false,
+            Support: true
+          })
+          break;
 
-    const activate = () => {
-      const infoLocalStorage = localStorage.getItem("VITE_AUTH_TOKEN")
-      if (infoLocalStorage) {
-        console.log(stateRoutes);
-      } else {
-        console.log(stateRoutes);
+        default:
+          break;
       }
+    } else {
+      setStateRoutes({
+        ...stateRoutes,
+        Login: true,
+        Camper: false,
+        Trainer: false,
+        Support: false
+      })
     }
+  }
 
-    useEffect(() => {
-      activate();
-    }, [locationRoute]); */
+  useEffect(() => {
+    activate();
+  }, [locationRoute]);
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<ProtectedRoute canActivate={stateRoutes.Login} redirectPath={"/"} />}>
+        <Route element={<ProtectedRoute canActivate={stateRoutes.Login} redirectPath={"/camper"} />}>
           <Route path='/' element={<Home />} />
-          <Route path='/login' element={<Login  />} />
+          <Route path='/login' element={<Login />} />
           <Route path='/signUp' element={<Signup />} />
         </Route>
-        <Route element={<ProtectedRoute canActivate={stateRoutes.Camper} redirectPath={"/"} />}>
+        <Route element={<ProtectedRoute canActivate={stateRoutes.Camper} redirectPath={"/trainer"} />}>
           <Route path='/camper' element={<Camper />} />
         </Route>
-        <Route element={<ProtectedRoute canActivate={stateRoutes.Trainer} redirectPath={"/"} />}>
+        <Route element={<ProtectedRoute canActivate={stateRoutes.Trainer} redirectPath={"/support"} />}>
           <Route path='/trainer' element={<Trainer />} />
         </Route>
         <Route element={<ProtectedRoute canActivate={stateRoutes.Support} redirectPath={"/"} />}>

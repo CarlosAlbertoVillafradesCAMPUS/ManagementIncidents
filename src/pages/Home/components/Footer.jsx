@@ -38,7 +38,7 @@ export default function Footer() {
               <p className='text-white'>Desarrollador fullStack</p>
               <div className='containerRedes mt-3'>
               {
-                redes.map(item=><Link to={item.href}><FontAwesomeIcon className='iconRedes me-3' key={item.id} icon={item.image} /></Link> )
+                redes.map(item=><Link key={item.id} to={item.href}><FontAwesomeIcon className='iconRedes me-3' key={item.id} icon={item.image} /></Link> )
               }
               </div>
             </div>

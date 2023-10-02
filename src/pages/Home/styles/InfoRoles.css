@@ -3,8 +3,8 @@
     background-position: center;
     background-size: cover;
     border: 2px solid rgb(63, 171, 218);
-    width: 13rem;
-    height: 13rem;
+    width: 12rem;
+    height: 12rem;
     border-radius: 50%;
 }
 
@@ -13,8 +13,8 @@
     background-position: center;
     background-size: cover;
     border: 2px solid rgb(63, 171, 218);
-    width: 13rem;
-    height: 13rem;
+    width: 12rem;
+    height: 12rem;
     border-radius: 50%;
 }
 .imageSupport{
@@ -22,8 +22,8 @@
     background-position: center;
     background-size: cover;
     border: 2px solid rgb(63, 171, 218);
-    width: 13rem;
-    height: 13rem;
+    width: 12rem;
+    height: 12rem;
     border-radius: 50%;
 }
 
@@ -32,8 +32,8 @@
     background-position: center;
     background-size: cover;
     border: 2px solid rgb(63, 171, 218);
-    width: 13rem;
-    height: 13rem;
+    width: 12rem;
+    height: 12rem;
     border-radius: 50%;
 }
 
@@ -46,3 +46,17 @@
 .withText{
     width: 90%;
 }
+.descriptionSubtit_usu{
+    text-align:justify;
+}
+
+@media (max-width:768px){
+    .containerImageRole{
+        justify-content: center !important;
+    }
+    .subtit_usu{
+        text-align: center;
+    }
+
+}
+

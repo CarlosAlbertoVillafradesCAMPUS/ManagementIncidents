@@ -5,27 +5,27 @@ import Profile from './Profile'
 
 export default function HeaderCamper() {
     return (
-        <nav class="navbar navbar-expand-md fondoNavbar fs-5 p-3">
-            <div class="container-fluid justify-content-between">
+        <nav className="navbar navbar-expand-md fondoNavbar fs-5 p-3">
+            <div className="container-fluid justify-content-between">
                 <Profile nickname="Villafardes" rol="Camper" />
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                    <ul class="navbar-nav mt-3 mt-md-0">
-                        <li class="nav-item d-flex justify-content-center">
-                            <button class="nav-link">Todas</button>
+                <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
+                    <ul className="navbar-nav mt-3 mt-md-0">
+                        <li className="nav-item d-flex justify-content-center">
+                            <button className="nav-link">Todas</button>
                         </li>
-                        <li class="nav-item d-flex justify-content-center">
-                            <button class="nav-link ">Pendientes</button>
+                        <li className="nav-item d-flex justify-content-center">
+                            <button className="nav-link ">Pendientes</button>
                         </li>
-                        <li class="nav-item d-flex justify-content-center">
-                            <button class="nav-link">Calificadas</button>
+                        <li className="nav-item d-flex justify-content-center">
+                            <button className="nav-link">Calificadas</button>
                         </li>
-                        <li class="nav-item d-flex justify-content-center">
-                            <button class="nav-link">Solucionadas</button>
+                        <li className="nav-item d-flex justify-content-center">
+                            <button className="nav-link">Solucionadas</button>
                         </li>
-                        <li class="nav-item d-block d-md-none mt-5 mb-3">
+                        <li className="nav-item d-block d-md-none mt-5 mb-3">
                             <div className='d-flex justify-content-center' >
                                 <div>
                                 <ButtonLogin name="Salir" styles="btn btn-primary ms-2 fs-6 buttonSignup" />

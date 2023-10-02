@@ -1,10 +1,12 @@
 import express from "express";
 import routesVersioning from "express-routes-versioning";
 import RoutesV1 from "./versions/V1/index.js";
+import cors from "cors"
 import { loadEnv } from "vite";
 
 const appExpress = express();
 appExpress.use(express.json())
+appExpress.use(cors())
 let version = routesVersioning()
 
 const env = loadEnv("development", process.cwd(), "VITE")

@@ -2,20 +2,24 @@ import React from 'react'
 import {faGithub, faInstagram, faLinkedin} from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../styles/Footer.css"
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   const redes=[
     {
       id:0,
-      image:faLinkedin
+      image:faLinkedin,
+      href: "https://www.linkedin.com/in/carlos-villafrades-426310237"
     },
     {
       id:1,
-      image:faGithub
+      image:faGithub,
+      href: "https://github.com/CarlosAlbertoVillafradesCAMPUS"
     },
     {
       id:2,
-      image:faInstagram
+      image:faInstagram,
+      href: "https://www.instagram.com/carlos_villafradess/"
     }
   ]
   return (
@@ -34,7 +38,7 @@ export default function Footer() {
               <p className='text-white'>Desarrollador fullStack</p>
               <div className='containerRedes mt-3'>
               {
-                redes.map(item=><FontAwesomeIcon className='iconRedes me-3' key={item.id} icon={item.image} />)
+                redes.map(item=><Link to={item.href}><FontAwesomeIcon className='iconRedes me-3' key={item.id} icon={item.image} /></Link> )
               }
               </div>
             </div>

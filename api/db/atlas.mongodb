@@ -326,7 +326,8 @@ db.Users.insertMany([
         Date_Birth: "1980-01-01",
         Email: "john.doe@example.com",
         Password: "password123",
-        Role: "Admin"
+        Role: "Admin",
+        Image: "admin.jpg"
     },
     {
         Nit: 1006654874,
@@ -335,7 +336,8 @@ db.Users.insertMany([
         Date_Birth: "1985-02-02",
         Email: "felipe.doe@example.com",
         Password: "password456",
-        Role: "Camper"
+        Role: "Camper",
+        Image: "camper.jpg"
     },
     {
         Nit: 1005688571,
@@ -344,7 +346,8 @@ db.Users.insertMany([
         Date_Birth: "1985-02-02",
         Email: "pedro.doe@example.com",
         Password: "pedro123",
-        Role: "Camper"
+        Role: "Camper",
+        Image: "camper.jpg"
     },
     {
         Nit: 1004344958,
@@ -353,7 +356,8 @@ db.Users.insertMany([
         Date_Birth: "1990-03-03",
         Email: "guest@example.com",
         Password: "password789",
-        Role: "Trainer"
+        Role: "Trainer",
+        Image: "trainer.jpg"
     },
     {
         Nit: 1099458682,
@@ -362,7 +366,8 @@ db.Users.insertMany([
         Date_Birth: "1990-03-03",
         Email: "villa@example.com",
         Password: "villa123",
-        Role: "Support"
+        Role: "Support",
+        Image: "support.jpg"
     }
 ]);
 

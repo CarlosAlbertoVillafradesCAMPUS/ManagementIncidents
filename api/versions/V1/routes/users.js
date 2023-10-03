@@ -160,9 +160,13 @@ appUser.post("/", validateUsersBody, async(req,res)=>{
     if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         const collection = dataBase.collection("Users")
+        const infoUsers = await collection.findOne({Nit: req.body.Nit})
+        if(infoUsers) return res.status(400).send({status:400, message:"There is already a USER registered with that NIT."})
+
         await collection.insertOne({
             ...req.body,
-            Role: "Camper"
+            Role: "Camper",
+            Image: "camper.jpg"
         })
         res.status(200).send({status:200, message:"Successfully Added"})
     } catch (error) {

@@ -6,6 +6,7 @@ import Insidencias from './components/Insidencias'
 import ButtonAgregate from './components/ButtonAgregate'
 import ModalIncident from './components/ModalIncident'
 import useCamper from './hook/useCamper'
+import Inicio from './components/Inicio'
 
 export default function Camper() {
 
@@ -100,8 +101,11 @@ export default function Camper() {
       <div className='sombra'>
         <HeaderCamper state={stateCamper} setState={setStateCamper} />
         <div>
-          <ContainerInsidencias>
-          {incidencias[0]?.Incidents_Report.map(item => <Insidencias key={item.ID} infoUser={stateCamper} info={item} whidCard="col-12 col-md-6 col-lg-4" />)}
+          <ContainerInsidencias nickname={stateCamper.Nickname}>
+          {
+          (incidencias[0]?.Incidents_Report.length == 0)
+          ?incidencias[0]?.Incidents_Report.map(item => <Insidencias key={item.ID} infoUser={stateCamper} info={item} whidCard="col-12 col-md-6 col-lg-4" />)
+          : <Inicio setShow={setShow} /> }
           </ContainerInsidencias>
         </div>
         <ButtonAgregate show={show} setShow={setShow} />

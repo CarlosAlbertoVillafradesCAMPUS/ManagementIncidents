@@ -10,3 +10,12 @@
     font-size: .8rem;
     margin: 0;
 }
+
+.imageProfileCamper{
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-image: url(../../Home/assets/images/camper.jpg);
+    background-position: center;
+    background-size: cover;
+}

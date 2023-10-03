@@ -4,8 +4,11 @@
     overflow: hidden;
     height: 100%;
 }
-.imageCard{
-    background-color: black;
+
+.imageCardCamper{
+    background-image: url(../../Home/assets/images/camper.jpg);
+    background-position: center;
+    background-size: cover;
     width: 2rem;
     height: 2rem;
     border-radius: 50%;

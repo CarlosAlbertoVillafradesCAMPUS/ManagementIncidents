@@ -64,9 +64,9 @@ export default function Insidencias(props) {
       <div className="card">
         <div className={props.info.Status} >
           <div className='d-flex'>
-            <div className='imageCard'></div>
+            <div className={props.infoUser.Image === "camper.jpg" ? "imageCardCamper" : ""}></div>
             <div className=' ms-1 nicknameCard'>
-              <p>VILLAFRADES</p>
+              <p>{props.infoUser.Nickname}</p>
             </div>
           </div>
           <div className='acom'>

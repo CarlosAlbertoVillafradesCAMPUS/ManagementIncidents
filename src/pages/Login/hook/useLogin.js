@@ -36,7 +36,7 @@ const useLogin = () =>{
           if (responseToken.status == 200) {
             localStorage.setItem("Rol", responseToken.data.payload.Role)
 
-            switch (responseToken.data.payload.Role) {
+            switch (import.meta.env.VITE_ROL) {
               case "Camper":
                 redirect("/camper")
                 break;

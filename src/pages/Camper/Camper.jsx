@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import HeaderCamper from './components/HeaderCamper'
 import ContainerInsidencias from './containers/ContainerInsidencias'
 import "./styles/Camper.css"
 import Insidencias from './components/Insidencias'
 import ButtonAgregate from './components/ButtonAgregate'
 import ModalIncident from './components/ModalIncident'
+import useCamper from './hook/useCamper'
 
 export default function Camper() {
 
@@ -83,14 +84,24 @@ export default function Camper() {
       }
     },
   ]
+
+  const {stateCamper,
+    setStateCamper,
+    infoUsers,
+    incidencias} = useCamper()
+
+    useEffect(() => {
+      infoUsers()
+    }, []);
+
   return (
     <>
     <div className='containerPrincipalCamper'>
       <div className='sombra'>
-        <HeaderCamper />
+        <HeaderCamper state={stateCamper} setState={setStateCamper} />
         <div>
           <ContainerInsidencias>
-          {array.map(item => <Insidencias key={item.ID} info={item} whidCard="col-12 col-md-6 col-lg-4" />)}
+          {incidencias[0]?.Incidents_Report.map(item => <Insidencias key={item.ID} infoUser={stateCamper} info={item} whidCard="col-12 col-md-6 col-lg-4" />)}
           </ContainerInsidencias>
         </div>
         <ButtonAgregate show={show} setShow={setShow} />

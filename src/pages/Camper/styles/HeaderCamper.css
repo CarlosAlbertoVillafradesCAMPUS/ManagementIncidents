@@ -31,3 +31,11 @@
 .nav-link:hover{
     color:rgb(63, 171, 228);
 }
+.nav-link:focus{
+    color:rgb(63, 171, 228);
+}
+
+.custom-btn {
+    background-color:rgb(63, 171, 228);
+    /* Otras propiedades de estilo según sea necesario */
+}

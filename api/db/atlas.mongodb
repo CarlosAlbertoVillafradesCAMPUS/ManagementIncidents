@@ -401,14 +401,17 @@ db.Zones.insertMany([
     {
         ID: autoIncrementID("Zones"),
         Area: "Hunters",
+        Classroom: "Hunters"
     },
     {
         ID: autoIncrementID("Zones"),
-        Area: "Cafeteria"
+        Area: "Cafeteria",
+        Classroom: "Cafeteria"
     },
     {
         ID: autoIncrementID("Zones"),
         Area: "Auditorium",
+        Classroom: "Auditorium"
     }
 ]);
 

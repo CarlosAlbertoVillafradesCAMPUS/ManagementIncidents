@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import "../styles/Insidencias.css"
 import ButtonLogin from '../../Home/components/ButtonLogin'
 import InfoCards from './InfoCards'
+import { useNavigate } from 'react-router-dom'
 
 export default function Insidencias(props) {
-
   const [infosecon, setInfoSecond] =useState([])
   const [estilosButton1, setEstilosButton1] =useState("btn btn-outline-danger text-black fs-6 buttonLogin")
   const [estilosButton2, setEstilosButton2] =useState("btn btn-primary ms-2 fs-6 buttonSignup")
@@ -27,6 +27,31 @@ export default function Insidencias(props) {
       info: objeto
     },
   ]
+
+  const EliminarIncidents = async () => {
+    const myToken = localStorage.getItem("VITE_AUTH_TOKEN")
+    let options = {
+        method: "DELETE",
+        headers: new Headers({
+            "Content-Type": "application/json",
+            "Authorization": myToken
+        }),
+    }
+    try {
+        const sever = JSON.parse(import.meta.env.VITE_MY_SERVER);
+        const response = await (await fetch(`http://${sever.host}:${sever.port}/incidents/${props.id}`, options)).json();
+        if (response.status === 200) {
+            alert(response.message)
+            window.location.reload()
+
+        } else {
+            alert(response.message)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 
   function validaSeconInfo(){
     if(props.info.Status == "Assigned" || props.info.Status == "Solved" ){
@@ -59,6 +84,7 @@ export default function Insidencias(props) {
 
   
   useEffect(()=>validaSeconInfo(),[])
+
   return (
     <div className={props.whidCard}>
       <div className="card">
@@ -68,9 +94,6 @@ export default function Insidencias(props) {
             <div className=' ms-1 nicknameCard'>
               <p>{props.infoUser.Nickname}</p>
             </div>
-          </div>
-          <div className='acom'>
-            <p>{props.info.Date_Report}</p>
           </div>
           <div className='acom'>
             <p className='fw-bold text-uppercase'>{props.info.Status}</p>
@@ -85,13 +108,14 @@ export default function Insidencias(props) {
             {infosecon.map(item=> <InfoCards  key={item.id} title={item.titulo} info={item.info} />)}
             </div>
             <div className='col-12'>
-              <p className="card-text mt-2 text-break">{props.info.Description}</p>
+              <p className="card-text mt-2 text-break fw-bold">{props.info.Description}</p>
             </div>
             <div className='col-12 d-flex justify-content-between mt-3 comodo'>
-              <div></div>
+            <div className='acom'>
+              <p>{props.info.Date_Report}</p>
+          </div>
               <div>
-                <ButtonLogin name="Eliminar" styles={estilosButton1} />
-                <ButtonLogin name="Editar" styles={estilosButton2} />
+                <ButtonLogin type="button" functionClick={EliminarIncidents}  name="Eliminar" styles={estilosButton1} />
               </div>
             </div>
           </div>

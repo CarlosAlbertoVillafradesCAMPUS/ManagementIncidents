@@ -101,7 +101,6 @@ appReportIncidents.get("/Ordenados", validatePermisos("get_reportIncidents"), va
                         "User.Password":0,
                         "User.Incidents_Report":0,
                         "Incidents_Report._id":0,
-                        [`Incidents_Report.By_${rol}`]:0
                     }
                   }
             ]).toArray()
@@ -212,7 +211,9 @@ appReportIncidents.get("/", validatePermisos("get_reportIncidents"), validateInc
            return res.status(200).send({status:200, data:data})
         }
             const collection = dataBase.collection("Report_Incidents")
-            const data = await collection.find({}).toArray()
+            const data = await collection.aggregate([
+                {$sort:{Date_Report: -1}}
+            ]).toArray()
             res.status(200).send({status:200, data:data})
       
     } catch (error) {

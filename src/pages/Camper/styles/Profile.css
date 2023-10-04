@@ -19,3 +19,12 @@
     background-position: center;
     background-size: cover;
 }
+
+.imageProfileTrainer{
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-image: url(../../Home/assets/images/trainer.jpg);
+    background-position: center;
+    background-size: cover;
+}

@@ -28,7 +28,6 @@ appUser.get("/", verifyToken(), validatePermisos("get_users"), validateUsersPara
                 },
                 {
                     $project: {
-                      _id:0,
                       Password:0
                     }
                 }

@@ -60,3 +60,10 @@ p{
     padding: 1rem;
     background-color: rgb(228, 195, 63);
 }
+
+.containerSeverity{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+}

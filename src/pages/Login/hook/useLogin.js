@@ -22,7 +22,6 @@ const useLogin = () =>{
       try {
         const sever =JSON.parse(import.meta.env.VITE_MY_SERVER);
         const response = await (await fetch(`http://${sever.host}:${sever.port}/login`, options)).json();
-        console.log(response);
         if(response.status === 200){
           localStorage.setItem("VITE_AUTH_TOKEN", response.token);
           const myToken = localStorage.getItem("VITE_AUTH_TOKEN");

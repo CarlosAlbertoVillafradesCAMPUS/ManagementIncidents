@@ -111,7 +111,6 @@ if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.e
                 }
             }
         ]).toArray()
-        console.log(req.body);
         await collection.updateOne({
             _id: new ObjectId(my_data[0]._id),
         },

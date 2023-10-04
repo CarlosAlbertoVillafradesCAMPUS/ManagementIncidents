@@ -97,7 +97,6 @@ export default function ModalIncident({
                 Nickname: stateCamper.Nickname
             }
         }
-        console.log(myData);
         let options = {
             method: "POST",
             headers: new Headers({

@@ -23,7 +23,6 @@ function App() {
     const infoLocalStorage = localStorage.getItem("VITE_AUTH_TOKEN")
     if (infoLocalStorage) {
       const Rol = localStorage.getItem("Rol")
-      console.log(Rol);
       switch (Rol) {
         case "Camper":
           setStateRoutes({

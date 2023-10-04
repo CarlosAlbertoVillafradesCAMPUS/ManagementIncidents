@@ -25,7 +25,7 @@ const useSignUp = () =>{
           try {
             const sever =JSON.parse(import.meta.env.VITE_MY_SERVER);
             const response = await (await fetch(`http://${sever.host}:${sever.port}/users`, options)).json();
-            console.log(response);
+
             if(response.status === 200){
               alert(response.message)
               redirect("/login")

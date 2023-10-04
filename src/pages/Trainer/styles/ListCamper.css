@@ -16,3 +16,23 @@
 .textNickname{
     font-size: 1.1rem;
 }
+
+.imageUsersCampers{
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-image: url(../../Home/assets/images/camper.jpg);
+    background-position: center;
+    background-size: cover;
+    border: 2px solid rgb(63, 171, 228);
+}
+
+.imageUsersTrainers{
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-image: url(../../Home/assets/images/trainer.jpg);
+    background-position: center;
+    background-size: cover;
+    border: 2px solid rgb(63, 171, 228);
+}

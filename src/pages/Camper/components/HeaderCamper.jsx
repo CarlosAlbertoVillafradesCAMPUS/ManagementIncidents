@@ -1,17 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ButtonLogin from '../../Home/components/ButtonLogin'
 import "../styles/HeaderCamper.css"
 import Profile from './Profile'
 import useCamper from '../hook/useCamper'
 
-export default function HeaderCamper({ state, getPending, getAssign, infoUsers, getSolved }) {
+export default function HeaderCamper({state, getPending, getAssign, infoUsers, getSolved}) {
     const {
         SalirPage,
     } = useCamper()
+
+    const [imageProfile, setImageProfile] = useState("") 
+
+    const StylesProfile = () =>{
+        if(state.Image == "camper.jpg"){
+            setImageProfile("imageProfileCamper")
+        }else if(state.Image == "trainer.jpg"){
+            setImageProfile("imageProfileTrainer")
+        }
+    }
+
+    useEffect(() => {
+        infoUsers()
+      }, []);
+    
+    useEffect(() => { 
+    StylesProfile()
+    }, [infoUsers]);
+
+   
     return (
         <nav className="navbar navbar-expand-md fondoNavbar fs-5 p-3">
             <div className="container-fluid justify-content-between">
-                <Profile image={state.Image} nickname={state.Nickname} rol={state.Rol} />
+                <Profile image={imageProfile} nickname={state.Nickname} rol={state.Rol} />
                 <button className="navbar-toggler custom-btn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>

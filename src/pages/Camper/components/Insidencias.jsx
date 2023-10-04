@@ -10,6 +10,8 @@ export default function Insidencias(props) {
   const [estilosButton2, setEstilosButton2] =useState("btn btn-primary ms-2 fs-6 buttonSignup")
 
   const objeto = (props.info.Inventory_id) ?props.info.Inventory_id :"Otro" 
+  
+
   const info1 = [
     {
       id:0,
@@ -52,48 +54,113 @@ export default function Insidencias(props) {
     }
 }
 
+const [imageProfile, setImageProfile] = useState("") 
+const [nameProfile, setNameProfile] = useState("") 
+const [listButton, setListButton] = useState([]) 
 
-  function validaSeconInfo(){
-    if(props.info.Status == "Assigned" || props.info.Status == "Solved" ){
-      setEstilosButton2("btn btn-primary ms-2 fs-6 buttonSignup disabled")
-
-      const info2 = [
-        {
-          id:0,
-          titulo: "ASIGANDO POR:",
-          info: props.info.By_Trainer.Nickname
-        },
-        {
-          id:1,
-          titulo: "ASIGNADO A:",
-          info: props.info.Support_Person.Nickname
-        },
-        {
-          id:2,
-          titulo: "FECHA ASIG:",
-          info: props.info.Date_Assigned
-        },
-      ]
-      if (props.info.Status == "Solved"){
-        info2.push({id:3,titulo: "FECHA SOL:", info: props.info.Date_Solved})
+    const StylesProfile = () =>{
+      setImageProfile("imageProfileCamper")
+      if (props.infoUser.Image == "trainer.jpg") {
+        setListButton([
+          {
+            id:0,
+            type:"button",
+            name:"Calificar y Asignar",
+            styles: estilosButton2,
+            My_function: EliminarIncidents
+          }
+        ])
+        if(props.info.Status == "Assigned" || props.info.Status == "Solved" ){
+          setListButton([])
+    
+          const info2 = [
+            {
+              id:0,
+              titulo: "ASIGANDO POR:",
+              info: props.info.By_Trainer.Nickname
+            },
+            {
+              id:1,
+              titulo: "ASIGNADO A:",
+              info: props.info.Support_Person.Nickname
+            },
+            {
+              id:2,
+              titulo: "FECHA ASIG:",
+              info: props.info.Date_Assigned
+            },
+          ]
+          if (props.info.Status == "Solved"){
+            info2.push({id:3,titulo: "FECHA SOL:", info: props.info.Date_Solved})
+          }
+          setInfoSecond(info2)
+        }
+        setNameProfile(props.camper.Nickname)
+      }else{
+        setListButton([
+          {
+            id:0,
+            type:"button",
+            name:"Eliminar",
+            styles: estilosButton1,
+            My_function: EliminarIncidents
+          }
+        ]
+        )
+        if(props.info.Status == "Assigned" || props.info.Status == "Solved" ){
+          setListButton([])
+          const info2 = [
+            {
+              id:0,
+              titulo: "ASIGANDO POR:",
+              info: props.info.By_Trainer.Nickname
+            },
+            {
+              id:1,
+              titulo: "ASIGNADO A:",
+              info: props.info.Support_Person.Nickname
+            },
+            {
+              id:2,
+              titulo: "FECHA ASIG:",
+              info: props.info.Date_Assigned
+            },
+          ]
+          if (props.info.Status == "Solved"){
+            info2.push({id:3,titulo: "FECHA SOL:", info: props.info.Date_Solved})
+          }
+          setInfoSecond(info2)
+        }
+        setNameProfile(props.infoUser.Nickname)
       }
-      setInfoSecond(info2)
     }
-  }
 
 
   
-  useEffect(()=>validaSeconInfo(),[])
+
+
+  useEffect(() => { 
+    StylesProfile()
+    }, []);
+
+  
+
 
   return (
     <div className={props.whidCard}>
       <div className="card">
         <div className={props.info.Status} >
           <div className='d-flex'>
-            <div className={props.infoUser.Image === "camper.jpg" ? "imageCardCamper" : ""}></div>
+            <div className={imageProfile}></div>
             <div className=' ms-1 nicknameCard'>
-              <p>{props.infoUser.Nickname}</p>
+              <p className='fw-bold'>{nameProfile}</p>
             </div>
+          </div>
+          <div className='containerSeverity'>
+            <p>{
+            (props.info.Severity)
+            ?props.info.Severity
+            :""}</p>
           </div>
           <div className='acom'>
             <p className='fw-bold text-uppercase'>{props.info.Status}</p>
@@ -115,7 +182,7 @@ export default function Insidencias(props) {
               <p>{props.info.Date_Report}</p>
           </div>
               <div>
-                <ButtonLogin type="button" functionClick={EliminarIncidents}  name="Eliminar" styles={estilosButton1} />
+                {listButton?.map(item=><ButtonLogin key={item.id} functionClick={item.My_function} type={item.type} name={item.name} styles={item.styles} />)}
               </div>
             </div>
           </div>

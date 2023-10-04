@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import ButtonLogin from '../../Home/components/ButtonLogin'
 import Profile from '../../Camper/components/Profile'
-import useCamper from '../../Camper/hook/useCamper'
 import "../styles/HeaderSupport.css"
+import useCamper from '../../Camper/hook/useCamper'
+import { useNavigate } from 'react-router-dom'
 
 export default function HeaderSupport({
             infoUsers,
-            getAssign,
-            getPending,
-            getSolved,
             state,
-            setState
+            setState,
+            listMenu
 }) {
-    const {
-        SalirPage,
-    } = useCamper()
+
+    const redirect = useNavigate()
+    const salirLogout = () =>{
+        redirect("/")
+        localStorage.removeItem("VITE_AUTH_TOKEN")
+    }
 
     const [imageProfile, setImageProfile] = useState("") 
 
@@ -42,7 +44,12 @@ export default function HeaderSupport({
         </button>
         <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
             <ul className="navbar-nav mt-3 mt-md-0">
-                <li className="nav-item d-flex justify-content-center">
+            {
+                listMenu.map(item=><li key={item.id} className="nav-item d-flex justify-content-center">
+                    <button onClick={item.functionE} className="nav-link">{item.titulo}</button>
+                </li>)
+            }
+                {/* <li className="nav-item d-flex justify-content-center">
                     <button onClick={infoUsers} className="nav-link">Todas</button>
                 </li>
                 <li className="nav-item d-flex justify-content-center">
@@ -50,18 +57,18 @@ export default function HeaderSupport({
                 </li>
                 <li className="nav-item d-flex justify-content-center">
                     <button onClick={getSolved} className="nav-link">Solucionadas</button>
-                </li>
+                </li> */}
                 <li className="nav-item d-block d-md-none mt-5 mb-3">
                     <div className='d-flex justify-content-center' >
                         <div>
-                            <ButtonLogin functionClick={SalirPage} type="button" name="Salir" styles="btn btn-primary ms-2 fs-6 buttonSignup" />
+                            <ButtonLogin functionClick={salirLogout} type="button" name="Salir" styles="btn btn-primary ms-2 fs-6 buttonSignup" />
                         </div>
                     </div>
                 </li>
             </ul>
         </div>
         <div className='containerButtonPerfil me-3 d-none d-md-flex'>
-            <ButtonLogin functionClick={SalirPage} type="button" name="Salir" styles="btn btn-primary ms-3 fs-5 buttonSignup" />
+            <ButtonLogin functionClick={salirLogout} type="button" name="Salir" styles="btn btn-primary ms-3 fs-5 buttonSignup" />
         </div>
 
     </div>

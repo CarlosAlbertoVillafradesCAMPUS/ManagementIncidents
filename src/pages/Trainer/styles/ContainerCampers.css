@@ -7,6 +7,10 @@
   overflow-y: auto;
 }
 
+.list-group-flush::-webkit-scrollbar {
+  display: none;
+}
+
 .noReporte{
   font-size: 1rem;
 }

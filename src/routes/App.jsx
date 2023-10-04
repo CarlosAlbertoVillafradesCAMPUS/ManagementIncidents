@@ -9,7 +9,7 @@ import Support from '../pages/Support/Support'
 import ProtectedRoute from '../utils/ProtectedRoute'
 import { useLocation } from 'react-use'
 import useApp from './hook/useApp'
-import useLogin from '../pages/Login/hook/useLogin'
+import Admin from '../pages/Admin/Admin'
 
 
 
@@ -29,7 +29,8 @@ function App() {
             Login: false,
             Camper: true,
             Trainer: false,
-            Support: false
+            Support: false,
+            Admin: false
           })
           break;
         case "Trainer":
@@ -37,7 +38,8 @@ function App() {
             Login: false,
             Camper: false,
             Trainer: true,
-            Support: false
+            Support: false,
+            Admin: false
           })
           break;
         case "Support":
@@ -45,7 +47,17 @@ function App() {
             Login: false,
             Camper: false,
             Trainer: false,
-            Support: true
+            Support: true,
+            Admin: false
+          })
+          break;
+        case "Admin":
+          setStateRoutes({
+            Login: false,
+            Camper: false,
+            Trainer: false,
+            Support: false,
+            Admin: true
           })
           break;
 
@@ -54,11 +66,11 @@ function App() {
       }
     } else {
       setStateRoutes({
-        ...stateRoutes,
         Login: true,
         Camper: false,
         Trainer: false,
-        Support: false
+        Support: false,
+        Admin:false
       })
     }
   }
@@ -81,10 +93,13 @@ function App() {
         <Route element={<ProtectedRoute canActivate={stateRoutes.Trainer} redirectPath={"/support"} />}>
           <Route path='/trainer' element={<Trainer />} />
         </Route>
-        <Route element={<ProtectedRoute canActivate={stateRoutes.Support} redirectPath={"/"} />}>
+        <Route element={<ProtectedRoute canActivate={stateRoutes.Support} redirectPath={"/admin"} />}>
           <Route path='/support' element={<Support />} />
         </Route>
-        <Route element={<ProtectedRoute canActivate={false} redirectPath={"/login"} />}>
+        <Route element={<ProtectedRoute canActivate={stateRoutes.Admin} redirectPath={"/"} />}>
+          <Route path='/admin' element={<Admin />} />
+        </Route>
+        <Route element={<ProtectedRoute canActivate={false} redirectPath={"/"} />}>
           <Route path="*" element={<Home />} />
         </Route>
       </Routes>

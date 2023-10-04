@@ -45,6 +45,9 @@ const useLogin = () =>{
               case "Support":
                 redirect("/support")
                 break;
+              case "Admin":
+                redirect("/admin")
+                break;
             
               default:
                 redirect("/")

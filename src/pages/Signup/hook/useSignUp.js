@@ -30,14 +30,6 @@ const useSignUp = () =>{
               alert(response.message)
               redirect("/login")
             } else{
-                setStateSignUp({
-                    Nit:"",
-                    Full_Name:"",
-                    Nickname:"",
-                    Date_Birth:"",
-                    Email:"",
-                    Password:"",
-                })
               alert(response.message)
             }
           } catch (error) {

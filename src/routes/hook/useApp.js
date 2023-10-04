@@ -6,6 +6,7 @@ const useApp = () => {
         Camper:false,
         Trainer: false,
         Support: false,
+        Admin:false
       })
 
     return{

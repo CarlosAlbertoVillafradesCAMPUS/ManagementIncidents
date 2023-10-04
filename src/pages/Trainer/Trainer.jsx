@@ -53,6 +53,7 @@ export default function Trainer() {
           <div className="row containerTrainer">
             <div className="col-12 col-md-3 containerList">
               <ContainerCampers
+                rol={stateTrainer.Rol}
                 textSearch={textSearch}
                 setTextSearch={setTextSearch}
                 searchCampers={searchCampers}

@@ -208,7 +208,7 @@ export default function ModalIncident({ show, setShow, stateCamper }) {
               {Inventarios != [] &&
                 Inventarios[0]?.Inventory_Info.map((item) => (
                   <option key={item.ID} value={item.ID}>
-                    {item.Object.Name_Object}
+                  {item.ID}. {item.Object.Name_Object}
                   </option>
                 ))}
             </select>

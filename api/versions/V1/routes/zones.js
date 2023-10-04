@@ -65,6 +65,25 @@ appZones.get("/", validatePermisos("get_zone"), validateZonesParams, async(req,r
 })
 
 //Listar todos los salones
+//http://127.17.0.96:5099/zones/salones
+appZones.get("/salones", validatePermisos("get_zone"), async(req,res)=>{
+    try {
+        const collection = dataBase.collection("Zones")
+        const data = await collection.aggregate([
+            {
+                $project: {
+                  _id: 0,
+                },
+              },
+        ]).toArray()
+        res.status(200).send({status:200, data:data})
+       
+    } catch (error) {
+        res.status(400).send({status:400, message:"Data retrieval error"})
+    }
+})
+
+//Listar todos los salones
 //http://127.17.0.96:5099/zones/Classroom?nameArea=Training
 appZones.get("/Classroom", validatePermisos("get_zone"), validateZonesParams, async(req,res)=>{
     const errors = validationResult(req);

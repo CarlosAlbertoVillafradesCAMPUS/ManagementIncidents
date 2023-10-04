@@ -26,6 +26,24 @@ export default function Support() {
         setShow(true);
       };
 
+      const menu = [
+        {
+            id:0,
+            titulo:"Todas",
+            functionE: infoSupport
+        },
+        {
+            id:1,
+            titulo:"Asignadas",
+            functionE: GetAssign
+        },
+        {
+            id:2,
+            titulo:"Solucionadas",
+            functionE: GetSolved
+        }
+    ]
+
       useEffect(() => {
         infoSupport();
       }, []);
@@ -36,9 +54,8 @@ export default function Support() {
       <div className='sombra'>
         <HeaderSupport
             infoUsers={infoSupport}
-            getAssign={GetAssign}
-            getSolved={GetSolved}
             state={stateSupport}
+            listMenu={menu}
             setState={setStateSupport} 
             />
         <div className='row containerTrainer'>

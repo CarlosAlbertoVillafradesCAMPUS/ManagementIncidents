@@ -2,7 +2,18 @@ import React, { useEffect, useState } from "react";
 import "../styles/ListCamper.css";
 
 export default function ListCamper({ Nit, name, Role, setIncidencias }) {
-  const [imageUser, setImageUsers] = useState("");
+  let ImageUser = "";
+
+  if (Role == "Camper") {
+    ImageUser = "imageUsersCampers";
+  } else if(Role == "Trainer") {
+    ImageUser = "imageUsersTrainers";
+  }
+  else if(Role == "Support") {
+    ImageUser = "imageUsersSupports";
+  }else{
+    ImageUser = "imageUsersAdmins";
+  }
 
   const GetPendingCamper = async () => {
     const myToken = localStorage.getItem("VITE_AUTH_TOKEN");
@@ -39,14 +50,6 @@ export default function ListCamper({ Nit, name, Role, setIncidencias }) {
     }
   };
 
-  useEffect(() => {
-    if (Role == "Camper") {
-      setImageUsers("imageUsersCampers");
-    } else {
-      setImageUsers("imageUsersTrainers");
-    }
-  }, []);
-
   return (
     <>
       <li className="list-group-item bg-transparent">
@@ -55,7 +58,7 @@ export default function ListCamper({ Nit, name, Role, setIncidencias }) {
           type="button"
           onClick={() => GetPendingCamper()}
         >
-          <div className={imageUser}></div>
+          <div className={ImageUser}></div>
           <div className="centerNameCamper">
             <p className="fw-bold textNickname">{name}</p>
             <p className="text-white">{Role}</p>

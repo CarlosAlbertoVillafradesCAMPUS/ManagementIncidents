@@ -38,7 +38,6 @@ appUser.get("/", verifyToken(), validatePermisos("get_users"), validateUsersPara
         const data = await collection.aggregate([
             {
                 $project: {
-                  _id:0,
                   Password:0
                 }
             }
@@ -80,18 +79,13 @@ appUser.get("/unico", verifyToken(), validatePermisos("get_users"), validateUser
 
 //Crear un buscador para los usuarios
 //http://127.17.0.96:5099/users/SearchGeneral?text=""
-appUser.get("/SearchGeneral", validatePermisos("get_users"), verifyToken(), async(req,res)=>{
+appUser.get("/SearchGeneral", verifyToken(), validatePermisos("get_users"), async(req,res)=>{
     try {
         const {text} = req.query;
         const collection = dataBase.collection("Users")
         const data = await collection.aggregate([
             {
                 $match: {
-                    Role: {
-                        $not: {
-                            $eq: "Admin",
-                          },
-                      },
                 Nickname: {
                     $regex: new RegExp('^' +text, 'i'),
                   },

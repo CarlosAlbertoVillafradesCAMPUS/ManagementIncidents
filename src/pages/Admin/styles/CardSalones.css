@@ -1,0 +1,32 @@
+.containerImageSalones{
+    display: flex;
+    justify-content: center;
+}
+
+.imageSalones{
+    width: 80%;
+    height: 10rem;
+    border-radius: 10px;
+    background-image: url(../../../assets/salon.jpeg);
+    background-position: center;
+    background-size: cover;
+}
+
+.containerCardSalones{
+    background-color: rgba(0, 0, 0, 0.692);
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.buttonSalonesPro{
+    font-size: .8rem;
+}
+
+.agregateIncidents{
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.agregateIncidents::-webkit-scrollbar{
+    display: none;
+}

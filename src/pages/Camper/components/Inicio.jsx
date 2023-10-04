@@ -7,11 +7,11 @@ export default function Inicio({setShow}) {
     <div className='col-12 pageInicio'>
         <div className='containerInicio'>
             <div className='containerImageInicio'>
-                <img src={textBanner} className='logoTextBanner' />
+                <img src={textBanner} className='logoTextBanner lotexBann' />
             </div>            
             <div className="d-flex justify-content-center">
                 <div className='d-flex textCon'>
-                    <p className='fs-6 text-center text-white'>No tienes reportes de incidencias, AGREGAR</p>
+                    <p className='noReporte text-center text-white'>No tienes reportes de incidencias, AGREGAR</p>
                 </div>
                 <button type='button' onClick={()=>setShow(true)} className=' ms-2 buttonEmpty'>+</button>
             </div>

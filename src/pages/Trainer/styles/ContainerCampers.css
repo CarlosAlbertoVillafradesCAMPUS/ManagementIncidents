@@ -7,12 +7,19 @@
   overflow-y: auto;
 }
 
+.noReporte{
+  font-size: 1rem;
+}
+
 @media (max-width: 768px) {
   .list-group-flush {
     flex-direction: row;
     overflow-x: auto;
   }
   .lotexBann {
-    width: 20rem;
+    width: 14rem;
+  }
+  .noReporte{
+    font-size: .7rem;
   }
 }

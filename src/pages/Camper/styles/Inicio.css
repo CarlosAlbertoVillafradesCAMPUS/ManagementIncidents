@@ -34,3 +34,16 @@
     padding-top: 0;
     border-radius: 10px;
   }
+
+  @media (max-width:768px){
+    .lotexBann{
+        width: 10rem;
+      }
+
+      .buttonEmpty {
+        width: 1.5rem;
+        height: 1.5rem ;
+        font-size: 1.2rem;
+      }
+    
+}

@@ -84,7 +84,7 @@ function App() {
         <Route element={<ProtectedRoute canActivate={stateRoutes.Support} redirectPath={"/"} />}>
           <Route path='/support' element={<Support />} />
         </Route>
-        <Route element={<ProtectedRoute canActivate={false} redirectPath={"/"} />}>
+        <Route element={<ProtectedRoute canActivate={false} redirectPath={"/login"} />}>
           <Route path="*" element={<Home />} />
         </Route>
       </Routes>

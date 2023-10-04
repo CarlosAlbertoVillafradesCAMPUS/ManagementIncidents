@@ -40,8 +40,7 @@ export const validateIncidentsBody = [
     check("By_Camper.Nickname")
         .notEmpty().withMessage("The 'By_Camper.Nickname' parameter is required.")
         .isString().withMessage("The 'By_Camper.Nickname' parameter must be an 'String'")
-        .isLength(3, 40).withMessage("The 'By_Camper.Nickname' parameter cannot be longer than [40 characters].")
-        .matches(/^[a-zA-Z\s]+$/).withMessage("The 'By_Camper.Nickname' parameter only allows letters."),
+        .isLength(3, 40).withMessage("The 'By_Camper.Nickname' parameter cannot be longer than [40 characters]."),
 
     check("Severity")
         .optional()

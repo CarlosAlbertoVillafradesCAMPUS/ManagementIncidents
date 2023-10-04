@@ -10,7 +10,7 @@ export default function EmptyIncidencias() {
         </div>
         <div className="d-flex justify-content-center">
           <div className="d-flex textCon">
-            <p className="fs-6 text-center text-white">
+            <p className="noReporte text-center text-white">
               No tienes reportes de incidencias
             </p>
           </div>

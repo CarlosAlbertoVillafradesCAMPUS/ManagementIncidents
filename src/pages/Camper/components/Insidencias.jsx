@@ -197,11 +197,6 @@ const [listButton, setListButton] = useState([])
 
 
 
-    useEffect(() => { 
-      StylesProfile()
-      }, [SolvedIncidents]);
-
-
   useEffect(() => { 
     StylesProfile()
     }, []);

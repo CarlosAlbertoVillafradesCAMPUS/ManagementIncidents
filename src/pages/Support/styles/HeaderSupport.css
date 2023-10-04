@@ -1,0 +1,17 @@
+.imageProfileSupport{
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-image: url(../../Home/assets/images/support.jpg);
+    background-position: center;
+    background-size: cover;
+}
+
+.imageProfileAdmin{
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-image: url(../../Home/assets/images/admin.jpg);
+    background-position: center;
+    background-size: cover;
+}

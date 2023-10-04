@@ -58,6 +58,35 @@ export default function Insidencias(props) {
     }
 }
 
+const SolvedIncidents = async () => {
+  const myToken = localStorage.getItem("VITE_AUTH_TOKEN")
+  const myData = {
+    Status: "Solved"
+  }
+  console.log(myData);
+  let options = {
+      method: "PUT",
+      headers: new Headers({
+          "Content-Type": "application/json",
+          "Authorization": myToken
+      }),
+      body: JSON.stringify(myData),
+  }
+  try {
+      const sever = JSON.parse(import.meta.env.VITE_MY_SERVER);
+      const response = await (await fetch(`http://${sever.host}:${sever.port}/incidents/Solved/${props.id}`, options)).json();
+      if (response.status === 200) {
+          alert(response.message)
+          window.location.reload()
+
+      } else {
+          alert(response.message)
+      }
+  } catch (error) {
+      console.log(error)
+  }
+}
+
 const [imageProfile, setImageProfile] = useState("") 
 const [nameProfile, setNameProfile] = useState("") 
 const [listButton, setListButton] = useState([]) 
@@ -75,7 +104,21 @@ const [listButton, setListButton] = useState([])
           },
         ]);
         if(props.info.Status == "Assigned" || props.info.Status == "Solved" ){
-          setListButton([])
+          if(props.infoUser.Rol == "Support"){
+            setListButton([{
+              id: 0,
+              type: "button",
+              name: "Solucionar Incidencia",
+              styles: estilosButton2,
+              My_function: SolvedIncidents
+            }])
+            if (props.info.Status == "Solved") {
+              setListButton([])
+            }
+          }else{
+            setListButton([])
+          }
+          
     
           const info2 = [
             {
@@ -112,7 +155,20 @@ const [listButton, setListButton] = useState([])
         ]
         )
         if(props.info.Status == "Assigned" || props.info.Status == "Solved" ){
-          setListButton([])
+          if(props.infoUser.Rol == "Support"){
+            setListButton([{
+              id: 0,
+              type: "button",
+              name: "Solucionar Incidencia",
+              styles: estilosButton2,
+              My_function: SolvedIncidents
+            }])
+            if (props.info.Status == "Solved") {
+              setListButton([])
+            }
+          }else{
+            setListButton([])
+          }
           const info2 = [
             {
               id:0,
@@ -140,7 +196,10 @@ const [listButton, setListButton] = useState([])
     }
 
 
-  
+
+    useEffect(() => { 
+      StylesProfile()
+      }, [SolvedIncidents]);
 
 
   useEffect(() => { 

@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import "../styles/ContainerCampers.css"
 
-export default function ContainerCampers({ children }) {
+export default function ContainerCampers({textSearch, setTextSearch, searchCampers, children }) {
+
+     useEffect(() => {
+       searchCampers();
+     }, [textSearch]);
     return (
         <div>
             <div className='d-flex flex-column justify-content-center'>
@@ -10,7 +14,7 @@ export default function ContainerCampers({ children }) {
                 </div>
                 <div className=' mb-4 d-flex justify-content-center'>
                 <div className="form-outline w-75">
-                    <input type="search" id="form1" placeholder='Search Camper' class="form-control" />
+                    <input type="search" id="form1" value={textSearch} onChange={(e)=>setTextSearch(e.target.value)} placeholder='Search Camper' className="form-control" />
                 </div>
                 </div>
                 <div>

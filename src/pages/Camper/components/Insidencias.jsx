@@ -10,7 +10,11 @@ export default function Insidencias(props) {
   const [estilosButton2, setEstilosButton2] =useState("btn btn-primary ms-2 fs-6 buttonSignup")
 
   const objeto = (props.info.Inventory_id) ?props.info.Inventory_id :"Otro" 
-  
+
+  const handleIdIncident = () =>{
+    props.setIdIncidencia(props.info.ID)
+    props.handelShow()
+  }
 
   const info1 = [
     {
@@ -63,13 +67,13 @@ const [listButton, setListButton] = useState([])
       if (props.infoUser.Image == "trainer.jpg") {
         setListButton([
           {
-            id:0,
-            type:"button",
-            name:"Calificar y Asignar",
+            id: 0,
+            type: "button",
+            name: "Calificar y Asignar",
             styles: estilosButton2,
-            My_function: EliminarIncidents
-          }
-        ])
+            My_function: handleIdIncident
+          },
+        ]);
         if(props.info.Status == "Assigned" || props.info.Status == "Solved" ){
           setListButton([])
     
@@ -142,6 +146,10 @@ const [listButton, setListButton] = useState([])
   useEffect(() => { 
     StylesProfile()
     }, []);
+
+    useEffect(() => {
+      StylesProfile();
+    }, [props.handelShow]);
 
   
 

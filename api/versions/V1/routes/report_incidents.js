@@ -120,32 +120,8 @@ appReportIncidents.get("/Ordenados", validatePermisos("get_reportIncidents"), va
                     }
                 },
                 {
-                    $lookup: {
-                      from: "Inventory",
-                      localField: "Inventory_id",
-                      foreignField: "ID",
-                      as: "Inventory_Info"
-                    }
-                },
-                {
-                    $lookup: {
-                      from: "Zones",
-                      localField: "Zone_id",
-                      foreignField: "ID",
-                      as: "Zone_Info"
-                    }
-                },
-                {
-                    $unwind: "$Zone_Info"
-                },
-                {
                     $project: {
                       _id:0,
-                      Inventory_id:0,
-                      Zone_id:0,
-                      "Inventory_Info._id":0,
-                      "Inventory_Info.Zone_id":0,
-                      "Zone_Info._id":0,
                     }
                 }
             ]).toArray()

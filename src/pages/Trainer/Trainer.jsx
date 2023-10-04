@@ -7,6 +7,7 @@ import "./styles/Trainer.css";
 import ListCamper from "./components/ListCamper";
 import useTrainer from "./hook/useTrainer";
 import ModalAssigned from "./components/ModalAssigned";
+import EmptyIncidencias from "./components/EmptyIncidencias";
 
 export default function Trainer() {
   const {
@@ -14,13 +15,14 @@ export default function Trainer() {
     setStateTrainer,
     infoTrainer,
     incidencias,
+    setIncidencias,
     listCamper,
     GetPending,
     GetSolved,
     GetAssign,
     searchCampers,
     textSearch,
-    setTextSearch,
+    setTextSearch
   } = useTrainer();
 
   const [show, setShow] = useState(false);
@@ -58,27 +60,33 @@ export default function Trainer() {
                 {listCamper.map((item) => (
                   <ListCamper
                     key={number++}
-                    id={item.nit}
+                    Nit={item.Nit}
                     name={item.Nickname}
                     Role={item.Role}
+                    setIncidencias={setIncidencias}
                   />
                 ))}
               </ContainerCampers>
             </div>
             <div className="col-12 col-md-9">
               <ContainerInsidencias nickname={stateTrainer.Nickname}>
-                {incidencias.map((item) => (
-                  <Insidencias
-                    key={item.ID}
-                    camper={item.By_Camper}
-                    handelShow={handelShow}
-                    id={item.ID}
-                    info={item}
-                    setIdIncidencia={setIdIncidencia}
-                    infoUser={stateTrainer}
-                    whidCard="col-12 col-md-12 col-lg-6"
-                  />
-                ))}
+                {incidencias.length > 0 ? (
+                  incidencias.map((item) => (
+                    <Insidencias
+                      key={item.ID}
+                      camper={item.By_Camper}
+                      handelShow={handelShow}
+                      id={item.ID}
+                      info={item}
+                      setIdIncidencia={setIdIncidencia}
+                      infoUser={stateTrainer}
+                      whidCard="col-12 col-md-12 col-lg-6"
+                    />
+                  ))
+                ) : (
+                  <EmptyIncidencias />
+                )}
+                
               </ContainerInsidencias>
             </div>
           </div>

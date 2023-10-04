@@ -118,23 +118,7 @@ const useTrainer = () => {
         )
       ).json();
       if (response.status === 200) {
-        let newArray = [];
-        response.data.forEach((val, id) => {
-          newArray.push({
-            By_Camper: {
-              Nit: val.By_Camper.Nit,
-              Nickname: val.By_Camper.Nickname,
-            },
-            Date_Report: val.Date_Report,
-            Description: val.Description,
-            ID: val.ID,
-            Incident_Type: val.Incident_Type,
-            Inventory_id: val.Inventory_id ? val.Inventory_id : "Otro",
-            Status: val.Status,
-            Zone_id: val.Zone_Info.ID,
-          });
-        });
-        setIncidencias(newArray);
+        setIncidencias(response.data);
       } else {
         alert(response.message);
       }
@@ -246,7 +230,7 @@ const useTrainer = () => {
         )
       ).json();
       if (response.status === 200) {
-        setListCamper(response.data)
+        setListCamper(response.data);
       } else {
         alert(response.message);
       }
@@ -261,6 +245,7 @@ const useTrainer = () => {
     infoTrainer,
     SalirPage,
     incidencias,
+    setIncidencias,
     listCamper,
     setListCamper,
     GetPending,

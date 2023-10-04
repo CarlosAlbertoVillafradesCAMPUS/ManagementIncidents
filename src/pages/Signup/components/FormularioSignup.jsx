@@ -35,12 +35,12 @@ export default function FormularioSignup() {
                     <div className=" col-12 mb-3">
                         <label className="form-label">Password:</label>
                         <input type="password" value={stateSignUp.Password} onChange={(e)=>setStateSignUp({...stateSignUp, Password: e.target.value})}  className="form-control" placeholder='Password' />
+                        <p className='fs-6'>[8-20]Caracteres</p>
                     </div>
                     <div className='col-12 containerLoginHeader mt-4'>
                         <ButtonLogin type="submit" name="Registrarme" styles="btn btn-primary ms-2 fs-6 buttonSignup" />
                     </div>
                 </div>
-
             </form>
         </div>
     )

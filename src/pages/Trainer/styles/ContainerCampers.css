@@ -1,0 +1,29 @@
+.tituloListCamper {
+  font-family: "Good_Times";
+  color: rgb(63, 171, 228);
+}
+.list-group-flush {
+  max-height: 82vh;
+  overflow-y: auto;
+}
+
+.list-group-flush::-webkit-scrollbar {
+  display: none;
+}
+
+.noReporte{
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .list-group-flush {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  .lotexBann {
+    width: 14rem;
+  }
+  .noReporte{
+    font-size: .7rem;
+  }
+}

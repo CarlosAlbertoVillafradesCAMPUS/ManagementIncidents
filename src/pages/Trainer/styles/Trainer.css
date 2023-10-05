@@ -1,0 +1,7 @@
+.containerTrainer{
+    min-height:100vh;
+}
+.containerList{
+    border-right: 5px solid rgb(63, 171, 228);
+    background-color: rgba(0, 0, 0, 0.693);
+}

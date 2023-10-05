@@ -1,0 +1,15 @@
+.tit_usu{
+    font-family: "Good_Times";
+    color: rgb(92, 184, 223);
+    font-size: 2rem;
+}
+.contentTitle{
+    align-items: center;
+}
+
+@media (max-width:768px){
+    .tit_usu{
+       font-size: 1.2rem;
+    }
+    
+}

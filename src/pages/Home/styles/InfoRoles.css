@@ -1,0 +1,62 @@
+.imageCamper{
+    background-image: url(../assets/images/camper.jpg);
+    background-position: center;
+    background-size: cover;
+    border: 2px solid rgb(63, 171, 218);
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+}
+
+.imageTrainer{
+    background-image: url(../assets/images/trainer.jpg);
+    background-position: center;
+    background-size: cover;
+    border: 2px solid rgb(63, 171, 218);
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+}
+.imageSupport{
+    background-image: url(../assets/images/support.jpg);
+    background-position: center;
+    background-size: cover;
+    border: 2px solid rgb(63, 171, 218);
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+}
+
+.imageAdmin{
+    background-image: url(../assets/images/admin.jpg);
+    background-position: center;
+    background-size: cover;
+    border: 2px solid rgb(63, 171, 218);
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+}
+
+.textInfoRol{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.withText{
+    width: 90%;
+}
+.descriptionSubtit_usu{
+    text-align:justify;
+}
+
+@media (max-width:768px){
+    .containerImageRole{
+        justify-content: center !important;
+    }
+    .subtit_usu{
+        text-align: center;
+    }
+
+}
+

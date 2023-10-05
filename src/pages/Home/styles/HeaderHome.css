@@ -1,0 +1,17 @@
+header{
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    padding: 5px 2rem;
+}
+.containerLoginHeader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width:768px){
+    .containerLoginHeader{
+        flex-direction: column;
+    }
+}

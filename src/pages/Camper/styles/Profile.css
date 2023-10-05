@@ -1,0 +1,30 @@
+.profile{
+    justify-content: center;
+    align-items: center;
+}
+.nicknameProfile{
+    margin: 0;
+    color:rgb(63, 171, 228);
+}
+.rolProfile{
+    font-size: .8rem;
+    margin: 0;
+}
+
+.imageProfileCamper{
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-image: url(../../Home/assets/images/camper.jpg);
+    background-position: center;
+    background-size: cover;
+}
+
+.imageProfileTrainer{
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-image: url(../../Home/assets/images/trainer.jpg);
+    background-position: center;
+    background-size: cover;
+}

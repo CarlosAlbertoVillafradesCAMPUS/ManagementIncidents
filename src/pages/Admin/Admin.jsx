@@ -93,6 +93,7 @@ export default function Admin() {
                   Nit={item.Nit}
                   name={item.Nickname}
                   Role={item.Role}
+                  setIncidencias={""}
                 />
               ))}
             </ContainerCampers>

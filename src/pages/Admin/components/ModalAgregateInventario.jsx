@@ -10,7 +10,6 @@ export default function ModalAgregateInventario({showModalInventory, setShowModa
         e.preventDefault();
         const myToken = localStorage.getItem("VITE_AUTH_TOKEN");
         const newid = parseInt(zona)
-        console.log(stateName_Object);
         const myData = {
             Zone_id: newid,
           Object:{

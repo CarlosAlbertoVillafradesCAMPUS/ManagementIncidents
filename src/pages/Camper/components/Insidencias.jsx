@@ -63,7 +63,6 @@ const SolvedIncidents = async () => {
   const myData = {
     Status: "Solved"
   }
-  console.log(myData);
   let options = {
       method: "PUT",
       headers: new Headers({

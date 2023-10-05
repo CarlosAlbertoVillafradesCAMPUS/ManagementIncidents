@@ -28,7 +28,6 @@ const useSupport = () => {
         await fetch(`http://${sever.host}:${sever.port}/login/token`, options)
       ).json();
       if (response.status === 200) {
-        console.log(response);
         if (response.data.payload.Role == "Support") {
           setStateSupport({
             Nit: parseInt(response.data.payload.Nit),
@@ -91,7 +90,6 @@ const useSupport = () => {
         )
       ).json();
       if (response.status === 200) {
-        console.log(response);
         setIncidencias(response.data[0].Incidents_Report);
       } else {
         alert(response.message);

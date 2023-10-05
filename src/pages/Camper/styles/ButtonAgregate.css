@@ -24,3 +24,9 @@
   .CreateTodoButton:hover {
     transform: rotate(360deg);
   }
+
+  @media (max-width:768px){
+    .CreateTodoButton{
+      padding-bottom: .5rem;
+      }
+}

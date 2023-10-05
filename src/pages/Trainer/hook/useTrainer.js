@@ -172,7 +172,6 @@ const useTrainer = () => {
         )
       ).json();
       if (response.status === 200) {
-        console.log(response);
         setIncidencias(response.data[0].Incidents_Report);
       } else {
         alert(response.message);

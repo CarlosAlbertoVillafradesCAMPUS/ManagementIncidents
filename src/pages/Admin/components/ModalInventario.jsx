@@ -7,7 +7,6 @@ export default function ModalInventario({showInventario, setShowInventario, zona
     const [listInventario, setListInventario] = useState([])
 
     const getInventory = async() =>{
-        console.log(zona);
         parseInt(zona)
         const myToken = localStorage.getItem("VITE_AUTH_TOKEN");
         let options = {
@@ -23,7 +22,6 @@ export default function ModalInventario({showInventario, setShowInventario, zona
             await fetch(`http://${sever.host}:${sever.port}/inventory?zoneId=${zona}`, options)
           ).json();
           if (response.status === 200) {
-            console.log(response.data[0].Inventory_Info);
             setListInventario(response.data[0].Inventory_Info);
           } else {
             alert(response.message);

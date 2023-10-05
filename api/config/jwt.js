@@ -6,6 +6,7 @@ const dataBase = await myConnect()
 const env = loadEnv("development", process.cwd(), "VITE")
 
 const generateToken = async (req,res,next) =>{
+  
     if(Object.keys(req.body).length === 0) return res.status(400).send({status:400, message:"Data not submitted"})
     const coleccion = dataBase.collection("Users")
     const checkUser = await coleccion.findOne({Email: req.body.Email});
@@ -21,6 +22,7 @@ const generateToken = async (req,res,next) =>{
         id: result._id.toString(),
         Nickname: result.Nickname,
         Nit: result.Nit,
+        Image:result.Image,
         Role: Role.Name,
         Permission: Role.Permission
     }

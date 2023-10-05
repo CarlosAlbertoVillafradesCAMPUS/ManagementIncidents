@@ -1,18 +1,64 @@
-.imageCampers{
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    background-color: white;
-    border: 3px solid rgb(63, 171, 228);
+.imageCampers {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: white;
+  border: 3px solid rgb(63, 171, 228);
 }
-.centerNameCamper{
-    display: flex;
-    flex-direction: column;
-    font-size: .8rem;
-    margin-left: 8px;
-    color: rgb(63, 171, 228);
+.centerNameCamper {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  margin-left: 8px;
+  text-align: start;
+  color: rgb(63, 171, 228);
 }
 
-.textNickname{
-    font-size: 1.1rem;
+.textNickname {
+  font-size: 1.1rem;
+}
+
+.imageUsersCampers {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-image: url(../../Home/assets/images/camper.jpg);
+  background-position: center;
+  background-size: cover;
+  border: 2px solid rgb(63, 171, 228);
+}
+
+.imageUsersTrainers {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-image: url(../../Home/assets/images/trainer.jpg);
+  background-position: center;
+  background-size: cover;
+  border: 2px solid rgb(63, 171, 228);
+}
+
+.imageUsersSupports{
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-image: url(../../Home/assets/images/support.jpg);
+  background-position: center;
+  background-size: cover;
+  border: 2px solid rgb(63, 171, 228);
+}
+
+.imageUsersAdmins{
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-image: url(../../Home/assets/images/admin.jpg);
+  background-position: center;
+  background-size: cover;
+  border: 2px solid rgb(63, 171, 228);
+}
+
+.buttonCampersList {
+  background: transparent;
+  border: none;
 }

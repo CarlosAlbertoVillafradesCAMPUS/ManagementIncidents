@@ -28,7 +28,6 @@ appUser.get("/", verifyToken(), validatePermisos("get_users"), validateUsersPara
                 },
                 {
                     $project: {
-                      _id:0,
                       Password:0
                     }
                 }
@@ -39,7 +38,6 @@ appUser.get("/", verifyToken(), validatePermisos("get_users"), validateUsersPara
         const data = await collection.aggregate([
             {
                 $project: {
-                  _id:0,
                   Password:0
                 }
             }
@@ -81,18 +79,13 @@ appUser.get("/unico", verifyToken(), validatePermisos("get_users"), validateUser
 
 //Crear un buscador para los usuarios
 //http://127.17.0.96:5099/users/SearchGeneral?text=""
-appUser.get("/SearchGeneral", validatePermisos("get_users"), verifyToken(), async(req,res)=>{
+appUser.get("/SearchGeneral", verifyToken(), validatePermisos("get_users"), async(req,res)=>{
     try {
         const {text} = req.query;
         const collection = dataBase.collection("Users")
         const data = await collection.aggregate([
             {
                 $match: {
-                    Role: {
-                        $not: {
-                            $eq: "Admin",
-                          },
-                      },
                 Nickname: {
                     $regex: new RegExp('^' +text, 'i'),
                   },
@@ -160,10 +153,22 @@ appUser.post("/", validateUsersBody, async(req,res)=>{
     if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.errors[0].msg});
     try {
         const collection = dataBase.collection("Users")
-        await collection.insertOne({
+        const infoUsers = await collection.findOne({Nit: req.body.Nit})
+        if(infoUsers) return res.status(400).send({status:400, message:"There is already a USER registered with that NIT."})
+        const infoNickname = await collection.findOne({
+          Nickname: req.body.Nickname,
+        });
+        if (infoNickname) return res
+          .status(400)
+          .send({
+            status: 400,
+            message: "There is already a USER registered with that NICKNAME.",
+          });
+          await collection.insertOne({
             ...req.body,
-            Role: "Camper"
-        })
+            Role: "Camper",
+            Image: "camper.jpg",
+          });
         res.status(200).send({status:200, message:"Successfully Added"})
     } catch (error) {
         res.status(400).send({status:400, message:"Data retrieval error"})

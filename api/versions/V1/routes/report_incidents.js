@@ -58,7 +58,6 @@ appReportIncidents.get("/Ordenados", validatePermisos("get_reportIncidents"), va
                             "User.Password":0,
                             "User.Incidents_Report":0,
                             "Incidents_Report._id":0,
-                            [`Incidents_Report.Support_Person`]:0
                         }
                       }
                 ]).toArray()
@@ -101,7 +100,6 @@ appReportIncidents.get("/Ordenados", validatePermisos("get_reportIncidents"), va
                         "User.Password":0,
                         "User.Incidents_Report":0,
                         "Incidents_Report._id":0,
-                        [`Incidents_Report.By_${rol}`]:0
                     }
                   }
             ]).toArray()
@@ -121,32 +119,8 @@ appReportIncidents.get("/Ordenados", validatePermisos("get_reportIncidents"), va
                     }
                 },
                 {
-                    $lookup: {
-                      from: "Inventory",
-                      localField: "Inventory_id",
-                      foreignField: "ID",
-                      as: "Inventory_Info"
-                    }
-                },
-                {
-                    $lookup: {
-                      from: "Zones",
-                      localField: "Zone_id",
-                      foreignField: "ID",
-                      as: "Zone_Info"
-                    }
-                },
-                {
-                    $unwind: "$Zone_Info"
-                },
-                {
                     $project: {
                       _id:0,
-                      Inventory_id:0,
-                      Zone_id:0,
-                      "Inventory_Info._id":0,
-                      "Inventory_Info.Zone_id":0,
-                      "Zone_Info._id":0,
                     }
                 }
             ]).toArray()
@@ -168,6 +142,49 @@ appReportIncidents.get("/", validatePermisos("get_reportIncidents"), validateInc
     try {
         if (req.query.rol) {
             const {rol, nit} = req.query; 
+            if (rol == "Support") {
+                const collection = dataBase.collection("Users")
+                const data = await collection.aggregate([
+                    {
+                        $lookup: {
+                          from: "Report_Incidents",
+                          localField: "Nit",
+                          foreignField: `Support_Person.Nit`,
+                          as: "Incidents_Report"
+                        }
+                    },
+                    {
+                        $unwind: "$Incidents_Report"
+                      },
+                      {
+                        $match: {
+                            Nit: parseInt(nit),
+                        }
+                      },
+                      {
+                        $sort: {
+                          "Incidents_Report.Date_Report": -1
+                        }
+                        },
+                      {
+                        $group: {
+                          _id: "$_id",
+                          User: { $first: "$$ROOT" },
+                          "Incidents_Report": { $push: "$Incidents_Report" }
+                        }
+                      },
+                      {
+                        $project:{
+                            _id:0,
+                            "User._id":0,
+                            "User.Password":0,
+                            "User.Incidents_Report":0,
+                            "Incidents_Report._id":0,
+                        }
+                      }
+                ]).toArray()
+               return res.status(200).send({status:200, data:data})
+            }
             const collection = dataBase.collection("Users")
             const data = await collection.aggregate([
                 {
@@ -212,7 +229,9 @@ appReportIncidents.get("/", validatePermisos("get_reportIncidents"), validateInc
            return res.status(200).send({status:200, data:data})
         }
             const collection = dataBase.collection("Report_Incidents")
-            const data = await collection.find({}).toArray()
+            const data = await collection.aggregate([
+                {$sort:{Date_Report: -1}}
+            ]).toArray()
             res.status(200).send({status:200, data:data})
       
     } catch (error) {

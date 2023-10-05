@@ -22,7 +22,6 @@ const useLogin = () =>{
       try {
         const sever =JSON.parse(import.meta.env.VITE_MY_SERVER);
         const response = await (await fetch(`http://${sever.host}:${sever.port}/login`, options)).json();
-        console.log(response);
         if(response.status === 200){
           localStorage.setItem("VITE_AUTH_TOKEN", response.token);
           const myToken = localStorage.getItem("VITE_AUTH_TOKEN");
@@ -36,7 +35,7 @@ const useLogin = () =>{
           if (responseToken.status == 200) {
             localStorage.setItem("Rol", responseToken.data.payload.Role)
 
-            switch (responseToken.data.payload.Role) {
+            switch (import.meta.env.VITE_ROL) {
               case "Camper":
                 redirect("/camper")
                 break;
@@ -45,6 +44,9 @@ const useLogin = () =>{
                 break;
               case "Support":
                 redirect("/support")
+                break;
+              case "Admin":
+                redirect("/admin")
                 break;
             
               default:

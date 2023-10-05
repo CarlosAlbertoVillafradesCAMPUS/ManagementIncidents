@@ -11,6 +11,7 @@ const appInventory = Router();
 const dataBase = await myConnect();
 
 appInventory.use(verifyToken())
+
 //Obtener el inventario de una zona especifica
 //http://127.17.0.96:5099/inventory?zoneId=1
 appInventory.get("/", validatePermisos("get_inventory"), validateInventoryParams, async(req,res)=>{
@@ -110,7 +111,6 @@ if (!errors.isEmpty()) return res.status(400).json({status:400, message:errors.e
                 }
             }
         ]).toArray()
-        console.log(req.body);
         await collection.updateOne({
             _id: new ObjectId(my_data[0]._id),
         },
